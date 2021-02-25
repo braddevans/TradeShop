@@ -57,20 +57,16 @@ import java.util.Map;
  */
 public class CommandRunner extends Utils {
 
-    private TradeShop plugin;
-    private CommandPass command;
+    private final CommandPass command;
     private Player pSender;
 
     /**
      * Instantiates a new Command runner.
      *
-     * @param instance
-     *         the instance
      * @param command
      *         the command
      */
-    public CommandRunner(TradeShop instance, CommandPass command) {
-        this.plugin = instance;
+    public CommandRunner(CommandPass command) {
         this.command = command;
 
         if (command.getSender() instanceof Player) {
@@ -149,10 +145,10 @@ public class CommandRunner extends Utils {
      * Reloads the plugin and sends success message
      */
     public void reload() {
-        plugin.getListManager().reload();
+        TradeShop.getInstance().getListManager().reload();
         Message.reload();
         Setting.reload();
-        plugin.getDebugger().reload();
+        TradeShop.getInstance().getDebugger().reload();
         sendMessage(getPrefix() + "&6The configuration files have been reloaded!");
     }
 
@@ -643,7 +639,7 @@ public class CommandRunner extends Utils {
 
         guiSetup.forEach(item -> debugger.log(item, DebugLevels.INVENTORY_CLOSE_NPE));
 
-        InventoryGui gui = new InventoryGui(plugin, colorize(shop.getShopType() == ShopType.ITRADE ?
+        InventoryGui gui = new InventoryGui(TradeShop.getInstance(), colorize(shop.getShopType() == ShopType.ITRADE ?
                                                              Setting.ITRADESHOP_OWNER.getString() :
                                                              Bukkit.getOfflinePlayer(shop.getOwner().getUUID()).getName() + "'s"),
                 guiSetup.toArray(new String[0]));

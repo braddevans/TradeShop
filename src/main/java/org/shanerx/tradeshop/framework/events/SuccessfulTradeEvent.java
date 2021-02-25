@@ -44,10 +44,9 @@ import java.util.List;
 public class SuccessfulTradeEvent extends PlayerInteractEvent {
 
     private static final HandlerList handlers = new HandlerList();
-    private Shop shop;
-    private List<ShopItemStack> product;
-    private List<ShopItemStack> cost;
-    private Block clickedBlock;
+    private final Shop shop;
+    private final List<ShopItemStack> product;
+    private final List<ShopItemStack> cost;
 
     /**
      * Constructor for the object.
@@ -70,7 +69,6 @@ public class SuccessfulTradeEvent extends PlayerInteractEvent {
         this.shop = shop;
         this.product = product;
         this.cost = cost;
-        this.clickedBlock = clickedBlock;
     }
 
     /**

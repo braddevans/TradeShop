@@ -55,9 +55,8 @@ public enum ShopType implements Serializable {
      */
     BITRADE(Setting.BITRADESHOP_HEADER.getString(), Permissions.CREATEBI);
 
-    private transient static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-    private String key;
-    private transient Permissions perm;
+    private final String key;
+    private final transient Permissions perm;
 
     ShopType(String key, Permissions perm) {
         this.key = key;
@@ -85,7 +84,7 @@ public enum ShopType implements Serializable {
      * @return the boolean
      */
     public static boolean isShop(Block b) {
-        if (b != null && plugin.getSigns().getSignTypes().contains(b.getType())) {
+        if (b != null && TradeShop.getInstance().getSigns().getSignTypes().contains(b.getType())) {
             return getType((Sign) b.getState()) != null;
         }
 
@@ -127,8 +126,7 @@ public enum ShopType implements Serializable {
      * @return the shop role
      */
     public static ShopRole deserialize(String serialized) {
-        ShopRole shopRole = new Gson().fromJson(serialized, ShopRole.class);
-        return shopRole;
+        return new Gson().fromJson(serialized, ShopRole.class);
     }
 
     @Override

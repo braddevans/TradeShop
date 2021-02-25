@@ -42,8 +42,8 @@ public class ShopUser implements Serializable {
 
     private transient OfflinePlayer player;
     @SerializedName("player")
-    private String playerUUID;
-    private ShopRole role;
+    private final String playerUUID;
+    private final ShopRole role;
 
     /**
      * Instantiates a new Shop user.

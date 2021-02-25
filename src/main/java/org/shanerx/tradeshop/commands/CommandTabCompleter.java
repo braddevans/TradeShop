@@ -45,20 +45,16 @@ import java.util.List;
  */
 public class CommandTabCompleter extends Utils {
 
-    private final TradeShop plugin;
     private final CommandPass command;
     private Player pSender;
 
     /**
      * Instantiates a new Command tab completer.
      *
-     * @param instance
-     *         the instance
      * @param command
      *         the command
      */
-    public CommandTabCompleter(TradeShop instance, CommandPass command) {
-        this.plugin = instance;
+    public CommandTabCompleter(CommandPass command) {
         this.command = command;
 
         if (command.getSender() instanceof Player) {
@@ -81,7 +77,7 @@ public class CommandTabCompleter extends Utils {
             return subCmds;
         }
 
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     /**
@@ -96,7 +92,7 @@ public class CommandTabCompleter extends Utils {
         else if (command.argsSize() == 3) {
             return partialGameMats(command.getArgAt(2));
         }
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     /**
@@ -109,7 +105,7 @@ public class CommandTabCompleter extends Utils {
             return null;
         }
 
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     /**
@@ -122,26 +118,26 @@ public class CommandTabCompleter extends Utils {
             Block b = pSender.getTargetBlock(null, Setting.MAX_EDIT_DISTANCE.getInt());
             Sign s;
 
-            if (plugin.getListManager().isInventory(b)) {
+            if (TradeShop.getInstance().getListManager().isInventory(b)) {
                 s = findShopSign(b);
             }
             else if (ShopType.isShop(b)) {
                 s = (Sign) b.getState();
             }
             else {
-                return Collections.EMPTY_LIST;
+                return new ArrayList<>();
             }
             Shop shop = Shop.loadShop(s);
 
             return shop.getUserNames();
         }
 
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     private List<String> partialGameMats(String request) {
         List<String> toReturn = new ArrayList<>();
-        for (String str : plugin.getListManager().getGameMats()) {
+        for (String str : TradeShop.getInstance().getListManager().getGameMats()) {
             if (str.toLowerCase().contains(request.toLowerCase())) {
                 toReturn.add(str);
             }

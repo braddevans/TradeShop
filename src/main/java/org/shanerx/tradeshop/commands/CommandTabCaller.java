@@ -43,20 +43,8 @@ import java.util.List;
  */
 public class CommandTabCaller implements TabCompleter {
 
-    private TradeShop plugin;
     private CommandPass cmdPass;
     private Commands command;
-    private CommandTabCompleter tabCompleter;
-
-    /**
-     * Instantiates a new Command tab caller.
-     *
-     * @param instance
-     *         the instance
-     */
-    public CommandTabCaller(TradeShop instance) {
-        plugin = instance;
-    }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
@@ -66,35 +54,31 @@ public class CommandTabCaller implements TabCompleter {
         if (command != null) {
 
             if (! checkPerm()) {
-                return Collections.EMPTY_LIST;
+                return new ArrayList<>();
             }
 
             if (command.needsPlayer() && ! (sender instanceof Player)) {
                 sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
-                return Collections.EMPTY_LIST;
+                return new ArrayList<>();
             }
 
-            tabCompleter = new CommandTabCompleter(plugin, cmdPass);
+            CommandTabCompleter tabCompleter = new CommandTabCompleter(cmdPass);
 
             switch (command) {
                 case HELP:
                     return tabCompleter.help();
                 case ADD_PRODUCT:
-                    return tabCompleter.addSet();
                 case ADD_COST:
-                    return tabCompleter.addSet();
                 case SET_COST:
-                    return tabCompleter.addSet();
                 case SET_PRODUCT:
                     return tabCompleter.addSet();
                 case ADD_MANAGER:
+                case ADD_MEMBER:
                     return tabCompleter.fillServerPlayer();
                 case REMOVE_USER:
                     return tabCompleter.fillShopPlayer();
-                case ADD_MEMBER:
-                    return tabCompleter.fillServerPlayer();
                 default:
-                    return Collections.EMPTY_LIST;
+                    return new ArrayList<>();
             }
         }
         else {
@@ -107,7 +91,7 @@ public class CommandTabCaller implements TabCompleter {
                 return subCmds;
             }
 
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
     }
 

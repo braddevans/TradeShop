@@ -43,7 +43,7 @@ import java.util.logging.Level;
 /**
  * The enum Message.
  */
-public enum Message {
+@SuppressWarnings("UnstableApiUsage") public enum Message {
 
     /**
      * The Amount not num.
@@ -263,13 +263,14 @@ public enum Message {
     VARIOUS_ITEM_TYPE(MessageSectionKeys.NONE, "Various", "Text to display when a message uses an Item Type and the Type varies");
 
     private static final char COLOUR_CHAR = '&';
-    private static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-    private static File file = new File(plugin.getDataFolder(), "messages.yml");
+    private static final File file = new File(TradeShop.getInstance().getDataFolder(), "messages.yml");
     private static FileConfiguration config = YamlConfiguration.loadConfiguration(file);
     private static String PREFIX = Setting.MESSAGE_PREFIX.getString() + " ";
 
-    private String defaultValue, preComment = "", postComment = "";
-    private MessageSectionKeys sectionKey;
+    private final String defaultValue;
+    private String preComment = "";
+    private String postComment = "";
+    private final MessageSectionKeys sectionKey;
 
     Message(MessageSectionKeys sectionKey, String defaultValue) {
         this.sectionKey = sectionKey;
@@ -336,13 +337,8 @@ public enum Message {
                     }
                 }
 
-                Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-
-                try {
+                try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
                     writer.write(data.toString());
-                }
-                finally {
-                    writer.close();
                 }
 
             }
@@ -357,16 +353,16 @@ public enum Message {
      */
     public static void reload() {
         try {
-            if (! plugin.getDataFolder().isDirectory()) {
-                plugin.getDataFolder().mkdirs();
+            if (! TradeShop.getInstance().getDataFolder().isDirectory()) {
+                TradeShop.getInstance().getDataFolder().mkdirs();
             }
             if (! file.exists()) {
                 file.createNewFile();
             }
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not create Message file! Disabling plugin!", e);
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
+            TradeShop.getInstance().getLogger().log(Level.SEVERE, "Could not create Message file! Disabling plugin!", e);
+            TradeShop.getInstance().getServer().getPluginManager().disablePlugin(TradeShop.getInstance());
         }
 
         setDefaults();
@@ -434,7 +430,9 @@ enum MessageSectionKeys {
      */
     UNUSED("", "");
 
-    private String key, sectionHeader, value_lead = "";
+    private final String key;
+    private final String sectionHeader;
+    private String value_lead = "";
     private MessageSectionKeys parent;
 
     MessageSectionKeys(String key, String sectionHeader) {
@@ -492,11 +490,7 @@ enum MessageSectionKeys {
             return header.toString();
         }
         else if (sectionHeader.isEmpty() && ! key.isEmpty()) {
-            StringBuilder header = new StringBuilder();
-
-            header.append(getFileText()).append(":\n");
-
-            return header.toString();
+            return getFileText() + ":\n";
         }
 
         return "";

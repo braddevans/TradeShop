@@ -50,6 +50,7 @@ import org.shanerx.tradeshop.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type Shop trade listener.
@@ -66,7 +67,7 @@ public class ShopTradeListener extends Utils implements Listener {
                   ignoreCancelled = true)
     public void onBlockInteract(PlayerInteractEvent e) {
 
-        if (e.useInteractedBlock().equals(Event.Result.DENY) || e.isCancelled()) { return; }
+        if (e.useInteractedBlock().equals(Event.Result.DENY)) { return; }
 
         Player buyer = e.getPlayer();
         Shop shop;
@@ -177,7 +178,7 @@ public class ShopTradeListener extends Utils implements Listener {
                                               .replace("{AMOUNT2}", String.valueOf(amountCost))
                                               .replace("{ITEM1}", productName.toLowerCase())
                                               .replace("{ITEM2}", costName.toLowerCase())
-                                              .replace("{SELLER}", shop.getShopType().isITrade() ? Setting.ITRADESHOP_OWNER.getString() : shop.getOwner().getPlayer().getName()));
+                                              .replace("{SELLER}", shop.getShopType().isITrade() ? Setting.ITRADESHOP_OWNER.getString() : Objects.requireNonNull(shop.getOwner().getPlayer().getName())));
 
             Bukkit.getPluginManager().callEvent(new SuccessfulTradeEvent(e.getPlayer(), shop.getCost(), shop.getProduct(), shop, e.getClickedBlock(), e.getBlockFace()));
         }
@@ -226,7 +227,7 @@ public class ShopTradeListener extends Utils implements Listener {
             }
 
             //Method to find Product items in shop inventory and add to product array
-            productItems = getItems(shopInventory, shop.getCost(), multiplier); //Reverse BiTrade, Cost is Product
+            productItems = getItems(Objects.requireNonNull(shopInventory), shop.getCost(), multiplier); //Reverse BiTrade, Cost is Product
             if (productItems.get(0) == null) {
                 ItemStack item = productItems.get(1);
                 shop.updateStatus();
@@ -249,16 +250,17 @@ public class ShopTradeListener extends Utils implements Listener {
             }
 
             //Method to find Product items in shop inventory and add to product array
-            productItems = getItems(shopInventory, shop.getProduct(), multiplier);
-            if (productItems.get(0) == null) {
-                ItemStack item = productItems.get(1);
-                shop.updateStatus();
-                buyer.sendMessage(Message.SHOP_INSUFFICIENT_ITEMS.getPrefixed()
-                                                                 .replace("{ITEM}", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().toString())
-                                                                 .replace("{AMOUNT}", String.valueOf(item.getAmount() * multiplier)));
-                return false;
+            if (shopInventory != null) {
+                productItems = getItems(shopInventory, shop.getProduct(), multiplier);
+                if (productItems.get(0) == null) {
+                    ItemStack item = productItems.get(1);
+                    shop.updateStatus();
+                    buyer.sendMessage(Message.SHOP_INSUFFICIENT_ITEMS.getPrefixed()
+                                                                     .replace("{ITEM}", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().toString())
+                                                                     .replace("{AMOUNT}", String.valueOf(item.getAmount() * multiplier)));
+                    return false;
+                }
             }
-
         }
 
         if (costItems.size() > 0) {
@@ -274,7 +276,7 @@ public class ShopTradeListener extends Utils implements Listener {
 
             //For loop to put cost items in shop inventory
             for (ItemStack item : costItems) {
-                shopInventory.addItem(item);
+                Objects.requireNonNull(shopInventory).addItem(item);
             }
 
             //For loop to put product items in player inventory

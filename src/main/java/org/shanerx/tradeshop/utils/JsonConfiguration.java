@@ -31,6 +31,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.Chunk;
 import org.bukkit.inventory.ItemStack;
+import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.objects.Shop;
 import org.shanerx.tradeshop.objects.ShopChunk;
 import org.shanerx.tradeshop.objects.ShopItemStack;
@@ -42,7 +43,7 @@ import java.util.*;
 /**
  * The type Json configuration.
  */
-public class JsonConfiguration extends Utils implements Serializable {
+@SuppressWarnings("ResultOfMethodCallIgnored") public class JsonConfiguration extends Utils implements Serializable {
     private final String pluginFolder;
     private final String path;
     private final File filePath;
@@ -61,7 +62,7 @@ public class JsonConfiguration extends Utils implements Serializable {
         gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
         configType = 0;
         ShopChunk chunk = new ShopChunk(c);
-        this.pluginFolder = plugin.getDataFolder().getAbsolutePath();
+        this.pluginFolder = TradeShop.getInstance().getDataFolder().getAbsolutePath();
         this.path = this.pluginFolder + File.separator + "Data" + File.separator + chunk.getWorld().getName();
         this.file = new File(path + File.separator + chunk.serialize() + ".json");
         this.filePath = new File(path);
@@ -101,7 +102,7 @@ public class JsonConfiguration extends Utils implements Serializable {
     public JsonConfiguration(UUID uuid) {
         gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().serializeNulls().create();
         configType = 1;
-        this.pluginFolder = plugin.getDataFolder().getAbsolutePath();
+        this.pluginFolder = TradeShop.getInstance().getDataFolder().getAbsolutePath();
         this.path = this.pluginFolder + File.separator + "Data" + File.separator + "Players";
         this.file = new File(path + File.separator + uuid.toString() + ".json");
         this.filePath = new File(path);
@@ -132,7 +133,7 @@ public class JsonConfiguration extends Utils implements Serializable {
         if (configType == 0) {
             for (Map.Entry<String, JsonElement> entry : Sets.newHashSet(jsonObj.entrySet())) {
                 if (entry.getKey().contains("l_")) {
-                    jsonObj.add(ShopLocation.deserialize(entry.getKey()).serialize(), entry.getValue());
+                    jsonObj.add(Objects.requireNonNull(ShopLocation.deserialize(entry.getKey())).serialize(), entry.getValue());
                     jsonObj.remove(entry.getKey());
                 }
             }

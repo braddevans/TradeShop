@@ -44,9 +44,6 @@ public class ItemSerializer {
      * Original code from https://gist.github.com/graywolf336/8153678
      * Tweaked for use with single itemstacks
      *
-     */
-
-    /**
      * A method to serialize an {@link ItemStack} array to Base64 String.
      *
      * @param item

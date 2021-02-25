@@ -39,7 +39,7 @@ public class PlayerShopDestroyEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled, destroyBlock;
-    private Shop shop;
+    private final Shop shop;
 
     /**
      * Constructor for the object.

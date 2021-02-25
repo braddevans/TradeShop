@@ -40,20 +40,8 @@ import org.shanerx.tradeshop.enumys.Message;
  */
 public class CommandCaller implements CommandExecutor {
 
-    private TradeShop plugin;
     private CommandPass cmdPass;
     private Commands command;
-    private CommandRunner cmdRnnr;
-
-    /**
-     * Instantiates a new Command caller.
-     *
-     * @param instance
-     *         the instance
-     */
-    public CommandCaller(TradeShop instance) {
-        plugin = instance;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -80,7 +68,7 @@ public class CommandCaller implements CommandExecutor {
             return true;
         }
 
-        cmdRnnr = new CommandRunner(plugin, cmdPass);
+        CommandRunner cmdRnnr = new CommandRunner(cmdPass);
 
         switch (command) {
             case HELP:

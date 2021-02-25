@@ -47,18 +47,6 @@ import java.util.Map;
  */
 public class JoinEventListener extends Utils implements Listener {
 
-    private TradeShop plugin;
-
-    /**
-     * Instantiates a new Join event listener.
-     *
-     * @param instance
-     *         the instance
-     */
-    public JoinEventListener(TradeShop instance) {
-        plugin = instance;
-    }
-
     /**
      * On join.
      *
@@ -82,7 +70,7 @@ public class JoinEventListener extends Utils implements Listener {
 
         if (player.hasPermission(Permissions.ADMIN.getPerm())) {
             BukkitVersion ver = new BukkitVersion();
-            if (plugin.getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND)) { player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed()); }
+            if (TradeShop.getInstance().getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND)) { player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed()); }
         }
     }
 }

@@ -38,10 +38,7 @@ import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.DebugLevels;
 import org.shanerx.tradeshop.utils.Utils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The type Shop chest.
@@ -50,7 +47,6 @@ public class ShopChest extends Utils {
 
     private final transient static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
     private final Location loc;
-    private final String sectionSeparator = "\\$ \\^";
     private final String titleSeparator = ";;";
     private ShopLocation shopSign;
     private Block chest;
@@ -129,9 +125,9 @@ public class ShopChest extends Utils {
      */
     public static boolean isShopChest(Inventory checking) {
         try {
-            return isShopChest(checking.getLocation().getBlock());
+            return isShopChest(Objects.requireNonNull(checking.getLocation()).getBlock());
         }
-        catch (NullPointerException ex) {
+        catch (NullPointerException ignored) {
         }
         return false;
     }
@@ -152,18 +148,18 @@ public class ShopChest extends Utils {
                     BlockState stateLeft = dbl.getLeftSide().getInventory().getLocation().getBlock().getState();
                     BlockState stateRight = dbl.getRightSide().getInventory().getLocation().getBlock().getState();
 
-                    if (((Nameable) stateRight).getCustomName().contains("$ ^Sign:l_")) {
-                        ((Nameable) stateRight).setCustomName(((Nameable) stateRight).getCustomName().split("\\$ \\^")[0]);
+                    if (Objects.requireNonNull(((Nameable) stateRight).getCustomName()).contains("$ ^Sign:l_")) {
+                        ((Nameable) stateRight).setCustomName(Objects.requireNonNull(((Nameable) stateRight).getCustomName()).split("\\$ \\^")[0]);
                         stateRight.update();
                     }
-                    if (((Nameable) stateLeft).getCustomName().contains("$ ^Sign:l_")) {
-                        ((Nameable) stateLeft).setCustomName(((Nameable) stateLeft).getCustomName().split("\\$ \\^")[0]);
+                    if (Objects.requireNonNull(((Nameable) stateLeft).getCustomName()).contains("$ ^Sign:l_")) {
+                        ((Nameable) stateLeft).setCustomName(Objects.requireNonNull(((Nameable) stateLeft).getCustomName()).split("\\$ \\^")[0]);
                         stateLeft.update();
                     }
 
                 }
-                else if (((Nameable) bs).getCustomName().contains("$ ^Sign:l_")) {
-                    ((Nameable) bs).setCustomName(((Nameable) bs).getCustomName().split("\\$ \\^")[0]);
+                else if (Objects.requireNonNull(((Nameable) bs).getCustomName()).contains("$ ^Sign:l_")) {
+                    ((Nameable) bs).setCustomName(Objects.requireNonNull(((Nameable) bs).getCustomName()).split("\\$ \\^")[0]);
                     bs.update();
                 }
             }
@@ -259,6 +255,7 @@ public class ShopChest extends Utils {
      */
     public void loadFromName() {
         if (isShopChest(chest)) {
+            String sectionSeparator = "\\$ \\^";
             String[] name = ((Container) chest.getState()).getPersistentDataContainer().get(plugin.getSignKey(), PersistentDataType.STRING)
                                                           .replaceAll("Sign:", "Sign" + titleSeparator).replaceAll("Owner:", "Owner" + titleSeparator)
                                                           .split(sectionSeparator);
@@ -298,15 +295,13 @@ public class ShopChest extends Utils {
      * @return the name
      */
     public String getName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("$ ^Sign");
-        sb.append(titleSeparator);
-        sb.append(shopSign.serialize());
-        sb.append("$ ^Owner");
-        sb.append(titleSeparator);
-        sb.append(owner.toString());
 
-        return sb.toString();
+        return "$ ^Sign" +
+               titleSeparator +
+               shopSign.serialize() +
+               "$ ^Owner" +
+               titleSeparator +
+               owner.toString();
     }
 
     /**

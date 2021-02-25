@@ -69,19 +69,15 @@ public class Utils {
      */
     public Debug debugger;
     /**
-     * The Plugin.
-     */
-    protected TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-    /**
      * The Pdf.
      */
-    protected PluginDescriptionFile pdf = plugin.getDescription();
+    protected PluginDescriptionFile pdf = TradeShop.getInstance().getDescription();
 
     /**
      * Instantiates a new Utils.
      */
     public Utils() {
-        debugger = plugin.getDebugger();
+        debugger = TradeShop.getInstance().getDebugger();
     }
 
     /**
@@ -284,7 +280,7 @@ public class Utils {
      * @return returns true if valid material
      */
     public boolean isValidType(Material mat) {
-        return ! plugin.getListManager().getBlacklist().contains(mat);
+        return ! TradeShop.getInstance().getListManager().getBlacklist().contains(mat);
     }
 
     /**
@@ -336,7 +332,7 @@ public class Utils {
      * @return the sign.
      */
     public Sign findShopSign(Block chest) {
-        ArrayList<BlockFace> faces = plugin.getListManager().getDirections();
+        ArrayList<BlockFace> faces = TradeShop.getInstance().getListManager().getDirections();
         Collections.reverse(faces);
         ArrayList<BlockFace> flatFaces = new ArrayList<>(Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
         boolean isDouble = false;
@@ -377,9 +373,9 @@ public class Utils {
      * @return the shop's inventory holder block.
      */
     public Block findShopChest(Block sign) {
-        for (BlockFace face : plugin.getListManager().getDirections()) {
+        for (BlockFace face : TradeShop.getInstance().getListManager().getDirections()) {
             Block relative = sign.getRelative(face);
-            if (plugin.getListManager().isInventory(relative)) {
+            if (TradeShop.getInstance().getListManager().isInventory(relative)) {
                 return relative;
             }
         }
@@ -447,7 +443,7 @@ public class Utils {
             return ExchangeStatus.NOT_TRADE;
         }
 
-        Inventory shopInv = null;
+        Inventory shopInv;
         Inventory shopInventory = null;
 
         if (shop.getShopType() != ShopType.ITRADE) {

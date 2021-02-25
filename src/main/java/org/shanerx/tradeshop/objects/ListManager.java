@@ -28,6 +28,7 @@ package org.shanerx.tradeshop.objects;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.DebugLevels;
 import org.shanerx.tradeshop.enumys.Setting;
 import org.shanerx.tradeshop.enumys.ShopStorage;
@@ -42,11 +43,11 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public class ListManager extends Utils {
 
-    private ArrayList<Material> blacklist = new ArrayList<>();
-    private ArrayList<BlockFace> directions = new ArrayList<>();
-    private ArrayList<ShopStorage.Storages> inventories = new ArrayList<>();
-    private ArrayList<String> gameMats = new ArrayList<>();
-    private ArrayList<String> addOnMats = new ArrayList<>();
+    private final ArrayList<Material> blacklist = new ArrayList<>();
+    private final ArrayList<BlockFace> directions = new ArrayList<>();
+    private final ArrayList<ShopStorage.Storages> inventories = new ArrayList<>();
+    private final ArrayList<String> gameMats = new ArrayList<>();
+    private final ArrayList<String> addOnMats = new ArrayList<>();
 
     /**
      * Instantiates a new List manager.
@@ -127,7 +128,7 @@ public class ListManager extends Utils {
     public boolean isInventory(Block block) {
         //Get blocks Material and strip all non-alpha chars
         Material blockMaterial = block.getType();
-        Boolean found = false;
+        boolean found = false;
 
         debugger.log("isInventory Block Material: " + blockMaterial.name(), DebugLevels.LIST_MANAGER);
 
@@ -187,9 +188,7 @@ public class ListManager extends Utils {
         }
 
         //Adds any strings that have been added the the AddOnMats list to the autocomplete list
-        for (String str : addOnMats) {
-            gameMats.add(str);
-        }
+        gameMats.addAll(addOnMats);
     }
 
     private void updateDirections() {
@@ -211,9 +210,9 @@ public class ListManager extends Utils {
         //For each String in the Allowed shops config setting, check if it is a valid inventory and add the ShopStorage.Storages object to the list
         for (String str : Setting.ALLOWED_SHOPS.getStringList()) {
             String logMsg = "- " + str;
-            String storageName = plugin.getStorages().isValidInventory(str);
+            String storageName = TradeShop.getInstance().getStorages().isValidInventory(str);
             if (storageName.length() > 0) {
-                ShopStorage.Storages storage = plugin.getStorages().getValidInventory(storageName);
+                ShopStorage.Storages storage = TradeShop.getInstance().getStorages().getValidInventory(storageName);
                 inventories.add(storage);
                 logMsg += " | Valid | " + storage.name();
             }

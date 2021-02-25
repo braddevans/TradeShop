@@ -44,7 +44,7 @@ import java.util.logging.Level;
 /**
  * The enum Setting.
  */
-public enum Setting {
+@SuppressWarnings({"UnstableApiUsage", "ResultOfMethodCallIgnored"}) public enum Setting {
 
     /**
      * Config version setting.
@@ -197,12 +197,14 @@ public enum Setting {
      */
     BITRADESHOP_HOPPER_EXPORT(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "allow-hopper-export", false, "Can hoppers pull items from the shop storage (true/false)");
 
-    private static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-    private static File file = new File(plugin.getDataFolder(), "config.yml");
+    private static final File file = new File(TradeShop.getInstance().getDataFolder(), "config.yml");
     private static FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-    private String key, path, preComment = "", postComment = "";
-    private Object defaultValue;
-    private SettingSectionKeys sectionKey;
+    private final String key;
+    private final String path;
+    private String preComment = "";
+    private String postComment = "";
+    private final Object defaultValue;
+    private final SettingSectionKeys sectionKey;
 
     Setting(SettingSectionKeys sectionKey, String path, Object defaultValue) {
         this.sectionKey = sectionKey;
@@ -298,13 +300,8 @@ public enum Setting {
                     }
                 }
 
-                Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-
-                try {
+                try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
                     writer.write(data.toString());
-                }
-                finally {
-                    writer.close();
                 }
 
             }
@@ -319,16 +316,16 @@ public enum Setting {
      */
     public static void reload() {
         try {
-            if (! plugin.getDataFolder().isDirectory()) {
-                plugin.getDataFolder().mkdirs();
+            if (!TradeShop.getInstance().getDataFolder().isDirectory()) {
+                TradeShop.getInstance().getDataFolder().mkdirs();
             }
-            if (! file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not create Config file! Disabling plugin!", e);
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
+            TradeShop.getInstance().getLogger().log(Level.SEVERE, "Could not create Config file! Disabling plugin!", e);
+            TradeShop.getInstance().getServer().getPluginManager().disablePlugin(TradeShop.getInstance());
         }
 
         fixUp();
@@ -547,7 +544,9 @@ enum SettingSectionKeys {
      */
     BITRADE_SHOP_OPTIONS("bitrade-shop-options", "BiTrade Shop Options");
 
-    private String key, sectionHeader, value_lead = "";
+    private final String key;
+    private final String sectionHeader;
+    private String value_lead = "";
     private SettingSectionKeys parent;
 
     SettingSectionKeys(String key, String sectionHeader) {
@@ -605,11 +604,8 @@ enum SettingSectionKeys {
             return header.toString();
         }
         else if (sectionHeader.isEmpty() && ! key.isEmpty()) {
-            StringBuilder header = new StringBuilder();
 
-            header.append(getFileText()).append(":\n");
-
-            return header.toString();
+            return getFileText() + ":\n";
         }
 
         return "";

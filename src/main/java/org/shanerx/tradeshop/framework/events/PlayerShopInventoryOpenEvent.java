@@ -17,7 +17,7 @@ import org.shanerx.tradeshop.objects.Shop;
 public class PlayerShopInventoryOpenEvent extends PlayerInteractEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private Shop shop;
+    private final Shop shop;
     private boolean cancelled;
 
     /**

@@ -40,8 +40,7 @@ import java.util.List;
  */
 public class ShopStorage extends Utils {
 
-    private BukkitVersion version = new BukkitVersion();
-    private HashMap<String, Storages> storageTypes = new HashMap<>();
+    private final HashMap<String, Storages> storageTypes = new HashMap<>();
 
     /**
      * Instantiates a new Shop storage.
@@ -56,6 +55,7 @@ public class ShopStorage extends Utils {
 
             boolean added = false;
 
+            BukkitVersion version = new BukkitVersion();
             if ((type.hasMinVersion() && ! version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) ||
                 (type.hasMaxVersion() && ! version.isAbove(type.getMaxVer().get(0), type.getMaxVer().get(1), type.getMaxVer().get(2)))) {
                 storageTypes.put(type.getStrippedName(), type);
@@ -154,10 +154,11 @@ public class ShopStorage extends Utils {
          */
         SMOKER("1.14.0", "", 10, Lists.newArrayList(Material.SMOKER));
 
-        private List<Integer> minVer = Arrays.asList(new Integer[3]), maxVer = Arrays.asList(new Integer[3]);
+        private final List<Integer> minVer = Arrays.asList(new Integer[3]);
+        private final List<Integer> maxVer = Arrays.asList(new Integer[3]);
         private boolean hasMin = true, hasMax = true;
         private int weight = 10;
-        private List<Material> typeMaterials;
+        private final List<Material> typeMaterials;
 
         Storages(String minVersion, String maxVersion, int weight, List<Material> typeMaterials) {
             if (minVersion.equalsIgnoreCase("")) { hasMin = false; }

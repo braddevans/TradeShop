@@ -38,8 +38,7 @@ import java.util.List;
  */
 public class ShopSign extends Utils {
 
-    private BukkitVersion version = new BukkitVersion();
-    private ArrayList<Material> signTypes = new ArrayList<>();
+    private final ArrayList<Material> signTypes = new ArrayList<>();
 
     /**
      * Instantiates a new Shop sign.
@@ -51,6 +50,7 @@ public class ShopSign extends Utils {
             debugger.log(String.format("MinVer: %s", type.getMinVersionAsString()), DebugLevels.STARTUP);
             debugger.log(String.format("MaxVer: %s", type.getMaxVersionAsString()), DebugLevels.STARTUP);
 
+            BukkitVersion version = new BukkitVersion();
             if (type.hasMinVersion() && version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) {
                 pass = false;
             }
@@ -149,7 +149,8 @@ public class ShopSign extends Utils {
          */
         WARPED_WALL_SIGN("1.16.0", "");
 
-        private List<Integer> minVer = Arrays.asList(new Integer[3]), maxVer = Arrays.asList(new Integer[3]);
+        private final List<Integer> minVer = Arrays.asList(new Integer[3]);
+        private final List<Integer> maxVer = Arrays.asList(new Integer[3]);
         private boolean hasMin = true, hasMax = true;
 
         Signs(String minVersion, String maxVersion) {

@@ -320,15 +320,12 @@ public class Shop implements Serializable {
      * @param newManager
      *         the player to be added as a shopUser object
      *
-     * @return true if player has been added
      */
-    public boolean addManager(UUID newManager) {
+    public void addManager(UUID newManager) {
         if (! getUsersUUID().contains(newManager)) {
             managers.add(newManager);
             saveShop();
-            return true;
         }
-        return false;
     }
 
     /**
@@ -363,15 +360,12 @@ public class Shop implements Serializable {
      * @param newMember
      *         the player to be added as a shopUser object
      *
-     * @return true if player has been added
      */
-    public boolean addMember(UUID newMember) {
+    public void addMember(UUID newMember) {
         if (! getUsersUUID().contains(newMember)) {
             members.add(newMember);
             saveShop();
-            return true;
         }
-        return false;
     }
 
     /**
@@ -682,7 +676,9 @@ public class Shop implements Serializable {
                 if (signLines[i] != null && s != null) { s.setLine(i, signLines[i]); }
             }
 
-            s.update();
+            if (s != null) {
+                s.update();
+            }
         }
     }
 

@@ -8,7 +8,7 @@ package org.shanerx.tradeshop.utils;
  */
 public class ObjectHolder<Type> {
 
-    private Type obj;
+    private final Type obj;
 
     /**
      * Instantiates a new Object holder.

@@ -15,7 +15,7 @@ import org.shanerx.tradeshop.utils.ObjectHolder;
 public class PlayerShopChangeEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private Shop shop;
+    private final Shop shop;
     private ObjectHolder<?> what;
     private boolean cancelled;
 
@@ -79,5 +79,15 @@ public class PlayerShopChangeEvent extends PlayerEvent implements Cancellable {
      */
     public ObjectHolder<?> getWhat() {
         return what;
+    }
+
+    /**
+     * Sets the {@link ObjectHolder} instance which wraps the object representing the data which is being changed.
+     * This can be of type {@link org.bukkit.entity.Player}, {@link org.bukkit.inventory.ItemStack} or {@link java.lang.Integer}.
+     * @param what
+     *         the ObjectHolder
+     */
+    public void setWhat(ObjectHolder<?> what) {
+        this.what = what;
     }
 }

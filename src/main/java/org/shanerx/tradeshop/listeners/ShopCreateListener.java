@@ -35,6 +35,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.Message;
 import org.shanerx.tradeshop.enumys.Setting;
 import org.shanerx.tradeshop.enumys.ShopRole;
@@ -164,7 +165,7 @@ public class ShopCreateListener extends Utils implements Listener {
 
         ItemStack item = new ItemStack(Material.matchMaterial(info[1]), Integer.parseInt(info[0]));
 
-        if (plugin.getListManager().isBlacklisted(item.getType())) { return null; }
+        if (TradeShop.getInstance().getListManager().isBlacklisted(item.getType())) { return null; }
 
         return item;
     }

@@ -30,16 +30,18 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * The type Shop location.
  */
 public class ShopLocation implements Serializable {
 
-    final private String div = "::";
     private transient World world;
     private String worldName;
-    private double x, y, z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     /**
      * Instantiates a new Shop location.
@@ -69,7 +71,7 @@ public class ShopLocation implements Serializable {
      */
     public ShopLocation(Location loc) {
         this.world = loc.getWorld();
-        this.worldName = loc.getWorld().getName();
+        this.worldName = Objects.requireNonNull(loc.getWorld()).getName();
         this.x = loc.getX();
         this.y = loc.getY();
         this.z = loc.getZ();
@@ -90,7 +92,7 @@ public class ShopLocation implements Serializable {
             if (world == null) { world = Bukkit.getWorld(locA[1].replace("-", "_")); }
             double x = Double.parseDouble(locA[2]), y = Double.parseDouble(locA[3]), z = Double.parseDouble(locA[4]);
 
-            return new ShopLocation(world, x, y, z);
+            return new ShopLocation(Objects.requireNonNull(world), x, y, z);
         }
 
         return null;
@@ -102,6 +104,7 @@ public class ShopLocation implements Serializable {
      * @return the string
      */
     public String serialize() {
+        String div = "::";
         return "l" + div + world.getName() + div + x + div + y + div + z;
     }
 

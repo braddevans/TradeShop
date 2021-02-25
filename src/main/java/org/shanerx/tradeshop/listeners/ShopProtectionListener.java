@@ -61,18 +61,6 @@ import java.util.List;
  */
 public class ShopProtectionListener extends Utils implements Listener {
 
-    private final TradeShop plugin;
-
-    /**
-     * Instantiates a new Shop protection listener.
-     *
-     * @param instance
-     *         the instance
-     */
-    public ShopProtectionListener(TradeShop instance) {
-        plugin = instance;
-    }
-
     /**
      * On inventory move item.
      *
@@ -93,7 +81,7 @@ public class ShopProtectionListener extends Utils implements Listener {
             }
 
             if (! (event.getInitiator().getType().equals(InventoryType.HOPPER) &&
-                   plugin.getListManager().isInventory(event.getSource().getLocation().getBlock())
+                   TradeShop.getInstance().getListManager().isInventory(event.getSource().getLocation().getBlock())
             )) {
                 return;
             }
@@ -151,7 +139,7 @@ public class ShopProtectionListener extends Utils implements Listener {
                 if (! Setting.findSetting(ShopType.getType((Sign) b.getState()).name() + "SHOP_EXPLODE".toUpperCase()).getBoolean()) {
                     i.remove();
 
-                    if (plugin.getVersion().isBelow(1, 14)) {
+                    if (TradeShop.getInstance().getVersion().isBelow(1, 14)) {
                         org.bukkit.material.Sign s = (org.bukkit.material.Sign) b.getState().getData();
                         toRemove.add(b.getRelative(s.getAttachedFace()));
                     }
@@ -258,7 +246,7 @@ public class ShopProtectionListener extends Utils implements Listener {
 
         Block block = e.getClickedBlock();
 
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || ! plugin.getListManager().isInventory(block)) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || ! TradeShop.getInstance().getListManager().isInventory(block)) {
             return;
         }
 
@@ -294,7 +282,7 @@ public class ShopProtectionListener extends Utils implements Listener {
 
         Block block = event.getBlock();
 
-        if (! plugin.getListManager().isInventory(block)) { return; }
+        if (! TradeShop.getInstance().getListManager().isInventory(block)) { return; }
 
         Sign shopSign = findShopSign(block);
 
@@ -314,6 +302,5 @@ public class ShopProtectionListener extends Utils implements Listener {
         else {
             event.setCancelled(true);
         }
-        return;
     }
 }

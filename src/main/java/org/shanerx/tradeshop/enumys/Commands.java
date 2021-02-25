@@ -126,37 +126,38 @@ public enum Commands {
     /**
      * Name of the permission
      **/
-    private String name;
+    private final String name;
 
     /**
      * All names that can be used to call the command
      **/
-    private List<String> names;
+    private final List<String> names;
 
     /**
      * Minimum and Maximum arguments required for the command
      **/
-    private int minArgs, maxArgs;
+    private final int minArgs;
+    private final int maxArgs;
 
     /**
      * Permission required for the command
      **/
-    private Permissions perm;
+    private final Permissions perm;
 
     /**
      * Whether the command requires a player to run
      **/
-    private boolean needsPlayer;
+    private final boolean needsPlayer;
 
     /**
      * Description for command
      */
-    private String description;
+    private final String description;
 
     /**
      * Command usage
      */
-    private String usage;
+    private final String usage;
 
     Commands(List<String> names, Permissions perm, int minArgs, int maxArgs, boolean needsPlayer, String description, String usage) {
         this.names = names;
@@ -324,5 +325,9 @@ public enum Commands {
      */
     public boolean checkPerm(CommandSender sender) {
         return getPerm().equals(Permissions.NONE) || sender.hasPermission(getPerm().getPerm());
+    }
+
+    public String getName() {
+        return name;
     }
 }

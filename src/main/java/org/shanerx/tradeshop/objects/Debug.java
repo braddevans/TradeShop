@@ -37,7 +37,6 @@ import java.util.logging.Level;
 public class Debug {
 
     private final String PREFIX = "[TradeShop Debug%level%] ";
-    private int decimalDebugLevel;
     private String binaryDebugLevel;
 
     /**
@@ -51,7 +50,7 @@ public class Debug {
      * Reload.
      */
     public void reload() {
-        decimalDebugLevel = Setting.ENABLE_DEBUG.getInt();
+        int decimalDebugLevel = Setting.ENABLE_DEBUG.getInt();
         if (decimalDebugLevel < 0) {
             decimalDebugLevel = DebugLevels.maxValue();
         }

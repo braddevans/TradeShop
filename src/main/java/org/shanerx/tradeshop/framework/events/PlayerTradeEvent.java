@@ -45,10 +45,9 @@ import java.util.List;
 public class PlayerTradeEvent extends PlayerInteractEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private Shop shop;
-    private List<ShopItemStack> product;
-    private List<ShopItemStack> cost;
-    private Block clickedBlock;
+    private final Shop shop;
+    private final List<ShopItemStack> product;
+    private final List<ShopItemStack> cost;
     private boolean cancelled;
 
     /**
@@ -72,7 +71,6 @@ public class PlayerTradeEvent extends PlayerInteractEvent implements Cancellable
         this.shop = shop;
         this.product = product;
         this.cost = cost;
-        this.clickedBlock = clickedBlock;
     }
 
     /**

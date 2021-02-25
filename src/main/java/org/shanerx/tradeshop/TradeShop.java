@@ -51,13 +51,19 @@ public class TradeShop extends JavaPlugin {
     private ListManager lists;
     private BukkitVersion version;
     private ShopSign signs;
+    private static TradeShop instance;
 
     private ShopStorage storages;
 
     private Debug debugger;
 
+    public static TradeShop getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         version = new BukkitVersion();
 
         Setting.reload();
@@ -69,14 +75,14 @@ public class TradeShop extends JavaPlugin {
         lists = new ListManager();
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new JoinEventListener(this), this);
-        pm.registerEvents(new ShopProtectionListener(this), this);
+        pm.registerEvents(new JoinEventListener(), this);
+        pm.registerEvents(new ShopProtectionListener(), this);
         pm.registerEvents(new ShopCreateListener(), this);
         pm.registerEvents(new ShopTradeListener(), this);
-        pm.registerEvents(new ShopRestockListener(this), this);
+        pm.registerEvents(new ShopRestockListener(), this);
 
-        getCommand("tradeshop").setExecutor(new CommandCaller(this));
-        getCommand("tradeshop").setTabCompleter(new CommandTabCaller(this));
+        getCommand("tradeshop").setExecutor(new CommandCaller());
+        getCommand("tradeshop").setTabCompleter(new CommandTabCaller());
 
         /*
         if (Setting.CHECK_UPDATES.getBoolean()) {

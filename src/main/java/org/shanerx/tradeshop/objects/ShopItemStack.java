@@ -451,7 +451,7 @@ public class ShopItemStack implements Serializable {
                     if (itemStackBookMeta.hasTitle() != toCompareBookMeta.hasTitle()) { return false; }
 
                     // Return False if itemStack hasTitle && Title is not equal
-                    if (itemStackBookMeta.hasTitle() && ! itemStackBookMeta.getTitle().equals(toCompareBookMeta.getTitle())) { return false; }
+                    if (itemStackBookMeta.hasTitle() && ! Objects.equals(itemStackBookMeta.getTitle(), toCompareBookMeta.getTitle())) { return false; }
                 }
                 else {
                     // Return False if hasDisplayName differs (one has one doesn't)
@@ -573,9 +573,6 @@ public class ShopItemStack implements Serializable {
      * Original code from https://gist.github.com/graywolf336/8153678
      * Tweaked for use with single itemstacks
      *
-     */
-
-    /**
      * Sets the objects Base64 from its {@link ItemStack}
      */
     private void toBase64() {

@@ -39,18 +39,6 @@ import org.shanerx.tradeshop.utils.Utils;
  */
 public class ShopRestockListener extends Utils implements Listener {
 
-    private final TradeShop plugin;
-
-    /**
-     * Instantiates a new Shop restock listener.
-     *
-     * @param instance
-     *         the instance
-     */
-    public ShopRestockListener(TradeShop instance) {
-        plugin = instance;
-    }
-
     //If it is a shopchest, this updates the sign when the inventory is closed
 
     /**

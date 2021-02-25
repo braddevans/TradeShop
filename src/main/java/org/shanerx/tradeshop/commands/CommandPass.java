@@ -36,10 +36,10 @@ import java.util.ArrayList;
  */
 public class CommandPass {
 
-    private CommandSender sender;
-    private Command cmd;
-    private String label;
-    private ArrayList<String> args;
+    private final CommandSender sender;
+    public final Command cmd;
+    public final String label;
+    private final ArrayList<String> args;
 
     /**
      * Instantiates a new Command pass.

@@ -74,8 +74,7 @@ public enum Permissions {
      */
     NONE("");
 
-    private final static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-    private String key;
+    private final String key;
 
     Permissions(String key) {
         this.key = key;

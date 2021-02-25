@@ -36,7 +36,6 @@ import java.io.Serializable;
  */
 public class ShopChunk implements Serializable {
 
-    final private String div = ";;";
     private final World world;
     private final int x;
     private final int z;
@@ -87,7 +86,9 @@ public class ShopChunk implements Serializable {
             if (world == null) { world = Bukkit.getWorld(locA[1].replace("-", "_")); }
             int x = Integer.parseInt(locA[2]), z = Integer.parseInt(locA[4]);
 
-            return world.getChunkAt(x, z);
+            if (world != null) {
+                return world.getChunkAt(x, z);
+            }
         }
 
         return null;
@@ -99,6 +100,7 @@ public class ShopChunk implements Serializable {
      * @return the string
      */
     public String serialize() {
+        String div = ";;";
         return "c" + div + world.getName() + div + x + div + z;
     }
 

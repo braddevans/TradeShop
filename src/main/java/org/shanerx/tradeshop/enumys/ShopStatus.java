@@ -50,9 +50,9 @@ public enum ShopStatus {
     OUT_OF_STOCK("&c<Out Of Stock>", Setting.SHOP_OUTOFSTOCK_STATUS, false);
 
     private static final char COLOUR_CHAR = '&';
-    private String label;
-    private boolean tradingAllowed;
-    private Setting labelEnum;
+    private final String label;
+    private final boolean tradingAllowed;
+    private final Setting labelEnum;
 
     ShopStatus(String label, Setting labelEnum, boolean tradingAllowed) {
         this.label = label;
