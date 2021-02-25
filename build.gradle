@@ -1,0 +1,63 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+}
+
+
+group = 'org.shanerx'
+version = '2.2.5-STABLE'
+description = 'TradeShop'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+configurations {
+    external
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+
+    maven {
+        url = 'https://repo.codemc.org/repository/maven-public'
+    }
+
+    maven {
+        url = 'https://repo.minebench.de/'
+    }
+
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compile 'org.bstats:bstats-bukkit:1.7'
+    compile 'de.themoep:inventorygui:1.4.2-SNAPSHOT'
+    configurations.compile.extendsFrom(configurations.external)
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+jar {
+    from sourceSets.main.output
+    from {
+        configurations.external.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
