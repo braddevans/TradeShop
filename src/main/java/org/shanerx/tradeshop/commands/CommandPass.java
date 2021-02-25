@@ -31,6 +31,9 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
+/**
+ * The type Command pass.
+ */
 public class CommandPass {
 
     private CommandSender sender;
@@ -38,6 +41,18 @@ public class CommandPass {
     private String label;
     private ArrayList<String> args;
 
+    /**
+     * Instantiates a new Command pass.
+     *
+     * @param sender
+     *         the sender
+     * @param cmd
+     *         the cmd
+     * @param label
+     *         the label
+     * @param args
+     *         the args
+     */
     public CommandPass(CommandSender sender, Command cmd, String label, String[] args) {
         this.sender = sender;
         this.cmd = cmd;
@@ -45,26 +60,62 @@ public class CommandPass {
         this.args = Lists.newArrayList(args);
     }
 
+    /**
+     * Gets sender.
+     *
+     * @return the sender
+     */
     public CommandSender getSender() {
         return sender;
     }
 
+    /**
+     * Gets cmd.
+     *
+     * @return the cmd
+     */
     public Command getCmd() {
         return cmd;
     }
 
+    /**
+     * Gets label.
+     *
+     * @return the label
+     */
     public String getLabel() {
         return label;
     }
 
+    /**
+     * Args size int.
+     *
+     * @return the int
+     */
     public int argsSize() {
         return args.size();
     }
 
+    /**
+     * Has arg at boolean.
+     *
+     * @param index
+     *         the index
+     *
+     * @return the boolean
+     */
     public boolean hasArgAt(int index) {
         return index < argsSize();
     }
 
+    /**
+     * Gets arg at.
+     *
+     * @param index
+     *         the index
+     *
+     * @return the arg at
+     */
     public String getArgAt(int index) {
         if (hasArgAt(index)) {
             return args.get(index);
@@ -74,10 +125,20 @@ public class CommandPass {
         }
     }
 
+    /**
+     * Gets args.
+     *
+     * @return the args
+     */
     public ArrayList<String> getArgs() {
         return args;
     }
 
+    /**
+     * Has args boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasArgs() {
         return argsSize() > 0;
     }

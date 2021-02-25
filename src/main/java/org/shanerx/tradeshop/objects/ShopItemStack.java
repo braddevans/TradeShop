@@ -42,13 +42,17 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * The type Shop item stack.
+ */
 public class ShopItemStack implements Serializable {
 
     private transient ItemStack itemStack;
     private transient Debug debugger;
 
     private String itemStackB64;
-    private int compareDurability = 1; // -1 == 'off', 0 == '<=', 1 == '==', 2 == '>='
+
+    private int compareDurability = 1;
     private boolean compareEnchantments = true,
             compareName = true,
             compareLore = true,
@@ -59,18 +63,56 @@ public class ShopItemStack implements Serializable {
             compareBookAuthor = true,
             compareBookPages = true;
 
+    /**
+     * Instantiates a new Shop item stack.
+     *
+     * @param itemStack
+     *         the item stack
+     */
     public ShopItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
 
         toBase64();
     }
 
+    /**
+     * Instantiates a new Shop item stack.
+     *
+     * @param itemStackB64
+     *         the item stack b 64
+     */
     public ShopItemStack(String itemStackB64) {
         this.itemStackB64 = itemStackB64;
 
         fromBase64();
     }
 
+    /**
+     * Instantiates a new Shop item stack.
+     *
+     * @param itemStackB64
+     *         the item stack b 64
+     * @param compareDurability
+     *         the compare durability
+     * @param compareEnchantments
+     *         the compare enchantments
+     * @param compareName
+     *         the compare name
+     * @param compareLore
+     *         the compare lore
+     * @param compareCustomModelData
+     *         the compare custom model data
+     * @param compareItemFlags
+     *         the compare item flags
+     * @param compareUnbreakable
+     *         the compare unbreakable
+     * @param compareAttributeModifier
+     *         the compare attribute modifier
+     * @param compareBookAuthor
+     *         the compare book author
+     * @param compareBookPages
+     *         the compare book pages
+     */
     public ShopItemStack(String itemStackB64, int compareDurability, boolean compareEnchantments, boolean compareName, boolean compareLore, boolean compareCustomModelData, boolean compareItemFlags, boolean compareUnbreakable, boolean compareAttributeModifier, boolean compareBookAuthor, boolean compareBookPages) {
         this.itemStackB64 = itemStackB64;
         this.compareAttributeModifier = compareAttributeModifier;
@@ -88,96 +130,227 @@ public class ShopItemStack implements Serializable {
 
     }
 
+    /**
+     * Deserialize shop item stack.
+     *
+     * @param serialized
+     *         the serialized
+     *
+     * @return the shop item stack
+     */
     public static ShopItemStack deserialize(String serialized) {
         ShopItemStack item = new Gson().fromJson(serialized, ShopItemStack.class);
         item.fromBase64();
         return item;
     }
 
+    /**
+     * Is compare durability int.
+     *
+     * @return the int
+     */
     public int isCompareDurability() {
         return compareDurability;
     }
 
+    /**
+     * Sets compare durability.
+     *
+     * @param compareDurability
+     *         the compare durability
+     */
     public void setCompareDurability(int compareDurability) {
         this.compareDurability = compareDurability;
     }
 
+    /**
+     * Is compare enchantments boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareEnchantments() {
         return compareEnchantments;
     }
 
+    /**
+     * Sets compare enchantments.
+     *
+     * @param compareEnchantments
+     *         the compare enchantments
+     */
     public void setCompareEnchantments(boolean compareEnchantments) {
         this.compareEnchantments = compareEnchantments;
     }
 
+    /**
+     * Is compare name boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareName() {
         return compareName;
     }
 
+    /**
+     * Sets compare name.
+     *
+     * @param compareName
+     *         the compare name
+     */
     public void setCompareName(boolean compareName) {
         this.compareName = compareName;
     }
 
+    /**
+     * Is compare lore boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareLore() {
         return compareLore;
     }
 
+    /**
+     * Sets compare lore.
+     *
+     * @param compareLore
+     *         the compare lore
+     */
     public void setCompareLore(boolean compareLore) {
         this.compareLore = compareLore;
     }
 
+    /**
+     * Is compare custom model data boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareCustomModelData() {
         return compareCustomModelData;
     }
 
+    /**
+     * Sets compare custom model data.
+     *
+     * @param compareCustomModelData
+     *         the compare custom model data
+     */
     public void setCompareCustomModelData(boolean compareCustomModelData) {
         this.compareCustomModelData = compareCustomModelData;
     }
 
+    /**
+     * Is compare item flags boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareItemFlags() {
         return compareItemFlags;
     }
 
+    /**
+     * Sets compare item flags.
+     *
+     * @param compareItemFlags
+     *         the compare item flags
+     */
     public void setCompareItemFlags(boolean compareItemFlags) {
         this.compareItemFlags = compareItemFlags;
     }
 
+    /**
+     * Is compare unbreakable boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareUnbreakable() {
         return compareUnbreakable;
     }
 
+    /**
+     * Sets compare unbreakable.
+     *
+     * @param compareUnbreakable
+     *         the compare unbreakable
+     */
     public void setCompareUnbreakable(boolean compareUnbreakable) {
         this.compareUnbreakable = compareUnbreakable;
     }
 
+    /**
+     * Is compare attribute modifier boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareAttributeModifier() {
         return compareAttributeModifier;
     }
 
+    /**
+     * Sets compare attribute modifier.
+     *
+     * @param compareAttributeModifier
+     *         the compare attribute modifier
+     */
     public void setCompareAttributeModifier(boolean compareAttributeModifier) {
         this.compareAttributeModifier = compareAttributeModifier;
     }
 
+    /**
+     * Gets item stack b 64.
+     *
+     * @return the item stack b 64
+     */
     public String getItemStackB64() {
         return itemStackB64;
     }
 
+    /**
+     * Is compare book author boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareBookAuthor() {
         return compareBookAuthor;
     }
 
+    /**
+     * Sets compare book author.
+     *
+     * @param compareBookAuthor
+     *         the compare book author
+     */
     public void setCompareBookAuthor(boolean compareBookAuthor) {
         this.compareBookAuthor = compareBookAuthor;
     }
 
+    /**
+     * Is compare book pages boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCompareBookPages() {
         return compareBookPages;
     }
 
+    /**
+     * Sets compare book pages.
+     *
+     * @param compareBookPages
+     *         the compare book pages
+     */
     public void setCompareBookPages(boolean compareBookPages) {
         this.compareBookPages = compareBookPages;
     }
 
+    /**
+     * Is similar boolean.
+     *
+     * @param toCompare
+     *         the to compare
+     *
+     * @return the boolean
+     */
     public boolean isSimilar(ItemStack toCompare) {
         debugger = new Utils().debugger;
 
@@ -365,17 +538,32 @@ public class ShopItemStack implements Serializable {
         return true;
     }
 
+    /**
+     * Gets item stack.
+     *
+     * @return the item stack
+     */
     public ItemStack getItemStack() {
         if (itemStack == null) { fromBase64(); }
         return itemStack;
     }
 
+    /**
+     * Gets item name.
+     *
+     * @return the item name
+     */
     public String getItemName() {
         return itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName() ?
                itemStack.getItemMeta().getDisplayName() :
                itemStack.getType().toString();
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return new Gson().toJson(this);
     }

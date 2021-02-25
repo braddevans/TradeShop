@@ -32,10 +32,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Bukkit version.
+ */
 public class BukkitVersion {
     private final String VERSION = Bukkit.getBukkitVersion();
     private Map<String, Integer> verMap;
 
+    /**
+     * Instantiates a new Bukkit version.
+     */
     public BukkitVersion() {
         verMap = getVerMap();
     }
@@ -44,22 +50,52 @@ public class BukkitVersion {
         return getMajor() + "." + getMinor() + "." + getPatch();
     }
 
+    /**
+     * Gets full version.
+     *
+     * @return the full version
+     */
     public String getFullVersion() {
         return VERSION;
     }
 
+    /**
+     * Gets major.
+     *
+     * @return the major
+     */
     public int getMajor() {
         return verMap.get("major");
     }
 
+    /**
+     * Gets minor.
+     *
+     * @return the minor
+     */
     public int getMinor() {
         return verMap.get("minor");
     }
 
+    /**
+     * Gets patch.
+     *
+     * @return the patch
+     */
     public int getPatch() {
         return verMap.get("patch");
     }
 
+    /**
+     * Is below boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     *
+     * @return the boolean
+     */
     public boolean isBelow(int major, int minor) {
         if (getMajor() < major) {
             return true;
@@ -71,6 +107,18 @@ public class BukkitVersion {
         return false;
     }
 
+    /**
+     * Is below boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     * @param patch
+     *         the patch
+     *
+     * @return the boolean
+     */
     public boolean isBelow(int major, int minor, int patch) {
         if (getMajor() < major) {
             return true;
@@ -87,6 +135,16 @@ public class BukkitVersion {
         return false;
     }
 
+    /**
+     * Is above boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     *
+     * @return the boolean
+     */
     public boolean isAbove(int major, int minor) {
         if (getMajor() > major) {
             return true;
@@ -98,6 +156,18 @@ public class BukkitVersion {
         return false;
     }
 
+    /**
+     * Is above boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     * @param patch
+     *         the patch
+     *
+     * @return the boolean
+     */
     public boolean isAbove(int major, int minor, int patch) {
         if (getMajor() > major) {
             return true;
@@ -114,14 +184,44 @@ public class BukkitVersion {
         return false;
     }
 
+    /**
+     * Is equal boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     *
+     * @return the boolean
+     */
     public boolean isEqual(int major, int minor) {
         return getMajor() == major && getMinor() == minor;
     }
 
+    /**
+     * Is equal boolean.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     * @param patch
+     *         the patch
+     *
+     * @return the boolean
+     */
     public boolean isEqual(int major, int minor, int patch) {
         return getMajor() == major && getMinor() == minor && getPatch() == getPatch();
     }
 
+    /**
+     * Is int boolean.
+     *
+     * @param str
+     *         the str
+     *
+     * @return the boolean
+     */
     public boolean isInt(String str) {
         try {
             Integer.parseInt(str);
@@ -132,6 +232,11 @@ public class BukkitVersion {
         }
     }
 
+    /**
+     * Gets ver map.
+     *
+     * @return the ver map
+     */
     public Map<String, Integer> getVerMap() {
         Pattern pat = Pattern.compile("(?!\\.)(\\d+(\\.\\d+)+)(?![\\d\\.])");
         Matcher matcher = pat.matcher(VERSION);

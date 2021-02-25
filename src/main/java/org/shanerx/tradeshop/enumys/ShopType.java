@@ -35,12 +35,24 @@ import org.shanerx.tradeshop.TradeShop;
 
 import java.io.Serializable;
 
+/**
+ * The enum Shop type.
+ */
 public enum ShopType implements Serializable {
 
+    /**
+     * Trade shop type.
+     */
     TRADE(Setting.TRADESHOP_HEADER.getString(), Permissions.CREATE),
 
+    /**
+     * Itrade shop type.
+     */
     ITRADE(Setting.ITRADESHOP_HEADER.getString(), Permissions.CREATEI),
 
+    /**
+     * Bitrade shop type.
+     */
     BITRADE(Setting.BITRADESHOP_HEADER.getString(), Permissions.CREATEBI);
 
     private transient static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
@@ -52,10 +64,26 @@ public enum ShopType implements Serializable {
         this.perm = perm;
     }
 
+    /**
+     * Is shop boolean.
+     *
+     * @param s
+     *         the s
+     *
+     * @return the boolean
+     */
     public static boolean isShop(Sign s) {
         return getType(s) != null;
     }
 
+    /**
+     * Is shop boolean.
+     *
+     * @param b
+     *         the b
+     *
+     * @return the boolean
+     */
     public static boolean isShop(Block b) {
         if (b != null && plugin.getSigns().getSignTypes().contains(b.getType())) {
             return getType((Sign) b.getState()) != null;
@@ -64,6 +92,14 @@ public enum ShopType implements Serializable {
         return false;
     }
 
+    /**
+     * Gets type.
+     *
+     * @param s
+     *         the s
+     *
+     * @return the type
+     */
     public static ShopType getType(Sign s) {
         String header = ChatColor.stripColor(s.getLine(0));
 
@@ -82,6 +118,14 @@ public enum ShopType implements Serializable {
         return null;
     }
 
+    /**
+     * Deserialize shop role.
+     *
+     * @param serialized
+     *         the serialized
+     *
+     * @return the shop role
+     */
     public static ShopRole deserialize(String serialized) {
         ShopRole shopRole = new Gson().fromJson(serialized, ShopRole.class);
         return shopRole;
@@ -92,26 +136,59 @@ public enum ShopType implements Serializable {
         return key;
     }
 
+    /**
+     * To header string.
+     *
+     * @return the string
+     */
     public String toHeader() {
         return "[" + key + "]";
     }
 
+    /**
+     * Check perm boolean.
+     *
+     * @param pl
+     *         the pl
+     *
+     * @return the boolean
+     */
     public boolean checkPerm(Player pl) {
         return pl.hasPermission(perm.getPerm());
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return new Gson().toJson(this);
     }
 
+    /**
+     * Is trade boolean.
+     *
+     * @return the boolean
+     */
     public boolean isTrade() {
         return this.equals(TRADE);
     }
 
+    /**
+     * Is i trade boolean.
+     *
+     * @return the boolean
+     */
     public boolean isITrade() {
         return this.equals(ITRADE);
     }
 
+    /**
+     * Is bi trade boolean.
+     *
+     * @return the boolean
+     */
     public boolean isBiTrade() {
         return this.equals(BITRADE);
     }

@@ -73,6 +73,11 @@ public class SuccessfulTradeEvent extends PlayerInteractEvent {
         this.clickedBlock = clickedBlock;
     }
 
+    /**
+     * Gets handler list.
+     *
+     * @return the handler list
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

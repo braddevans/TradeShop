@@ -52,12 +52,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Command runner.
+ */
 public class CommandRunner extends Utils {
 
     private TradeShop plugin;
     private CommandPass command;
     private Player pSender;
 
+    /**
+     * Instantiates a new Command runner.
+     *
+     * @param instance
+     *         the instance
+     * @param command
+     *         the command
+     */
     public CommandRunner(TradeShop instance, CommandPass command) {
         this.plugin = instance;
         this.command = command;
@@ -105,6 +116,12 @@ public class CommandRunner extends Utils {
         sendMessage(colorize(sb.toString()));
     }
 
+    /**
+     * Usage.
+     *
+     * @param subcmd
+     *         the subcmd
+     */
     public void usage(String subcmd) {
         Commands cmd = Commands.getType(subcmd);
         if (cmd == null) {

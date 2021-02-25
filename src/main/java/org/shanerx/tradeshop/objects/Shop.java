@@ -46,6 +46,9 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The type Shop.
+ */
 @SuppressWarnings("unused")
 public class Shop implements Serializable {
 
@@ -66,14 +69,14 @@ public class Shop implements Serializable {
      *
      * @param locations
      *         Location of shop sign and chest as Tuple, left = Sign location, right = inventory location
-     * @param owner
-     *         Owner of the shop as a ShopUser
      * @param shopType
      *         Type of the shop as ShopType
-     * @param items
-     *         Items to go into the shop as Tuple, left = Product, right = Cost
+     * @param owner
+     *         Owner of the shop as a ShopUser
      * @param players
      *         Users to be added to the shop as Tuple, left = Managers, right = Members
+     * @param items
+     *         Items to go into the shop as Tuple, left = Product, right = Cost
      */
     public Shop(Tuple<Location, Location> locations, ShopType shopType, ShopUser owner, Tuple<List<UUID>, List<UUID>> players, Tuple<ItemStack, ItemStack> items) {
         shopLoc = new ShopLocation(locations.getLeft());
@@ -97,10 +100,10 @@ public class Shop implements Serializable {
      *
      * @param locations
      *         Location of shop sign and chest as Tuple, left = Sign location, right = inventory location
-     * @param owner
-     *         Owner of the shop as a ShopUser
      * @param shopType
      *         Type of the shop as ShopType
+     * @param owner
+     *         Owner of the shop as a ShopUser
      */
     public Shop(Tuple<Location, Location> locations, ShopType shopType, ShopUser owner) {
         shopLoc = new ShopLocation(locations.getLeft());
@@ -121,10 +124,10 @@ public class Shop implements Serializable {
      *
      * @param location
      *         Location of shop sign
-     * @param owner
-     *         Owner of the shop as a ShopUser
      * @param shopType
      *         Type of the shop as ShopType
+     * @param owner
+     *         Owner of the shop as a ShopUser
      */
     public Shop(Location location, ShopType shopType, ShopUser owner) {
         shopLoc = new ShopLocation(location);
@@ -801,6 +804,9 @@ public class Shop implements Serializable {
 
     /**
      * Sets the shops status to closed
+     *
+     * @param newStatus
+     *         the new status
      */
     public void setStatus(ShopStatus newStatus) {
         status = newStatus;

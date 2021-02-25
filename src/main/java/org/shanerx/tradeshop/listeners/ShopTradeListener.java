@@ -51,8 +51,17 @@ import org.shanerx.tradeshop.utils.Utils;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * The type Shop trade listener.
+ */
 public class ShopTradeListener extends Utils implements Listener {
 
+    /**
+     * On block interact.
+     *
+     * @param e
+     *         the e
+     */
     @EventHandler(priority = EventPriority.HIGH,
                   ignoreCancelled = true)
     public void onBlockInteract(PlayerInteractEvent e) {

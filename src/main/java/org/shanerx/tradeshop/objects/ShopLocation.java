@@ -31,6 +31,9 @@ import org.bukkit.World;
 
 import java.io.Serializable;
 
+/**
+ * The type Shop location.
+ */
 public class ShopLocation implements Serializable {
 
     final private String div = "::";
@@ -38,6 +41,18 @@ public class ShopLocation implements Serializable {
     private String worldName;
     private double x, y, z;
 
+    /**
+     * Instantiates a new Shop location.
+     *
+     * @param w
+     *         the w
+     * @param x
+     *         the x
+     * @param y
+     *         the y
+     * @param z
+     *         the z
+     */
     public ShopLocation(World w, double x, double y, double z) {
         this.world = w;
         this.worldName = w.getName();
@@ -46,6 +61,12 @@ public class ShopLocation implements Serializable {
         this.z = z;
     }
 
+    /**
+     * Instantiates a new Shop location.
+     *
+     * @param loc
+     *         the loc
+     */
     public ShopLocation(Location loc) {
         this.world = loc.getWorld();
         this.worldName = loc.getWorld().getName();
@@ -54,6 +75,14 @@ public class ShopLocation implements Serializable {
         this.z = loc.getZ();
     }
 
+    /**
+     * Deserialize shop location.
+     *
+     * @param loc
+     *         the loc
+     *
+     * @return the shop location
+     */
     public static ShopLocation deserialize(String loc) {
         if (loc.startsWith("l")) {
             String[] locA = loc.contains("::") ? loc.split("::") : loc.split("_"); //Keep same as div
@@ -67,36 +96,74 @@ public class ShopLocation implements Serializable {
         return null;
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return "l" + div + world.getName() + div + x + div + y + div + z;
     }
 
+    /**
+     * Gets world.
+     *
+     * @return the world
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Gets world name.
+     *
+     * @return the world name
+     */
     public String getWorldName() {
         return worldName;
     }
 
+    /**
+     * String to world.
+     */
     public void stringToWorld() {
         if (worldName != null && world == null) {
             world = Bukkit.getWorld(worldName);
         }
     }
 
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * Gets y.
+     *
+     * @return the y
+     */
     public double getY() {
         return y;
     }
 
+    /**
+     * Gets z.
+     *
+     * @return the z
+     */
     public double getZ() {
         return z;
     }
 
+    /**
+     * Gets location.
+     *
+     * @return the location
+     */
     public Location getLocation() {
         return new Location(world, x, y, z);
     }

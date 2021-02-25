@@ -40,12 +40,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Command tab completer.
+ */
 public class CommandTabCompleter extends Utils {
 
     private final TradeShop plugin;
     private final CommandPass command;
     private Player pSender;
 
+    /**
+     * Instantiates a new Command tab completer.
+     *
+     * @param instance
+     *         the instance
+     * @param command
+     *         the command
+     */
     public CommandTabCompleter(TradeShop instance, CommandPass command) {
         this.plugin = instance;
         this.command = command;
@@ -55,6 +66,11 @@ public class CommandTabCompleter extends Utils {
         }
     }
 
+    /**
+     * Help list.
+     *
+     * @return the list
+     */
     public List<String> help() {
         if (command.argsSize() == 2) {
             List<String> subCmds = new ArrayList<>();
@@ -68,6 +84,11 @@ public class CommandTabCompleter extends Utils {
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     * Add set list.
+     *
+     * @return the list
+     */
     public List<String> addSet() {
         if (command.argsSize() == 2) {
             return Arrays.asList("1", "2", "4", "8", "16", "32", "64", "80", "96", "128");
@@ -78,6 +99,11 @@ public class CommandTabCompleter extends Utils {
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     * Fill server player list.
+     *
+     * @return the list
+     */
     public List<String> fillServerPlayer() {
         if (command.argsSize() == 2) {
             return null;
@@ -86,6 +112,11 @@ public class CommandTabCompleter extends Utils {
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     * Fill shop player list.
+     *
+     * @return the list
+     */
     public List<String> fillShopPlayer() {
         if (command.argsSize() == 2) {
             Block b = pSender.getTargetBlock(null, Setting.MAX_EDIT_DISTANCE.getInt());

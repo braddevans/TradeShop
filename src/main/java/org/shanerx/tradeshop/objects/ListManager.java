@@ -36,6 +36,9 @@ import org.shanerx.tradeshop.utils.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The type List manager.
+ */
 @SuppressWarnings("unused")
 public class ListManager extends Utils {
 
@@ -45,35 +48,82 @@ public class ListManager extends Utils {
     private ArrayList<String> gameMats = new ArrayList<>();
     private ArrayList<String> addOnMats = new ArrayList<>();
 
+    /**
+     * Instantiates a new List manager.
+     */
     public ListManager() {
         reload();
         setGameMatList();
     }
 
+    /**
+     * Gets directions.
+     *
+     * @return the directions
+     */
     public ArrayList<BlockFace> getDirections() {
         return directions;
     }
 
+    /**
+     * Gets inventories.
+     *
+     * @return the inventories
+     */
     public ArrayList<ShopStorage.Storages> getInventories() {
         return inventories;
     }
 
+    /**
+     * Gets blacklist.
+     *
+     * @return the blacklist
+     */
     public ArrayList<Material> getBlacklist() {
         return blacklist;
     }
 
+    /**
+     * Gets game mats.
+     *
+     * @return the game mats
+     */
     public ArrayList<String> getGameMats() {
         return gameMats;
     }
 
+    /**
+     * Is blacklisted boolean.
+     *
+     * @param mat
+     *         the mat
+     *
+     * @return the boolean
+     */
     public boolean isBlacklisted(Material mat) {
         return blacklist.contains(mat);
     }
 
+    /**
+     * Is direction boolean.
+     *
+     * @param face
+     *         the face
+     *
+     * @return the boolean
+     */
     public boolean isDirection(BlockFace face) {
         return directions.contains(face);
     }
 
+    /**
+     * Is inventory boolean.
+     *
+     * @param block
+     *         the block
+     *
+     * @return the boolean
+     */
     public boolean isInventory(Block block) {
         //Get blocks Material and strip all non-alpha chars
         Material blockMaterial = block.getType();
@@ -93,6 +143,9 @@ public class ListManager extends Utils {
         return found;
     }
 
+    /**
+     * Reload.
+     */
     public void reload() {
         //Reloads any lists that need reloading
         updateBlacklist();
@@ -101,6 +154,9 @@ public class ListManager extends Utils {
         setGameMatList();
     }
 
+    /**
+     * Clear manager.
+     */
     public void clearManager() {
         // Clears all lists, Only use if plugin is shutting down
         inventories.clear();

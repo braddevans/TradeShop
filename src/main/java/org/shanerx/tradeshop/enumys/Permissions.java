@@ -29,22 +29,49 @@ import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 import org.shanerx.tradeshop.TradeShop;
 
+/**
+ * The enum Permissions.
+ */
 public enum Permissions {
 
+    /**
+     * Help permissions.
+     */
     HELP("help"),
 
+    /**
+     * Create permissions.
+     */
     CREATE("create"),
 
+    /**
+     * Createi permissions.
+     */
     CREATEI("create.infinite"),
 
+    /**
+     * Createbi permissions.
+     */
     CREATEBI("create.bi"),
 
+    /**
+     * Admin permissions.
+     */
     ADMIN("admin"),
 
+    /**
+     * Edit permissions.
+     */
     EDIT("edit"), // non admin perm
 
+    /**
+     * Info permissions.
+     */
     INFO("info"),
 
+    /**
+     * None permissions.
+     */
     NONE("");
 
     private final static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
@@ -59,10 +86,20 @@ public enum Permissions {
         return "tradeshop." + key;
     }
 
+    /**
+     * Gets value.
+     *
+     * @return the value
+     */
     public String getValue() {
         return this.toString();
     }
 
+    /**
+     * Gets perm.
+     *
+     * @return the perm
+     */
     public Permission getPerm() {
         return new Permission(toString());
     }

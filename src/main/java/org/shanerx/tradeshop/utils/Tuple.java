@@ -28,6 +28,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ * The type Tuple.
+ *
+ * @param <L>
+ *         the type parameter
+ * @param <R>
+ *         the type parameter
+ */
 public class Tuple<L, R> implements Serializable {
 
     @SerializedName("right")
@@ -35,27 +43,59 @@ public class Tuple<L, R> implements Serializable {
     @SerializedName("left")
     private L l;
 
+    /**
+     * Instantiates a new Tuple.
+     */
     public Tuple() {
     }
 
+    /**
+     * Instantiates a new Tuple.
+     *
+     * @param l
+     *         the l
+     * @param r
+     *         the r
+     */
     public Tuple(L l, R r) {
         this.r = r;
         this.l = l;
     }
 
+    /**
+     * Instantiates a new Tuple.
+     *
+     * @param t
+     *         the t
+     */
     public Tuple(Tuple<? extends L, ? extends R> t) {
         this.r = t.r;
         this.l = t.l;
     }
 
+    /**
+     * Gets right.
+     *
+     * @return the right
+     */
     public R getRight() {
         return r;
     }
 
+    /**
+     * Gets left.
+     *
+     * @return the left
+     */
     public L getLeft() {
         return l;
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return new Gson().toJson(this);
     }

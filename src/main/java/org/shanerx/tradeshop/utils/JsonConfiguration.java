@@ -39,6 +39,9 @@ import org.shanerx.tradeshop.objects.ShopLocation;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The type Json configuration.
+ */
 public class JsonConfiguration extends Utils implements Serializable {
     private final String pluginFolder;
     private final String path;
@@ -48,6 +51,12 @@ public class JsonConfiguration extends Utils implements Serializable {
     private File file;
     private JsonObject jsonObj;
 
+    /**
+     * Instantiates a new Json configuration.
+     *
+     * @param c
+     *         the c
+     */
     public JsonConfiguration(Chunk c) {
         gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
         configType = 0;
@@ -83,6 +92,12 @@ public class JsonConfiguration extends Utils implements Serializable {
         }
     }
 
+    /**
+     * Instantiates a new Json configuration.
+     *
+     * @param uuid
+     *         the uuid
+     */
     public JsonConfiguration(UUID uuid) {
         gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().serializeNulls().create();
         configType = 1;
@@ -139,6 +154,12 @@ public class JsonConfiguration extends Utils implements Serializable {
         loadContents();
     }
 
+    /**
+     * Save player.
+     *
+     * @param data
+     *         the data
+     */
     public void savePlayer(Map<String, Integer> data) {
         if (configType != 1) { return; }
 
@@ -148,12 +169,20 @@ public class JsonConfiguration extends Utils implements Serializable {
         saveContents(gson.toJson(jsonObj));
     }
 
+    /**
+     * Remove player.
+     */
     public void removePlayer() {
         if (configType != 1) { return; }
 
         file.delete();
     }
 
+    /**
+     * Load player map.
+     *
+     * @return the map
+     */
     public Map<String, Integer> loadPlayer() {
         if (configType != 1) { return null; }
 
@@ -171,6 +200,12 @@ public class JsonConfiguration extends Utils implements Serializable {
         return data;
     }
 
+    /**
+     * Save shop.
+     *
+     * @param shop
+     *         the shop
+     */
     public void saveShop(Shop shop) {
         if (configType != 0) { return; }
 
@@ -179,6 +214,12 @@ public class JsonConfiguration extends Utils implements Serializable {
         saveContents(gson.toJson(jsonObj));
     }
 
+    /**
+     * Remove shop.
+     *
+     * @param loc
+     *         the loc
+     */
     public void removeShop(ShopLocation loc) {
         if (configType != 0) { return; }
 
@@ -189,6 +230,14 @@ public class JsonConfiguration extends Utils implements Serializable {
         saveContents(gson.toJson(jsonObj));
     }
 
+    /**
+     * Load shop shop.
+     *
+     * @param loc
+     *         the loc
+     *
+     * @return the shop
+     */
     public Shop loadShop(ShopLocation loc) {
         if (configType != 0) { return null; }
 
@@ -234,6 +283,11 @@ public class JsonConfiguration extends Utils implements Serializable {
         return shop;
     }
 
+    /**
+     * Gets shop count.
+     *
+     * @return the shop count
+     */
     public int getShopCount() {
         return jsonObj.size();
     }

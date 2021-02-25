@@ -47,9 +47,18 @@ import org.shanerx.tradeshop.utils.JsonConfiguration;
 import org.shanerx.tradeshop.utils.Tuple;
 import org.shanerx.tradeshop.utils.Utils;
 
+/**
+ * The type Shop create listener.
+ */
 @SuppressWarnings("unused")
 public class ShopCreateListener extends Utils implements Listener {
 
+    /**
+     * On sign change.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.NORMAL,
                   ignoreCancelled = true)
     public void onSignChange(SignChangeEvent event) {

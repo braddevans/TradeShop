@@ -42,14 +42,29 @@ import org.shanerx.tradeshop.utils.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Join event listener.
+ */
 public class JoinEventListener extends Utils implements Listener {
 
     private TradeShop plugin;
 
+    /**
+     * Instantiates a new Join event listener.
+     *
+     * @param instance
+     *         the instance
+     */
     public JoinEventListener(TradeShop instance) {
         plugin = instance;
     }
 
+    /**
+     * On join.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent event) {
 

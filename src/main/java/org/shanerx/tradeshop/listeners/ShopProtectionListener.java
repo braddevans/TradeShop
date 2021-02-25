@@ -56,14 +56,29 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The type Shop protection listener.
+ */
 public class ShopProtectionListener extends Utils implements Listener {
 
     private final TradeShop plugin;
 
+    /**
+     * Instantiates a new Shop protection listener.
+     *
+     * @param instance
+     *         the instance
+     */
     public ShopProtectionListener(TradeShop instance) {
         plugin = instance;
     }
 
+    /**
+     * On inventory move item.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.HIGH,
                   ignoreCancelled = true)
     public void onInventoryMoveItem(InventoryMoveItemEvent event) {
@@ -105,6 +120,12 @@ public class ShopProtectionListener extends Utils implements Listener {
         } // Fix for random NPE triggering from this event that shows no stack trace
     }
 
+    /**
+     * On entity explode item.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.HIGHEST,
                   ignoreCancelled = true)
     public void onEntityExplodeItem(EntityExplodeEvent event) {
@@ -157,6 +178,12 @@ public class ShopProtectionListener extends Utils implements Listener {
         event.blockList().removeAll(toRemove);
     }
 
+    /**
+     * On block break.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.HIGHEST,
                   ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
@@ -217,6 +244,12 @@ public class ShopProtectionListener extends Utils implements Listener {
         }
     }
 
+    /**
+     * On chest open.
+     *
+     * @param e
+     *         the e
+     */
     @EventHandler(priority = EventPriority.HIGH,
                   ignoreCancelled = true)
     public void onChestOpen(PlayerInteractEvent e) {
@@ -247,6 +280,12 @@ public class ShopProtectionListener extends Utils implements Listener {
         }
     }
 
+    /**
+     * On block place.
+     *
+     * @param event
+     *         the event
+     */
     @EventHandler(priority = EventPriority.HIGH,
                   ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {

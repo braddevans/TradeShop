@@ -58,17 +58,37 @@ import java.util.logging.Level;
  */
 public class Utils {
 
+    /**
+     * The Prefix.
+     */
     protected final String PREFIX = "&a[&eTradeShop&a] ";
     private final UUID KOPUUID = UUID.fromString("daf79be7-bc1d-47d3-9896-f97b8d4cea7d");
     private final UUID LORIUUID = UUID.fromString("e296bc43-2972-4111-9843-48fc32302fd4");
+    /**
+     * The Debugger.
+     */
     public Debug debugger;
+    /**
+     * The Plugin.
+     */
     protected TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
+    /**
+     * The Pdf.
+     */
     protected PluginDescriptionFile pdf = plugin.getDescription();
 
+    /**
+     * Instantiates a new Utils.
+     */
     public Utils() {
         debugger = plugin.getDebugger();
     }
 
+    /**
+     * Get makers uuid [ ].
+     *
+     * @return the uuid [ ]
+     */
     public UUID[] getMakers() {
         return new UUID[]{KOPUUID, LORIUUID};
     }
@@ -379,6 +399,12 @@ public class Utils {
         return findShopChest(sign) != null;
     }
 
+    /**
+     * Log.
+     *
+     * @param text
+     *         the text
+     */
     public void log(String text) {
         Bukkit.getLogger().log(Level.INFO, text);
     }
@@ -514,7 +540,19 @@ public class Utils {
         return ExchangeStatus.SUCCESS; //Successfully completed trade
     }
 
-    //Returns an arraylist of the itemstacks to be removed/added, if it could not get enough of an item, will return index 0 as null and index 1 as item it could not get enough of
+    /**
+     * Gets items.
+     *
+     * @param inventory
+     *         the inventory
+     * @param items
+     *         the items
+     * @param multiplier
+     *         the multiplier
+     *
+     * @return the items
+     */
+//Returns an arraylist of the itemstacks to be removed/added, if it could not get enough of an item, will return index 0 as null and index 1 as item it could not get enough of
     public ArrayList<ItemStack> getItems(Inventory inventory, List<ShopItemStack> items, int multiplier) {
         Inventory clone = Bukkit.createInventory(null, inventory.getStorageContents().length);
         clone.setContents(inventory.getStorageContents());
@@ -594,6 +632,16 @@ public class Utils {
         return ret;
     }
 
+    /**
+     * Compare shulkers boolean.
+     *
+     * @param item1
+     *         the item 1
+     * @param item2
+     *         the item 2
+     *
+     * @return the boolean
+     */
     public boolean compareShulkers(ItemStack item1, ItemStack item2) {
 
         if (item1 == null || item2 == null) { return false; }

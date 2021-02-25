@@ -34,6 +34,9 @@ import org.shanerx.tradeshop.enumys.ShopRole;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * The type Shop user.
+ */
 @SuppressWarnings("unused")
 public class ShopUser implements Serializable {
 
@@ -42,39 +45,83 @@ public class ShopUser implements Serializable {
     private String playerUUID;
     private ShopRole role;
 
+    /**
+     * Instantiates a new Shop user.
+     *
+     * @param player
+     *         the player
+     * @param role
+     *         the role
+     */
     public ShopUser(OfflinePlayer player, ShopRole role) {
         this.player = player;
         playerUUID = player.getUniqueId().toString();
         this.role = role;
     }
 
+    /**
+     * Instantiates a new Shop user.
+     *
+     * @param pUUID
+     *         the p uuid
+     * @param role
+     *         the role
+     */
     public ShopUser(UUID pUUID, ShopRole role) {
         this.player = Bukkit.getOfflinePlayer(pUUID);
         playerUUID = player.getUniqueId().toString();
         this.role = role;
     }
 
+    /**
+     * Deserialize shop user.
+     *
+     * @param serialized
+     *         the serialized
+     *
+     * @return the shop user
+     */
     public static ShopUser deserialize(String serialized) {
         ShopUser shopUser = new Gson().fromJson(serialized, ShopUser.class);
         shopUser.player = Bukkit.getOfflinePlayer(UUID.fromString(shopUser.playerUUID));
         return shopUser;
     }
 
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public OfflinePlayer getPlayer() {
         fix();
         return player;
     }
 
+    /**
+     * Gets uuid.
+     *
+     * @return the uuid
+     */
     public UUID getUUID() {
         fix();
         return player.getUniqueId();
     }
 
+    /**
+     * Gets role.
+     *
+     * @return the role
+     */
     public ShopRole getRole() {
         fix();
         return role;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         fix();
         return getPlayer().getName();
@@ -86,6 +133,11 @@ public class ShopUser implements Serializable {
         }
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return new Gson().toJson(this);
     }

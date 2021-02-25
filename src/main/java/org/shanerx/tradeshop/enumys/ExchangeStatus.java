@@ -25,12 +25,33 @@
 
 package org.shanerx.tradeshop.enumys;
 
+/**
+ * The enum Exchange status.
+ */
 //Enum for return from space checks
 public enum ExchangeStatus {
+    /**
+     * Player no cost exchange status.
+     */
     PLAYER_NO_COST,
+    /**
+     * Player no space exchange status.
+     */
     PLAYER_NO_SPACE,
+    /**
+     * Success exchange status.
+     */
     SUCCESS,
+    /**
+     * Shop no product exchange status.
+     */
     SHOP_NO_PRODUCT,
+    /**
+     * Shop no space exchange status.
+     */
     SHOP_NO_SPACE,
+    /**
+     * Not trade exchange status.
+     */
     NOT_TRADE
 }

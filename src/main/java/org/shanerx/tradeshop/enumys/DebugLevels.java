@@ -27,20 +27,50 @@ package org.shanerx.tradeshop.enumys;
 
 import java.util.logging.Level;
 
+/**
+ * The enum Debug levels.
+ */
 public enum DebugLevels {
 
+    /**
+     * Disabled debug levels.
+     */
     DISABLED(0, Level.INFO),
+    /**
+     * List manager debug levels.
+     */
     LIST_MANAGER(1, Level.WARNING),
+    /**
+     * Startup debug levels.
+     */
     STARTUP(2, Level.INFO),
+    /**
+     * Protection debug levels.
+     */
     PROTECTION(3, Level.WARNING),
+    /**
+     * Trade debug levels.
+     */
     TRADE(4, Level.WARNING),
+    /**
+     * Inventory close npe debug levels.
+     */
     INVENTORY_CLOSE_NPE(5, Level.WARNING),
+    /**
+     * Item compare debug levels.
+     */
     ITEM_COMPARE(6, Level.WARNING);
 
     private static int max = 0;
-    //position is what value to check for this level in the binary string -1.
+    /**
+     * The Position.
+     */
+//position is what value to check for this level in the binary string -1.
     //
     int position;
+    /**
+     * The Log level.
+     */
     Level logLevel;
 
     DebugLevels(int position, Level logLevel) {
@@ -48,10 +78,20 @@ public enum DebugLevels {
         this.logLevel = logLevel;
     }
 
+    /**
+     * Levels int.
+     *
+     * @return the int
+     */
     public static int levels() {
         return values().length - 1 > 32 ? 32 : values().length - 1;
     }
 
+    /**
+     * Max value int.
+     *
+     * @return the int
+     */
     public static int maxValue() {
         if (max <= 1) {
             for (DebugLevels lvl : values()) {
@@ -62,14 +102,29 @@ public enum DebugLevels {
         return max;
     }
 
+    /**
+     * Gets position.
+     *
+     * @return the position
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Gets log level.
+     *
+     * @return the log level
+     */
     public Level getLogLevel() {
         return logLevel;
     }
 
+    /**
+     * Gets prefix.
+     *
+     * @return the prefix
+     */
     public String getPrefix() {
         return " - " + name();
     }

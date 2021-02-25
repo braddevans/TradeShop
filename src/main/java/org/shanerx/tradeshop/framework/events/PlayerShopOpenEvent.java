@@ -43,6 +43,11 @@ public class PlayerShopOpenEvent extends PlayerEvent implements Cancellable {
         return shop;
     }
 
+    /**
+     * Gets buyer.
+     *
+     * @return the buyer
+     */
     public Player getBuyer() {
         return super.getPlayer();
     }

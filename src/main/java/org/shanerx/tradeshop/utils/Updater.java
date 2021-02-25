@@ -35,6 +35,9 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The type Updater.
+ */
 public class Updater {
 
     private static Logger log;
@@ -42,6 +45,12 @@ public class Updater {
     private BuildType build;
     private URL url = null;
 
+    /**
+     * Instantiates a new Updater.
+     *
+     * @param pdf
+     *         the pdf
+     */
     public Updater(PluginDescriptionFile pdf) {
         this.pdf = pdf;
 
@@ -55,18 +64,42 @@ public class Updater {
         }
     }
 
+    /**
+     * Sets logger.
+     *
+     * @param log
+     *         the log
+     */
     public static void setLogger(Logger log) {
         Updater.log = log;
     }
 
+    /**
+     * Gets version.
+     *
+     * @return the version
+     */
     public String getVersion() {
         return pdf.getVersion();
     }
 
+    /**
+     * Gets naked version.
+     *
+     * @return the naked version
+     */
     public String getNakedVersion() {
         return getVersion();
     }
 
+    /**
+     * Gets version component.
+     *
+     * @param semver
+     *         the semver
+     *
+     * @return the version component
+     */
     public String getVersionComponent(SemVer semver) {
         String[] ver = getNakedVersion().split("\\.");
         switch (semver) {
@@ -81,10 +114,20 @@ public class Updater {
         }
     }
 
+    /**
+     * Gets build type.
+     *
+     * @return the build type
+     */
     public BuildType getBuildType() {
         return build;
     }
 
+    /**
+     * Check current version relational status.
+     *
+     * @return the relational status
+     */
     public RelationalStatus checkCurrentVersion() {
         try {
 
@@ -135,6 +178,18 @@ public class Updater {
         return RelationalStatus.UNKNOWN;
     }
 
+    /**
+     * Compare versions relational status.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     * @param patch
+     *         the patch
+     *
+     * @return the relational status
+     */
     public RelationalStatus compareVersions(final String major, final String minor, final String patch) {
         try {
             return compareVersions(Short.parseShort(major), Short.parseShort(minor), Short.parseShort(patch));
@@ -144,6 +199,18 @@ public class Updater {
         }
     }
 
+    /**
+     * Compare versions relational status.
+     *
+     * @param major
+     *         the major
+     * @param minor
+     *         the minor
+     * @param patch
+     *         the patch
+     *
+     * @return the relational status
+     */
     public RelationalStatus compareVersions(final short major, final short minor, final short patch) {
         try {
             short selfMajor = Short.parseShort(getVersionComponent(SemVer.MAJOR));
@@ -178,28 +245,76 @@ public class Updater {
         }
     }
 
+    /**
+     * The enum Build type.
+     */
     public enum BuildType {
 
+        /**
+         * Dev build type.
+         */
         DEV,
+        /**
+         * Test build type.
+         */
         TEST,
+        /**
+         * Beta build type.
+         */
         BETA,
+        /**
+         * Stable build type.
+         */
         STABLE,
+        /**
+         * Final build type.
+         */
         FINAL
     }
 
+    /**
+     * The enum Sem ver.
+     */
     public enum SemVer {
 
+        /**
+         * Major sem ver.
+         */
         MAJOR,
+        /**
+         * Minor sem ver.
+         */
         MINOR,
+        /**
+         * Patch sem ver.
+         */
         PATCH,
+        /**
+         * Build type sem ver.
+         */
         BUILD_TYPE
     }
 
+    /**
+     * The enum Relational status.
+     */
     public enum RelationalStatus {
 
+        /**
+         * Ahead relational status.
+         */
         AHEAD,
+        /**
+         * Up to date relational status.
+         */
         UP_TO_DATE,
+        /**
+         * Behind relational status.
+         */
         BEHIND,
+        /**
+         * Unknown relational status.
+         */
         UNKNOWN
     }
 }

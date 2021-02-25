@@ -43,6 +43,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The type Shop chest.
+ */
 public class ShopChest extends Utils {
 
     private final transient static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
@@ -53,6 +56,12 @@ public class ShopChest extends Utils {
     private Block chest;
     private UUID owner;
 
+    /**
+     * Instantiates a new Shop chest.
+     *
+     * @param chestLoc
+     *         the chest loc
+     */
     public ShopChest(Location chestLoc) {
         this.loc = chestLoc;
 
@@ -60,6 +69,16 @@ public class ShopChest extends Utils {
         loadFromName();
     }
 
+    /**
+     * Instantiates a new Shop chest.
+     *
+     * @param chest
+     *         the chest
+     * @param owner
+     *         the owner
+     * @param sign
+     *         the sign
+     */
     public ShopChest(Block chest, UUID owner, Location sign) {
         this.loc = chest.getLocation();
         this.owner = owner;
@@ -67,6 +86,14 @@ public class ShopChest extends Utils {
         this.chest = chest;
     }
 
+    /**
+     * Is shop chest boolean.
+     *
+     * @param checking
+     *         the checking
+     *
+     * @return the boolean
+     */
     public static boolean isShopChest(Block checking) {
         plugin.getDebugger().log("isShopChest checking Block at " + new ShopLocation(checking.getLocation()).serialize() + "", DebugLevels.PROTECTION);
         try {
@@ -92,6 +119,14 @@ public class ShopChest extends Utils {
         return false;
     }
 
+    /**
+     * Is shop chest boolean.
+     *
+     * @param checking
+     *         the checking
+     *
+     * @return the boolean
+     */
     public static boolean isShopChest(Inventory checking) {
         try {
             return isShopChest(checking.getLocation().getBlock());
@@ -101,6 +136,12 @@ public class ShopChest extends Utils {
         return false;
     }
 
+    /**
+     * Reset old name.
+     *
+     * @param checking
+     *         the checking
+     */
     public static void resetOldName(Block checking) {
         if (checking != null) {
             BlockState bs = checking.getState();
@@ -129,6 +170,14 @@ public class ShopChest extends Utils {
         }
     }
 
+    /**
+     * Gets double chest.
+     *
+     * @param chest
+     *         the chest
+     *
+     * @return the double chest
+     */
     public static DoubleChest getDoubleChest(Block chest) {
         try {
             return (DoubleChest) ((Chest) chest.getState()).getInventory().getHolder();
@@ -138,6 +187,14 @@ public class ShopChest extends Utils {
         }
     }
 
+    /**
+     * Is double chest boolean.
+     *
+     * @param chest
+     *         the chest
+     *
+     * @return the boolean
+     */
     public static boolean isDoubleChest(Block chest) {
         return getDoubleChest(chest) != null;
     }
@@ -161,10 +218,20 @@ public class ShopChest extends Utils {
         }
     }
 
+    /**
+     * Gets block state.
+     *
+     * @return the block state
+     */
     public BlockState getBlockState() {
         return chest.getState();
     }
 
+    /**
+     * Gets inventory.
+     *
+     * @return the inventory
+     */
     public Inventory getInventory() {
         try {
             return ((InventoryHolder) chest.getState()).getInventory();
@@ -175,10 +242,21 @@ public class ShopChest extends Utils {
         return null;
     }
 
+    /**
+     * Has stock boolean.
+     *
+     * @param product
+     *         the product
+     *
+     * @return the boolean
+     */
     public boolean hasStock(List<ShopItemStack> product) {
         return product.size() > 0 && getItems(getInventory(), product, 1).get(0) != null;
     }
 
+    /**
+     * Load from name.
+     */
     public void loadFromName() {
         if (isShopChest(chest)) {
             String[] name = ((Container) chest.getState()).getPersistentDataContainer().get(plugin.getSignKey(), PersistentDataType.STRING)
@@ -194,6 +272,11 @@ public class ShopChest extends Utils {
         }
     }
 
+    /**
+     * Is empty boolean.
+     *
+     * @return the boolean
+     */
     public boolean isEmpty() {
         Inventory inv = getInventory();
         if (inv == null) {
@@ -209,6 +292,11 @@ public class ShopChest extends Utils {
         return true;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         StringBuilder sb = new StringBuilder();
         sb.append("$ ^Sign");
@@ -221,16 +309,28 @@ public class ShopChest extends Utils {
         return sb.toString();
     }
 
+    /**
+     * Sets name.
+     *
+     * @param toSet
+     *         the to set
+     */
     public void setName(Block toSet) {
         Container container = (Container) chest.getState();
         container.getPersistentDataContainer().set(plugin.getSignKey(), PersistentDataType.STRING, getName());
         container.update();
     }
 
+    /**
+     * Sets name.
+     */
     public void setName() {
         setName(chest);
     }
 
+    /**
+     * Reset name.
+     */
     public void resetName() {
         if (isShopChest(chest)) {
             Container container = (Container) chest.getState();
@@ -240,38 +340,86 @@ public class ShopChest extends Utils {
         }
     }
 
+    /**
+     * Sets event name.
+     *
+     * @param event
+     *         the event
+     */
     public void setEventName(BlockPlaceEvent event) {
         setName(event.getBlockPlaced());
     }
 
+    /**
+     * Sets sign.
+     *
+     * @param newSign
+     *         the new sign
+     */
     public void setSign(ShopLocation newSign) {
         shopSign = newSign;
     }
 
+    /**
+     * Gets owner.
+     *
+     * @return the owner
+     */
     public UUID getOwner() {
         return owner;
     }
 
+    /**
+     * Sets owner.
+     *
+     * @param uuid
+     *         the uuid
+     */
     public void setOwner(UUID uuid) {
         owner = uuid;
     }
 
+    /**
+     * Gets chest.
+     *
+     * @return the chest
+     */
     public Block getChest() {
         return chest;
     }
 
+    /**
+     * Gets shop sign.
+     *
+     * @return the shop sign
+     */
     public ShopLocation getShopSign() {
         return shopSign;
     }
 
+    /**
+     * Has owner boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasOwner() {
         return owner != null;
     }
 
+    /**
+     * Has shop sign boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasShopSign() {
         return shopSign != null;
     }
 
+    /**
+     * Gets shop.
+     *
+     * @return the shop
+     */
     public Shop getShop() {
         if (hasShopSign()) {
             return Shop.loadShop(getShopSign());

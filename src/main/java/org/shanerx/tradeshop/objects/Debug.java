@@ -31,16 +31,25 @@ import org.shanerx.tradeshop.enumys.Setting;
 
 import java.util.logging.Level;
 
+/**
+ * The type Debug.
+ */
 public class Debug {
 
     private final String PREFIX = "[TradeShop Debug%level%] ";
     private int decimalDebugLevel;
     private String binaryDebugLevel;
 
+    /**
+     * Instantiates a new Debug.
+     */
     public Debug() {
         reload();
     }
 
+    /**
+     * Reload.
+     */
     public void reload() {
         decimalDebugLevel = Setting.ENABLE_DEBUG.getInt();
         if (decimalDebugLevel < 0) {
@@ -58,6 +67,14 @@ public class Debug {
         }
     }
 
+    /**
+     * Log.
+     *
+     * @param message
+     *         the message
+     * @param level
+     *         the level
+     */
     public void log(String message, DebugLevels level) {
         if (level.getPosition() - 1 != - 1 && binaryDebugLevel.charAt(level.getPosition() - 1) == '1') {
             Bukkit.getLogger().log(level.getLogLevel(), PREFIX.replace("%level%", level.getPrefix()) + message);

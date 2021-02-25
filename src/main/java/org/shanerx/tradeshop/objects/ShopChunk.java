@@ -31,6 +31,9 @@ import org.bukkit.World;
 
 import java.io.Serializable;
 
+/**
+ * The type Shop chunk.
+ */
 public class ShopChunk implements Serializable {
 
     final private String div = ";;";
@@ -39,6 +42,16 @@ public class ShopChunk implements Serializable {
     private final int z;
     private final Chunk chunk;
 
+    /**
+     * Instantiates a new Shop chunk.
+     *
+     * @param w
+     *         the w
+     * @param x
+     *         the x
+     * @param z
+     *         the z
+     */
     public ShopChunk(World w, int x, int z) {
         this.world = w;
         this.x = x;
@@ -46,6 +59,12 @@ public class ShopChunk implements Serializable {
         chunk = world.getChunkAt(x, z);
     }
 
+    /**
+     * Instantiates a new Shop chunk.
+     *
+     * @param c
+     *         the c
+     */
     public ShopChunk(Chunk c) {
         this.world = c.getWorld();
         this.x = c.getX();
@@ -53,6 +72,14 @@ public class ShopChunk implements Serializable {
         chunk = c;
     }
 
+    /**
+     * Deserialize chunk.
+     *
+     * @param loc
+     *         the loc
+     *
+     * @return the chunk
+     */
     public static Chunk deserialize(String loc) {
         if (loc.startsWith("c")) {
             String[] locA = loc.contains(";;") ? loc.split(";;") : loc.split("_"); //Keep same as div
@@ -66,22 +93,47 @@ public class ShopChunk implements Serializable {
         return null;
     }
 
+    /**
+     * Serialize string.
+     *
+     * @return the string
+     */
     public String serialize() {
         return "c" + div + world.getName() + div + x + div + z;
     }
 
+    /**
+     * Gets world.
+     *
+     * @return the world
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Gets z.
+     *
+     * @return the z
+     */
     public int getZ() {
         return z;
     }
 
+    /**
+     * Gets chunk.
+     *
+     * @return the chunk
+     */
     public Chunk getChunk() {
         return chunk;
     }

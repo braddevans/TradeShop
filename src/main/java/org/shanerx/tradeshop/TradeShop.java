@@ -40,6 +40,9 @@ import org.shanerx.tradeshop.objects.ListManager;
 import org.shanerx.tradeshop.utils.BukkitVersion;
 import org.shanerx.tradeshop.utils.Updater;
 
+/**
+ * The type Trade shop.
+ */
 public class TradeShop extends JavaPlugin {
 
     private final NamespacedKey storageKey = new NamespacedKey(this, "tradeshop-storage-data");
@@ -83,34 +86,74 @@ public class TradeShop extends JavaPlugin {
 
     }
 
+    /**
+     * Gets storage key.
+     *
+     * @return the storage key
+     */
     public NamespacedKey getStorageKey() {
         return storageKey;
     }
 
+    /**
+     * Gets sign key.
+     *
+     * @return the sign key
+     */
     public NamespacedKey getSignKey() {
         return signKey;
     }
 
+    /**
+     * Gets list manager.
+     *
+     * @return the list manager
+     */
     public ListManager getListManager() {
         return lists;
     }
 
+    /**
+     * Gets version.
+     *
+     * @return the version
+     */
     public BukkitVersion getVersion() {
         return version;
     }
 
+    /**
+     * Gets signs.
+     *
+     * @return the signs
+     */
     public ShopSign getSigns() {
         return signs;
     }
 
+    /**
+     * Gets storages.
+     *
+     * @return the storages
+     */
     public ShopStorage getStorages() {
         return storages;
     }
 
+    /**
+     * Gets updater.
+     *
+     * @return the updater
+     */
     public Updater getUpdater() {
         return new Updater(getDescription());
     }
 
+    /**
+     * Gets debugger.
+     *
+     * @return the debugger
+     */
     public Debug getDebugger() {
         return debugger;
     }

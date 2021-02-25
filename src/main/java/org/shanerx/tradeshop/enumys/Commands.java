@@ -35,30 +35,92 @@ import java.util.List;
  * required permissions, minimum and maximum
  * arguments, and whether or not command must be
  * run by a player
- **/
-
+ */
 public enum Commands {
 
+    /**
+     * The Help.
+     */
     HELP(Lists.newArrayList("help", "?"), Permissions.HELP, 1, 2, false, "Display help message", "/tradeshop $cmd$ [command]"),
+    /**
+     * The Setup.
+     */
     SETUP(Lists.newArrayList("setup", "start", "create", "make"), Permissions.HELP, 1, 1, false, "Display shop setup tutorial", "/tradeshop $cmd$"),
+    /**
+     * The Bugs.
+     */
     BUGS(Lists.newArrayList("bugs", "bug"), Permissions.NONE, 1, 1, false, "Report bugs to the developers", "/tradeshop $cmd$"),
+    /**
+     * The Add manager.
+     */
     ADD_MANAGER(Lists.newArrayList("addManager"), Permissions.NONE, 2, 2, true, "Add manager to shop", "/tradeshop $cmd$ <name>"),
+    /**
+     * The Remove user.
+     */
     REMOVE_USER(Lists.newArrayList("removeUser", "removeManager", "removeMember"), Permissions.NONE, 2, 2, true, "Remove user from shop", "/tradeshop $cmd$ <name>"),
+    /**
+     * The Add member.
+     */
     ADD_MEMBER(Lists.newArrayList("addMember"), Permissions.NONE, 2, 2, true, "Add member to shop", "/tradeshop $cmd$ <name>"),
+    /**
+     * The Add product.
+     */
     ADD_PRODUCT(Lists.newArrayList("addProduct"), Permissions.NONE, 1, 3, true, "Add product to shop", "/tradeshop $cmd$ [Amount] [Material]"),
+    /**
+     * The Add cost.
+     */
     ADD_COST(Lists.newArrayList("addCost"), Permissions.NONE, 1, 3, true, "Add cost to shop", "/tradeshop $cmd$ [Amount] [Material]"),
+    /**
+     * The Set product.
+     */
     SET_PRODUCT(Lists.newArrayList("setProduct"), Permissions.NONE, 1, 3, true, "Set product of shop ", "/tradeshop $cmd$ [Amount] [Material]"),
+    /**
+     * The Set cost.
+     */
     SET_COST(Lists.newArrayList("setCost"), Permissions.NONE, 1, 3, true, "Set cost of shop", "/tradeshop $cmd$ [Amount] [Material]"),
+    /**
+     * The Remove product.
+     */
     REMOVE_PRODUCT(Lists.newArrayList("removeProduct", "delProduct"), Permissions.NONE, 2, 2, true, "Removes a product from the shop", "/tradeshop $cmd$ <List #>"),
+    /**
+     * The Remove cost.
+     */
     REMOVE_COST(Lists.newArrayList("removeCost", "delCost"), Permissions.NONE, 2, 2, true, "Removes a product from the shop", "/tradeshop $cmd$ <List #>"),
+    /**
+     * The List product.
+     */
     LIST_PRODUCT(Lists.newArrayList("listProduct"), Permissions.NONE, 1, 1, true, "Lists the products in the shop", "/tradeshop $cmd$"),
+    /**
+     * The List cost.
+     */
     LIST_COST(Lists.newArrayList("listCost"), Permissions.NONE, 1, 1, true, "Lists the costs in a shop", "/tradeshop $cmd$"),
+    /**
+     * The Open.
+     */
     OPEN(Lists.newArrayList("open"), Permissions.NONE, 1, 1, true, "Open shop", "/tradeshop $cmd$"),
+    /**
+     * The Close.
+     */
     CLOSE(Lists.newArrayList("close"), Permissions.NONE, 1, 1, true, "Close shop", "/tradeshop $cmd$"),
+    /**
+     * The Who.
+     */
     WHO(Lists.newArrayList("who"), Permissions.INFO, 1, 1, true, "Shop members of shop", "/tradeshop $cmd$"),
+    /**
+     * The What.
+     */
     WHAT(Lists.newArrayList("what", "peek", "shop", "view"), Permissions.INFO, 1, 1, true, "Peek at shop inventory", "/tradeshop $cmd$"),
+    /**
+     * The Reload.
+     */
     RELOAD(Lists.newArrayList("reload"), Permissions.ADMIN, 1, 1, false, "Reload configuration files", "/tradeshop $cmd$"),
+    /**
+     * The Switch.
+     */
     SWITCH(Lists.newArrayList("switch"), Permissions.EDIT, 1, 1, true, "Switch shop type", "/tradeshop $cmd$"),
+    /**
+     * The Multi.
+     */
     MULTI(Lists.newArrayList("multi", "multiply", "many"), Permissions.NONE, 1, 2, true, "Changes trade multiplier for this login", "/tradeshop $cmd$ <Amount>");
 
     /**
@@ -227,7 +289,7 @@ public enum Commands {
     /**
      * Returns command usage
      *
-     * @return usage
+     * @return usage usage
      */
     public String getUsage() {
         return usage.replace("$cmd$", getFirstName());
@@ -236,7 +298,7 @@ public enum Commands {
     /**
      * Returns command aliases
      *
-     * @return usage
+     * @return usage aliases
      */
     public String getAliases() {
         int namesSize = getNames().size();

@@ -27,11 +27,26 @@ package org.shanerx.tradeshop.enumys;
 
 import org.bukkit.ChatColor;
 
+/**
+ * The enum Shop status.
+ */
 public enum ShopStatus {
 
+    /**
+     * Open shop status.
+     */
     OPEN("&a<Open>", Setting.SHOP_OPEN_STATUS, true),
+    /**
+     * Closed shop status.
+     */
     CLOSED("&c<Closed>", Setting.SHOP_CLOSED_STATUS, false),
+    /**
+     * Incomplete shop status.
+     */
     INCOMPLETE("&c<Incomplete>", Setting.SHOP_INCOMPLETE_STATUS, false),
+    /**
+     * The Out of stock.
+     */
     OUT_OF_STOCK("&c<Out Of Stock>", Setting.SHOP_OUTOFSTOCK_STATUS, false);
 
     private static final char COLOUR_CHAR = '&';
@@ -45,6 +60,14 @@ public enum ShopStatus {
         this.tradingAllowed = tradingAllowed;
     }
 
+    /**
+     * Colorize string.
+     *
+     * @param x
+     *         the x
+     *
+     * @return the string
+     */
     public static String colorize(String x) {
         return ChatColor.translateAlternateColorCodes(COLOUR_CHAR, x);
     }
@@ -54,10 +77,20 @@ public enum ShopStatus {
         return name();
     }
 
+    /**
+     * Gets line.
+     *
+     * @return the line
+     */
     public String getLine() {
         return colorize(labelEnum.getString().isEmpty() ? label : labelEnum.getString());
     }
 
+    /**
+     * Is trading allowed boolean.
+     *
+     * @return the boolean
+     */
     public boolean isTradingAllowed() {
         return tradingAllowed;
     }

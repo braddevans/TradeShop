@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Command tab caller.
+ */
 public class CommandTabCaller implements TabCompleter {
 
     private TradeShop plugin;
@@ -45,6 +48,12 @@ public class CommandTabCaller implements TabCompleter {
     private Commands command;
     private CommandTabCompleter tabCompleter;
 
+    /**
+     * Instantiates a new Command tab caller.
+     *
+     * @param instance
+     *         the instance
+     */
     public CommandTabCaller(TradeShop instance) {
         plugin = instance;
     }

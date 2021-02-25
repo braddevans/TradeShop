@@ -37,7 +37,7 @@ import org.shanerx.tradeshop.enumys.Message;
  * This class is used for calling command methods from CommandRunner
  * as well as doing initial checks for necessary arguments,
  * permissions, and sender type
- **/
+ */
 public class CommandCaller implements CommandExecutor {
 
     private TradeShop plugin;
@@ -45,6 +45,12 @@ public class CommandCaller implements CommandExecutor {
     private Commands command;
     private CommandRunner cmdRnnr;
 
+    /**
+     * Instantiates a new Command caller.
+     *
+     * @param instance
+     *         the instance
+     */
     public CommandCaller(TradeShop instance) {
         plugin = instance;
     }

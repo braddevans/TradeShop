@@ -25,6 +25,9 @@
 
 package org.shanerx.tradeshop.enumys;
 
+/**
+ * The enum Shop role.
+ */
 @SuppressWarnings("unused")
 public enum ShopRole {
 
@@ -32,8 +35,17 @@ public enum ShopRole {
      * ShopRole(canDestroy, canEdit, canOpen, canShop)
      */
     OWNER(true, true, true, false),
+    /**
+     * Manager shop role.
+     */
     MANAGER(false, true, true, false),
+    /**
+     * Member shop role.
+     */
     MEMBER(false, false, true, false),
+    /**
+     * Shopper shop role.
+     */
     SHOPPER(false, false, false, true);
 
     private String roleName;
@@ -47,18 +59,38 @@ public enum ShopRole {
         roleName = name();
     }
 
+    /**
+     * Can destroy boolean.
+     *
+     * @return the boolean
+     */
     public boolean canDestroy() {
         return destroy;
     }
 
+    /**
+     * Can edit boolean.
+     *
+     * @return the boolean
+     */
     public boolean canEdit() {
         return edit;
     }
 
+    /**
+     * Can open boolean.
+     *
+     * @return the boolean
+     */
     public boolean canOpen() {
         return open;
     }
 
+    /**
+     * Can shop boolean.
+     *
+     * @return the boolean
+     */
     public boolean canShop() {
         return shop;
     }

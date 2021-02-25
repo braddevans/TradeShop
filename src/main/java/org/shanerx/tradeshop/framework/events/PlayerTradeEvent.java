@@ -75,6 +75,11 @@ public class PlayerTradeEvent extends PlayerInteractEvent implements Cancellable
         this.clickedBlock = clickedBlock;
     }
 
+    /**
+     * Gets handler list.
+     *
+     * @return the handler list
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

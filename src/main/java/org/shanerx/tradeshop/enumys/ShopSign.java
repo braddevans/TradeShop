@@ -33,11 +33,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The type Shop sign.
+ */
 public class ShopSign extends Utils {
 
     private BukkitVersion version = new BukkitVersion();
     private ArrayList<Material> signTypes = new ArrayList<>();
 
+    /**
+     * Instantiates a new Shop sign.
+     */
     public ShopSign() {
         for (Signs type : Signs.values()) {
             boolean pass = true;
@@ -57,28 +63,90 @@ public class ShopSign extends Utils {
 
     }
 
+    /**
+     * Gets sign types.
+     *
+     * @return the sign types
+     */
     public List<Material> getSignTypes() {
         return signTypes;
     }
 
+    /**
+     * The enum Signs.
+     */
     enum Signs {
+        /**
+         * Sign signs.
+         */
         SIGN("", "1.13.2"),
+        /**
+         * Oak sign signs.
+         */
         OAK_SIGN("1.14.0", ""),
+        /**
+         * Spruce sign signs.
+         */
         SPRUCE_SIGN("1.14.0", ""),
+        /**
+         * Birch sign signs.
+         */
         BIRCH_SIGN("1.14.0", ""),
+        /**
+         * Jungle sign signs.
+         */
         JUNGLE_SIGN("1.14.0", ""),
+        /**
+         * Acacia sign signs.
+         */
         ACACIA_SIGN("1.14.0", ""),
+        /**
+         * Dark oak sign signs.
+         */
         DARK_OAK_SIGN("1.14.0", ""),
+        /**
+         * Crimson sign signs.
+         */
         CRIMSON_SIGN("1.16.0", ""),
+        /**
+         * Warped sign signs.
+         */
         WARPED_SIGN("1.16.0", ""),
+        /**
+         * Wall sign signs.
+         */
         WALL_SIGN("", "1.13.2"),
+        /**
+         * Oak wall sign signs.
+         */
         OAK_WALL_SIGN("1.14.0", ""),
+        /**
+         * Spruce wall sign signs.
+         */
         SPRUCE_WALL_SIGN("1.14.0", ""),
+        /**
+         * Birch wall sign signs.
+         */
         BIRCH_WALL_SIGN("1.14.0", ""),
+        /**
+         * Jungle wall sign signs.
+         */
         JUNGLE_WALL_SIGN("1.14.0", ""),
+        /**
+         * Acacia wall sign signs.
+         */
         ACACIA_WALL_SIGN("1.14.0", ""),
+        /**
+         * Dark oak wall sign signs.
+         */
         DARK_OAK_WALL_SIGN("1.14.0", ""),
+        /**
+         * Crimson wall sign signs.
+         */
         CRIMSON_WALL_SIGN("1.16.0", ""),
+        /**
+         * Warped wall sign signs.
+         */
         WARPED_WALL_SIGN("1.16.0", "");
 
         private List<Integer> minVer = Arrays.asList(new Integer[3]), maxVer = Arrays.asList(new Integer[3]);
@@ -104,26 +172,56 @@ public class ShopSign extends Utils {
             }
         }
 
+        /**
+         * Has min version boolean.
+         *
+         * @return the boolean
+         */
         public boolean hasMinVersion() {
             return hasMin;
         }
 
+        /**
+         * Has max version boolean.
+         *
+         * @return the boolean
+         */
         public boolean hasMaxVersion() {
             return hasMax;
         }
 
+        /**
+         * Gets min ver.
+         *
+         * @return the min ver
+         */
         public List<Integer> getMinVer() {
             return minVer;
         }
 
+        /**
+         * Gets max ver.
+         *
+         * @return the max ver
+         */
         public List<Integer> getMaxVer() {
             return maxVer;
         }
 
+        /**
+         * Gets min version as string.
+         *
+         * @return the min version as string
+         */
         public String getMinVersionAsString() {
             return hasMinVersion() ? getMinVer().get(0) + "." + getMinVer().get(1) + "." + getMinVer().get(2) : "None";
         }
 
+        /**
+         * Gets max version as string.
+         *
+         * @return the max version as string
+         */
         public String getMaxVersionAsString() {
             return hasMaxVersion() ? getMaxVer().get(0) + "." + getMaxVer().get(1) + "." + getMaxVer().get(2) : "None";
         }

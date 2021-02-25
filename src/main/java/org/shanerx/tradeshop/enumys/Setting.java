@@ -41,58 +41,160 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
+/**
+ * The enum Setting.
+ */
 public enum Setting {
 
+    /**
+     * Config version setting.
+     */
     CONFIG_VERSION(SettingSectionKeys.NONE, "config-version", 1.1, "", "\n"),
 
-    // System Options
+    /**
+     * The Enable debug.
+     */
+// System Options
     ENABLE_DEBUG(SettingSectionKeys.SYSTEM_OPTIONS, "enable-debug", 0, "What debug code should be run. this will add significant amounts of spam to the console/log, generally not used unless requested by Devs (must be a whole number)"),
+    /**
+     * The Check updates.
+     */
     CHECK_UPDATES(SettingSectionKeys.SYSTEM_OPTIONS, "check-updates", true, "Should we check for updates when the server starts"),
+    /**
+     * The Allow metrics.
+     */
     ALLOW_METRICS(SettingSectionKeys.SYSTEM_OPTIONS, "allow-metrics", true, "Allow us to connect anonymous metrics so we can see how our plugin is being used to better develop it", "\n"),
 
-    // Language Options
+    /**
+     * The Message prefix.
+     */
+// Language Options
     MESSAGE_PREFIX(SettingSectionKeys.LANGUAGE_OPTIONS, "message-prefix", "&a[&eTradeShop&a] ", "The prefix the displays before all plugin messages", "\n"),
 
+    /**
+     * The Shop good colour.
+     */
     SHOP_GOOD_COLOUR(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-good-colour", "&2", "Header Colours, if the codes are showing in the header, set to \"\"\n  # Color for successfully created and stocked signs"),
+    /**
+     * The Shop incomplete colour.
+     */
     SHOP_INCOMPLETE_COLOUR(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-incomplete-colour", "&7", "Color for shops that are missing data to make trades"),
+    /**
+     * The Shop bad colour.
+     */
     SHOP_BAD_COLOUR(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-bad-colour", "&4", "Color for shops that were not successfully created", "\n"),
 
+    /**
+     * The Shop open status.
+     */
     SHOP_OPEN_STATUS(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-open-status", "&a<Open>", "Status Text, What will be shown in the bottom line of shop sign for each status\n  # Open"),
+    /**
+     * Shop closed status setting.
+     */
     SHOP_CLOSED_STATUS(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-closed-status", "&c<Closed>", "Closed"),
+    /**
+     * Shop incomplete status setting.
+     */
     SHOP_INCOMPLETE_STATUS(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-incomplete-status", "&c<Incomplete>", "Incomplete"),
+    /**
+     * The Shop outofstock status.
+     */
     SHOP_OUTOFSTOCK_STATUS(SettingSectionKeys.LANGUAGE_OPTIONS, "shop-outofstock-status", "&c<Out Of Stock>", "Out of Stock", "\n"),
 
-    // Global Options
+    /**
+     * The Allowed directions.
+     */
+// Global Options
     ALLOWED_DIRECTIONS(SettingSectionKeys.GLOBAL_OPTIONS, "allowed-directions", new String[]{"DOWN", "WEST", "SOUTH", "EAST", "NORTH", "UP"}, "Directions an allowed shop can be from a sign. Allowed directions are:\n  # Up, Down, North, East, South, West"),
+    /**
+     * The Allowed shops.
+     */
     ALLOWED_SHOPS(SettingSectionKeys.GLOBAL_OPTIONS, "allowed-shops", new String[]{"CHEST", "TRAPPED_CHEST", "SHULKER"}, "Inventories to allow for shops. Allowed blocks are:\n  # Chest, Trapped_Chest, Dropper, Hopper, Dispenser, Shulker, ..."),
+    /**
+     * The Max edit distance.
+     */
     MAX_EDIT_DISTANCE(SettingSectionKeys.GLOBAL_OPTIONS, "max-edit-distance", 4, "Max distance a player can be from a shop to edit it (must be a whole number)"),
+    /**
+     * The Illegal items.
+     */
     ILLEGAL_ITEMS(SettingSectionKeys.GLOBAL_OPTIONS, "illegal-items", new String[]{"Air", "Void_Air", "Cave_Air", "Bedrock", "Command_Block"}, "Material types that cannot be used in trades", "\n"),
 
-    // ^ Multi Trade
+    /**
+     * The Allow multi trade.
+     */
+// ^ Multi Trade
     ALLOW_MULTI_TRADE(SettingSectionKeys.GLOBAL_MULTI_TRADE, "enable", true, "Should we allow multi trades with shift + click (true/false)"),
+    /**
+     * The Multi trade default.
+     */
     MULTI_TRADE_DEFAULT(SettingSectionKeys.GLOBAL_MULTI_TRADE, "default-multi", 2, "Default multiplier for trades using shift + click (must be a whole number)"),
+    /**
+     * The Multi trade max.
+     */
     MULTI_TRADE_MAX(SettingSectionKeys.GLOBAL_MULTI_TRADE, "max-multi", 6, "Maximum amount a player can set their multiplier to, reset upon leaving (must be a whole number)", "\n"),
 
-    // Shop Options
+    /**
+     * The Max shop users.
+     */
+// Shop Options
     MAX_SHOP_USERS(SettingSectionKeys.SHOP_OPTIONS, "max-shop-users", 5, "Maximum users a shop can have (must be a whole number)"),
+    /**
+     * The Max shops per chunk.
+     */
     MAX_SHOPS_PER_CHUNK(SettingSectionKeys.SHOP_OPTIONS, "max-shops-per-chunk", 128, "Maximum shops that can exist in a single chunk (must be a whole number)"),
+    /**
+     * The Max items per trade side.
+     */
     MAX_ITEMS_PER_TRADE_SIDE(SettingSectionKeys.SHOP_OPTIONS, "max-items-per-trade-side", 6, "Maximum amount of item stacks per side of trade (must be a whole number)"),
+    /**
+     * The Allow user purchasing.
+     */
     ALLOW_USER_PURCHASING(SettingSectionKeys.SHOP_OPTIONS, "allow-user-purchasing", false, "Can players purchase from a shop in which they are a user of (true/false)"),
+    /**
+     * The Multiple items on sign.
+     */
     MULTIPLE_ITEMS_ON_SIGN(SettingSectionKeys.SHOP_OPTIONS, "multiple-items-on-sign", "Use '/ts what'", "Text that shows on trade signs that contain more than 1 item", "\n"),
 
-    // Trade Shop Options
+    /**
+     * The Tradeshop header.
+     */
+// Trade Shop Options
     TRADESHOP_HEADER(SettingSectionKeys.TRADE_SHOP_OPTIONS, "header", "Trade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
+    /**
+     * The Tradeshop explode.
+     */
     TRADESHOP_EXPLODE(SettingSectionKeys.TRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign/storage (true/false)"),
+    /**
+     * The Tradeshop hopper export.
+     */
     TRADESHOP_HOPPER_EXPORT(SettingSectionKeys.TRADE_SHOP_OPTIONS, "allow-hopper-export", false, "Can hoppers pull items from the shop storage (true/false)", "\n"),
 
-    // ITrade Shop Options
+    /**
+     * The Itradeshop owner.
+     */
+// ITrade Shop Options
     ITRADESHOP_OWNER(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "owner", "Server Shop", "Name to put on the bottom of iTrade signs"),
+    /**
+     * The Itradeshop header.
+     */
     ITRADESHOP_HEADER(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "header", "iTrade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
+    /**
+     * The Itradeshop explode.
+     */
     ITRADESHOP_EXPLODE(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign (true/false)", "\n"),
 
-    // BiTrade Shop Options
+    /**
+     * The Bitradeshop header.
+     */
+// BiTrade Shop Options
     BITRADESHOP_HEADER(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "header", "BiTrade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
+    /**
+     * The Bitradeshop explode.
+     */
     BITRADESHOP_EXPLODE(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign/storage (true/false)"),
+    /**
+     * The Bitradeshop hopper export.
+     */
     BITRADESHOP_HOPPER_EXPORT(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "allow-hopper-export", false, "Can hoppers pull items from the shop storage (true/false)");
 
     private static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
@@ -126,6 +228,11 @@ public enum Setting {
         this.postComment = postComment;
     }
 
+    /**
+     * Gets item black list.
+     *
+     * @return the item black list
+     */
     public static ArrayList<String> getItemBlackList() {
         ArrayList<String> blacklist = new ArrayList<>();
         blacklist.add("air");
@@ -134,6 +241,14 @@ public enum Setting {
         return blacklist;
     }
 
+    /**
+     * Find setting setting.
+     *
+     * @param search
+     *         the search
+     *
+     * @return the setting
+     */
     public static Setting findSetting(String search) {
         return valueOf(search.toUpperCase().replace("-", "_"));
     }
@@ -199,6 +314,9 @@ public enum Setting {
         }
     }
 
+    /**
+     * Reload.
+     */
     public static void reload() {
         try {
             if (! plugin.getDataFolder().isDirectory()) {
@@ -297,57 +415,136 @@ public enum Setting {
         if (changes) { save(); }
     }
 
+    /**
+     * Gets config.
+     *
+     * @return the config
+     */
     public static FileConfiguration getConfig() {
         return config;
     }
 
+    /**
+     * To path string.
+     *
+     * @return the string
+     */
     public String toPath() {
         return path;
     }
 
+    /**
+     * Clear setting.
+     */
     public void clearSetting() {
         config.set(toPath(), null);
     }
 
+    /**
+     * Gets setting.
+     *
+     * @return the setting
+     */
     public Object getSetting() {
         return config.get(toPath());
     }
 
+    /**
+     * Sets setting.
+     *
+     * @param obj
+     *         the obj
+     */
     public void setSetting(Object obj) {
         config.set(toPath(), obj);
     }
 
+    /**
+     * Gets string.
+     *
+     * @return the string
+     */
     public String getString() {
         return config.getString(toPath());
     }
 
+    /**
+     * Gets string list.
+     *
+     * @return the string list
+     */
     public List<String> getStringList() {
         return config.getStringList(toPath());
     }
 
+    /**
+     * Gets int.
+     *
+     * @return the int
+     */
     public int getInt() {
         return config.getInt(toPath());
     }
 
+    /**
+     * Gets double.
+     *
+     * @return the double
+     */
     public double getDouble() {
         return config.getDouble(toPath());
     }
 
+    /**
+     * Gets boolean.
+     *
+     * @return the boolean
+     */
     public boolean getBoolean() {
         return config.getBoolean(toPath());
     }
 }
 
+/**
+ * The enum Setting section keys.
+ */
 enum SettingSectionKeys {
 
+    /**
+     * None setting section keys.
+     */
     NONE("", ""),
+    /**
+     * The System options.
+     */
     SYSTEM_OPTIONS("system-options", "System Options"),
+    /**
+     * The Language options.
+     */
     LANGUAGE_OPTIONS("language-options", "Language Options"),
+    /**
+     * The Global options.
+     */
     GLOBAL_OPTIONS("global-options", "Global Options"),
+    /**
+     * Global multi trade setting section keys.
+     */
     GLOBAL_MULTI_TRADE(GLOBAL_OPTIONS, "multi-trade", ""),
+    /**
+     * The Shop options.
+     */
     SHOP_OPTIONS("shop-options", "Shop Options"),
+    /**
+     * The Trade shop options.
+     */
     TRADE_SHOP_OPTIONS("trade-shop-options", "Trade Shop Options"),
+    /**
+     * The Itrade shop options.
+     */
     ITRADE_SHOP_OPTIONS("itrade-shop-options", "ITrade Shop Options"),
+    /**
+     * The Bitrade shop options.
+     */
     BITRADE_SHOP_OPTIONS("bitrade-shop-options", "BiTrade Shop Options");
 
     private String key, sectionHeader, value_lead = "";
@@ -366,14 +563,29 @@ enum SettingSectionKeys {
         if (! key.isEmpty()) { this.value_lead = parent.value_lead + "  "; }
     }
 
+    /**
+     * Gets key.
+     *
+     * @return the key
+     */
     public String getKey() {
         return ! key.isEmpty() ? (parent != null ? parent.getKey() + "." + key + "." : key + ".") : "";
     }
 
+    /**
+     * Gets value lead.
+     *
+     * @return the value lead
+     */
     public String getValueLead() {
         return value_lead;
     }
 
+    /**
+     * Gets formatted header.
+     *
+     * @return the formatted header
+     */
     public String getFormattedHeader() {
         if (! sectionHeader.isEmpty() && ! key.isEmpty()) {
             StringBuilder header = new StringBuilder();
@@ -403,6 +615,11 @@ enum SettingSectionKeys {
         return "";
     }
 
+    /**
+     * Gets file text.
+     *
+     * @return the file text
+     */
     public String getFileText() {
         return parent != null ? parent.value_lead + key : key;
     }

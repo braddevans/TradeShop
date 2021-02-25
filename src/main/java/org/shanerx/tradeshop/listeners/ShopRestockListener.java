@@ -34,17 +34,32 @@ import org.shanerx.tradeshop.objects.Shop;
 import org.shanerx.tradeshop.objects.ShopChest;
 import org.shanerx.tradeshop.utils.Utils;
 
+/**
+ * The type Shop restock listener.
+ */
 public class ShopRestockListener extends Utils implements Listener {
 
     private final TradeShop plugin;
 
+    /**
+     * Instantiates a new Shop restock listener.
+     *
+     * @param instance
+     *         the instance
+     */
     public ShopRestockListener(TradeShop instance) {
         plugin = instance;
     }
 
     //If it is a shopchest, this updates the sign when the inventory is closed
 
-    //Doesn't update double chests closing --Bug, unsure how to fix
+    /**
+     * On inventory close.
+     *
+     * @param event
+     *         the event
+     */
+//Doesn't update double chests closing --Bug, unsure how to fix
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClose(InventoryCloseEvent event) {
         if (ShopChest.isShopChest(event.getInventory())) {
