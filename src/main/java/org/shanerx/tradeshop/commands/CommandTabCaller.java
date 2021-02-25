@@ -40,75 +40,74 @@ import java.util.List;
 
 public class CommandTabCaller implements TabCompleter {
 
-	private TradeShop plugin;
-	private CommandPass cmdPass;
-	private Commands command;
-	private CommandTabCompleter tabCompleter;
+    private TradeShop plugin;
+    private CommandPass cmdPass;
+    private Commands command;
+    private CommandTabCompleter tabCompleter;
 
-	public CommandTabCaller(TradeShop instance) {
-		plugin = instance;
-	}
+    public CommandTabCaller(TradeShop instance) {
+        plugin = instance;
+    }
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		cmdPass = new CommandPass(sender, cmd, label, args);
-		command = Commands.getType(cmdPass.getArgAt(0));
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        cmdPass = new CommandPass(sender, cmd, label, args);
+        command = Commands.getType(cmdPass.getArgAt(0));
 
-		if (command != null) {
+        if (command != null) {
 
-			if (!checkPerm()) {
-				return Collections.EMPTY_LIST;
-			}
+            if (! checkPerm()) {
+                return Collections.EMPTY_LIST;
+            }
 
-			if (command.needsPlayer() && !(sender instanceof Player)) {
-				sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
-				return Collections.EMPTY_LIST;
-			}
+            if (command.needsPlayer() && ! (sender instanceof Player)) {
+                sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
+                return Collections.EMPTY_LIST;
+            }
 
-			tabCompleter = new CommandTabCompleter(plugin, cmdPass);
+            tabCompleter = new CommandTabCompleter(plugin, cmdPass);
 
-			switch (command) {
-				case HELP:
-					return tabCompleter.help();
-				case ADD_PRODUCT:
-					return tabCompleter.addSet();
-				case ADD_COST:
-					return tabCompleter.addSet();
-				case SET_COST:
-					return tabCompleter.addSet();
-				case SET_PRODUCT:
-					return tabCompleter.addSet();
-				case ADD_MANAGER:
-					return tabCompleter.fillServerPlayer();
-				case REMOVE_USER:
-					return tabCompleter.fillShopPlayer();
-				case ADD_MEMBER:
-					return tabCompleter.fillServerPlayer();
-				default:
-					return Collections.EMPTY_LIST;
-			}
-		} else {
-			if (cmdPass.argsSize() < 2) {
-				List<String> subCmds = new ArrayList<>();
-				for (Commands cmds : Commands.values()) {
-					if (cmds.isPartialName(args[0]))
-						subCmds.add(cmds.getFirstName());
-				}
+            switch (command) {
+                case HELP:
+                    return tabCompleter.help();
+                case ADD_PRODUCT:
+                    return tabCompleter.addSet();
+                case ADD_COST:
+                    return tabCompleter.addSet();
+                case SET_COST:
+                    return tabCompleter.addSet();
+                case SET_PRODUCT:
+                    return tabCompleter.addSet();
+                case ADD_MANAGER:
+                    return tabCompleter.fillServerPlayer();
+                case REMOVE_USER:
+                    return tabCompleter.fillShopPlayer();
+                case ADD_MEMBER:
+                    return tabCompleter.fillServerPlayer();
+                default:
+                    return Collections.EMPTY_LIST;
+            }
+        }
+        else {
+            if (cmdPass.argsSize() < 2) {
+                List<String> subCmds = new ArrayList<>();
+                for (Commands cmds : Commands.values()) {
+                    if (cmds.isPartialName(args[0])) { subCmds.add(cmds.getFirstName()); }
+                }
 
-				return subCmds;
-			}
+                return subCmds;
+            }
 
-			return Collections.EMPTY_LIST;
-		}
-	}
+            return Collections.EMPTY_LIST;
+        }
+    }
 
-
-	/**
-	 * Checks if the sender has the required permission
-	 *
-	 * @return true if permission is NONE or sender has permission
-	 */
-	public boolean checkPerm() {
-		return cmdPass.getSender().hasPermission(command.getPerm().getPerm()) || command.getPerm().equals(Permissions.NONE);
-	}
+    /**
+     * Checks if the sender has the required permission
+     *
+     * @return true if permission is NONE or sender has permission
+     */
+    public boolean checkPerm() {
+        return cmdPass.getSender().hasPermission(command.getPerm().getPerm()) || command.getPerm().equals(Permissions.NONE);
+    }
 }

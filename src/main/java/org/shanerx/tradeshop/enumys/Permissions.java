@@ -31,39 +31,39 @@ import org.shanerx.tradeshop.TradeShop;
 
 public enum Permissions {
 
-	HELP("help"),
+    HELP("help"),
 
-	CREATE("create"),
+    CREATE("create"),
 
-	CREATEI("create.infinite"),
+    CREATEI("create.infinite"),
 
-	CREATEBI("create.bi"),
+    CREATEBI("create.bi"),
 
-	ADMIN("admin"),
+    ADMIN("admin"),
 
-	EDIT("edit"), // non admin perm
+    EDIT("edit"), // non admin perm
 
-	INFO("info"),
+    INFO("info"),
 
-	NONE("");
+    NONE("");
 
-	private final static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-	private String key;
+    private final static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
+    private String key;
 
-	Permissions(String key) {
-		this.key = key;
-	}
+    Permissions(String key) {
+        this.key = key;
+    }
 
-	@Override
-	public String toString() {
-		return "tradeshop." + key;
-	}
+    @Override
+    public String toString() {
+        return "tradeshop." + key;
+    }
 
-	public String getValue() {
-		return this.toString();
-	}
+    public String getValue() {
+        return this.toString();
+    }
 
-	public Permission getPerm() {
-		return new Permission(toString());
-	}
+    public Permission getPerm() {
+        return new Permission(toString());
+    }
 }

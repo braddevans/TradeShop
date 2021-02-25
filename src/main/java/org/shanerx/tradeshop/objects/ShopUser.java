@@ -37,56 +37,56 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class ShopUser implements Serializable {
 
-	private transient OfflinePlayer player;
-	@SerializedName("player")
-	private String playerUUID;
-	private ShopRole role;
+    private transient OfflinePlayer player;
+    @SerializedName("player")
+    private String playerUUID;
+    private ShopRole role;
 
-	public ShopUser(OfflinePlayer player, ShopRole role) {
-		this.player = player;
-		playerUUID = player.getUniqueId().toString();
-		this.role = role;
-	}
+    public ShopUser(OfflinePlayer player, ShopRole role) {
+        this.player = player;
+        playerUUID = player.getUniqueId().toString();
+        this.role = role;
+    }
 
-	public ShopUser(UUID pUUID, ShopRole role) {
-		this.player = Bukkit.getOfflinePlayer(pUUID);
-		playerUUID = player.getUniqueId().toString();
-		this.role = role;
-	}
+    public ShopUser(UUID pUUID, ShopRole role) {
+        this.player = Bukkit.getOfflinePlayer(pUUID);
+        playerUUID = player.getUniqueId().toString();
+        this.role = role;
+    }
 
-	public static ShopUser deserialize(String serialized) {
-		ShopUser shopUser = new Gson().fromJson(serialized, ShopUser.class);
-		shopUser.player = Bukkit.getOfflinePlayer(UUID.fromString(shopUser.playerUUID));
-		return shopUser;
-	}
+    public static ShopUser deserialize(String serialized) {
+        ShopUser shopUser = new Gson().fromJson(serialized, ShopUser.class);
+        shopUser.player = Bukkit.getOfflinePlayer(UUID.fromString(shopUser.playerUUID));
+        return shopUser;
+    }
 
-	public OfflinePlayer getPlayer() {
-		fix();
-		return player;
-	}
+    public OfflinePlayer getPlayer() {
+        fix();
+        return player;
+    }
 
-	public UUID getUUID() {
-		fix();
-		return player.getUniqueId();
-	}
+    public UUID getUUID() {
+        fix();
+        return player.getUniqueId();
+    }
 
-	public ShopRole getRole() {
-		fix();
-		return role;
-	}
+    public ShopRole getRole() {
+        fix();
+        return role;
+    }
 
-	public String getName() {
-		fix();
-		return getPlayer().getName();
-	}
+    public String getName() {
+        fix();
+        return getPlayer().getName();
+    }
 
-	private void fix() {
-		if (player == null && playerUUID != null && !playerUUID.equalsIgnoreCase("")) {
-			player = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-		}
-	}
+    private void fix() {
+        if (player == null && playerUUID != null && ! playerUUID.equalsIgnoreCase("")) {
+            player = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
+        }
+    }
 
-	public String serialize() {
-		return new Gson().toJson(this);
-	}
+    public String serialize() {
+        return new Gson().toJson(this);
+    }
 }

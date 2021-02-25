@@ -220,7 +220,7 @@ public class ShopItemStack implements Serializable {
             }
 
             // If compareDurability is on
-            if (compareDurability > -1 && compareDurability < 3) {
+            if (compareDurability > - 1 && compareDurability < 3) {
                 // Return False if Damageable is not equal (one has and one doesn't)
                 if (itemStackMeta instanceof Damageable != toCompareMeta instanceof Damageable) {
                     debugger.log("toCompareMeta isDamageable: " + (itemStackMeta instanceof Damageable), DebugLevels.ITEM_COMPARE);
@@ -266,8 +266,7 @@ public class ShopItemStack implements Serializable {
                 }
 
                 // Return False if itemStack hasEnchantments && Enchant maps are not equal
-                if (itemStackMeta.hasEnchants() && !itemStackMeta.getEnchants().equals(toCompareMeta.getEnchants()))
-                    return false;
+                if (itemStackMeta.hasEnchants() && ! itemStackMeta.getEnchants().equals(toCompareMeta.getEnchants())) { return false; }
             }
 
             // If compareName is on
@@ -276,18 +275,17 @@ public class ShopItemStack implements Serializable {
                 // If ItemStack Meta are BookMeta then compare title, otherwise compare displayname
                 if (useBookMeta) {
                     // Return False if hasTitle differs (one has one doesn't)
-                    if (itemStackBookMeta.hasTitle() != toCompareBookMeta.hasTitle()) return false;
+                    if (itemStackBookMeta.hasTitle() != toCompareBookMeta.hasTitle()) { return false; }
 
                     // Return False if itemStack hasTitle && Title is not equal
-                    if (itemStackBookMeta.hasTitle() && !itemStackBookMeta.getTitle().equals(toCompareBookMeta.getTitle()))
-                        return false;
-                } else {
+                    if (itemStackBookMeta.hasTitle() && ! itemStackBookMeta.getTitle().equals(toCompareBookMeta.getTitle())) { return false; }
+                }
+                else {
                     // Return False if hasDisplayName differs (one has one doesn't)
-                    if (itemStackMeta.hasDisplayName() != toCompareMeta.hasDisplayName()) return false;
+                    if (itemStackMeta.hasDisplayName() != toCompareMeta.hasDisplayName()) { return false; }
 
                     // Return False if itemStack hasDisplayName && DisplayName is not equal
-                    if (itemStackMeta.hasDisplayName() && !itemStackMeta.getDisplayName().equals(toCompareMeta.getDisplayName()))
-                        return false;
+                    if (itemStackMeta.hasDisplayName() && ! itemStackMeta.getDisplayName().equals(toCompareMeta.getDisplayName())) { return false; }
                 }
             }
 
@@ -303,7 +301,7 @@ public class ShopItemStack implements Serializable {
                 // Return False if itemStack hasAuthor && Author is not equal
                 debugger.log("itemStackBookMeta getAuthor: " + itemStackBookMeta.getAuthor(), DebugLevels.ITEM_COMPARE);
                 debugger.log("toCompareBookMeta getAuthor: " + toCompareBookMeta.getAuthor(), DebugLevels.ITEM_COMPARE);
-                if (itemStackBookMeta.hasAuthor() && !Objects.equals(itemStackBookMeta.getAuthor(), toCompareBookMeta.getAuthor())) {
+                if (itemStackBookMeta.hasAuthor() && ! Objects.equals(itemStackBookMeta.getAuthor(), toCompareBookMeta.getAuthor())) {
                     return false;
                 }
             }
@@ -320,7 +318,7 @@ public class ShopItemStack implements Serializable {
                 // Return False if itemStack hasPages && Pages is not equal
                 debugger.log("itemStackBookMeta isNull: " + itemStackBookMeta.getPages(), DebugLevels.ITEM_COMPARE);
                 debugger.log("toCompareBookMeta isNull: " + toCompareBookMeta.getPages(), DebugLevels.ITEM_COMPARE);
-                if (itemStackBookMeta.hasPages() && !Objects.equals(itemStackBookMeta.getPages(), toCompareBookMeta.getPages())) {
+                if (itemStackBookMeta.hasPages() && ! Objects.equals(itemStackBookMeta.getPages(), toCompareBookMeta.getPages())) {
                     return false;
                 }
             }
@@ -328,41 +326,39 @@ public class ShopItemStack implements Serializable {
             // If compareLore is on
             if (compareLore) {
                 // Return False if hasLore differs (one has one doesn't)
-                if (itemStackMeta.hasLore() != toCompareMeta.hasLore()) return false;
+                if (itemStackMeta.hasLore() != toCompareMeta.hasLore()) { return false; }
 
                 // Return False if itemStack hasLore && Lore is not equal
-                if (itemStackMeta.hasLore() && !Objects.equals(itemStackMeta.getLore(), toCompareMeta.getLore()))
-                    return false;
+                if (itemStackMeta.hasLore() && ! Objects.equals(itemStackMeta.getLore(), toCompareMeta.getLore())) { return false; }
             }
 
             // If compareCustomModelData is on
             if (compareCustomModelData) {
                 // Return False if hasCustomModelData differs (one has one doesn't)
-                if (itemStackMeta.hasCustomModelData() != toCompareMeta.hasCustomModelData()) return false;
+                if (itemStackMeta.hasCustomModelData() != toCompareMeta.hasCustomModelData()) { return false; }
 
                 // Return False if itemStack hasCustomModelData && Custom Model Data is not equal
-                if (itemStackMeta.hasCustomModelData() && itemStackMeta.getCustomModelData() != toCompareMeta.getCustomModelData())
-                    return false;
+                if (itemStackMeta.hasCustomModelData() && itemStackMeta.getCustomModelData() != toCompareMeta.getCustomModelData()) { return false; }
             }
 
             // If compareItemFlags is on
             if (compareItemFlags) {
                 // Return False if getItemFlags sizes differs
-                if (itemStackMeta.getItemFlags().size() != toCompareMeta.getItemFlags().size()) return false;
+                if (itemStackMeta.getItemFlags().size() != toCompareMeta.getItemFlags().size()) { return false; }
 
                 // Return False if Lore is not equal
-                if (!itemStackMeta.getItemFlags().equals(toCompareMeta.getItemFlags())) return false;
+                if (! itemStackMeta.getItemFlags().equals(toCompareMeta.getItemFlags())) { return false; }
             }
 
             // Return False if compareUnbreakable is on and isUnbreakable differs
-            if (compareUnbreakable && itemStackMeta.isUnbreakable() != toCompareMeta.isUnbreakable()) return false;
+            if (compareUnbreakable && itemStackMeta.isUnbreakable() != toCompareMeta.isUnbreakable()) { return false; }
 
             // If compareAttributeModifier is on
             if (compareAttributeModifier) {
-                if (itemStackMeta.hasAttributeModifiers() != toCompareMeta.hasAttributeModifiers()) return false;
+                if (itemStackMeta.hasAttributeModifiers() != toCompareMeta.hasAttributeModifiers()) { return false; }
 
                 // Return False if itemStack hasAttributeModifiers && getAttributeModifiers are not equal
-                return !itemStackMeta.hasAttributeModifiers() || Objects.equals(itemStackMeta.getAttributeModifiers(), toCompareMeta.getAttributeModifiers());
+                return ! itemStackMeta.hasAttributeModifiers() || Objects.equals(itemStackMeta.getAttributeModifiers(), toCompareMeta.getAttributeModifiers());
             }
 
         }
@@ -370,21 +366,19 @@ public class ShopItemStack implements Serializable {
     }
 
     public ItemStack getItemStack() {
-        if (itemStack == null)
-            fromBase64();
+        if (itemStack == null) { fromBase64(); }
         return itemStack;
     }
 
     public String getItemName() {
         return itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName() ?
-                itemStack.getItemMeta().getDisplayName() :
-                itemStack.getType().toString();
+               itemStack.getItemMeta().getDisplayName() :
+               itemStack.getType().toString();
     }
 
     public String serialize() {
         return new Gson().toJson(this);
     }
-
 
     /**
      *
@@ -407,7 +401,8 @@ public class ShopItemStack implements Serializable {
             // Serialize that array
             dataOutput.close();
             itemStackB64 = Base64Coder.encodeLines(outputStream.toByteArray());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             itemStackB64 = null;
         }
     }
@@ -424,7 +419,8 @@ public class ShopItemStack implements Serializable {
             itemStack = (ItemStack) dataInput.readObject();
 
             dataInput.close();
-        } catch (ClassNotFoundException | IOException e) {
+        }
+        catch (ClassNotFoundException | IOException e) {
             itemStack = null;
         }
     }

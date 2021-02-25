@@ -25,7 +25,6 @@
 
 package org.shanerx.tradeshop;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,68 +42,46 @@ import org.shanerx.tradeshop.utils.Updater;
 
 public class TradeShop extends JavaPlugin {
 
-
     private final NamespacedKey storageKey = new NamespacedKey(this, "tradeshop-storage-data");
     private final NamespacedKey signKey = new NamespacedKey(this, "tradeshop-sign-data");
-    private final int bStatsPluginID = 1690;
 
-	private ListManager lists;
-	private BukkitVersion version;
-	private ShopSign signs;
+    private ListManager lists;
+    private BukkitVersion version;
+    private ShopSign signs;
 
     private ShopStorage storages;
 
-	private Metrics metrics;
+    private Debug debugger;
 
-	private Debug debugger;
+    @Override
+    public void onEnable() {
+        version = new BukkitVersion();
 
-	@Override
-	public void onEnable() {
-		version = new BukkitVersion();
+        Setting.reload();
+        Message.reload();
 
-		if (version.isBelow(1, 9)) {
-			getLogger().info("[TradeShop] Minecraft versions before 1.9 are not supported beyond TradeShop version 1.5.2!");
-			getServer().getPluginManager().disablePlugin(this);
-			return;
-		}
-
-		if (version.isBelow(1, 13)) {
-			getLogger().info("[TradeShop] Minecraft versions before 1.13 are not supported beyond TradeShop version 1.8.2!");
-			getServer().getPluginManager().disablePlugin(this);
-			return;
-		}
-
-		Setting.reload();
-		Message.reload();
-
-		debugger = new Debug();
+        debugger = new Debug();
         signs = new ShopSign();
         storages = new ShopStorage();
-		lists = new ListManager();
+        lists = new ListManager();
 
-		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new JoinEventListener(this), this);
-		pm.registerEvents(new ShopProtectionListener(this), this);
-		pm.registerEvents(new ShopCreateListener(), this);
-		pm.registerEvents(new ShopTradeListener(), this);
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new JoinEventListener(this), this);
+        pm.registerEvents(new ShopProtectionListener(this), this);
+        pm.registerEvents(new ShopCreateListener(), this);
+        pm.registerEvents(new ShopTradeListener(), this);
         pm.registerEvents(new ShopRestockListener(this), this);
 
-		getCommand("tradeshop").setExecutor(new CommandCaller(this));
-		getCommand("tradeshop").setTabCompleter(new CommandTabCaller(this));
+        getCommand("tradeshop").setExecutor(new CommandCaller(this));
+        getCommand("tradeshop").setTabCompleter(new CommandTabCaller(this));
 
+        /*
         if (Setting.CHECK_UPDATES.getBoolean()) {
-			new Thread(() -> new Updater(getDescription()).checkCurrentVersion()).start();
-		}
+            new Thread(() -> new Updater(getDescription()).checkCurrentVersion()).start();
+        }
+        */
 
-		if (Setting.ALLOW_METRICS.getBoolean()) {
-            metrics = new Metrics(this, bStatsPluginID);
-			getLogger().info("Metrics successfully initialized!");
-
-		} else {
-			getLogger().warning("Metrics are disabled! Please consider enabling them to support the authors!");
-		}
-
-	}
+    }
 
     public NamespacedKey getStorageKey() {
         return storageKey;

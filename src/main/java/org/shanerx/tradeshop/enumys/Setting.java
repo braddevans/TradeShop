@@ -80,28 +80,24 @@ public enum Setting {
     ALLOW_USER_PURCHASING(SettingSectionKeys.SHOP_OPTIONS, "allow-user-purchasing", false, "Can players purchase from a shop in which they are a user of (true/false)"),
     MULTIPLE_ITEMS_ON_SIGN(SettingSectionKeys.SHOP_OPTIONS, "multiple-items-on-sign", "Use '/ts what'", "Text that shows on trade signs that contain more than 1 item", "\n"),
 
-
     // Trade Shop Options
     TRADESHOP_HEADER(SettingSectionKeys.TRADE_SHOP_OPTIONS, "header", "Trade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
     TRADESHOP_EXPLODE(SettingSectionKeys.TRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign/storage (true/false)"),
     TRADESHOP_HOPPER_EXPORT(SettingSectionKeys.TRADE_SHOP_OPTIONS, "allow-hopper-export", false, "Can hoppers pull items from the shop storage (true/false)", "\n"),
-
 
     // ITrade Shop Options
     ITRADESHOP_OWNER(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "owner", "Server Shop", "Name to put on the bottom of iTrade signs"),
     ITRADESHOP_HEADER(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "header", "iTrade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
     ITRADESHOP_EXPLODE(SettingSectionKeys.ITRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign (true/false)", "\n"),
 
-
     // BiTrade Shop Options
     BITRADESHOP_HEADER(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "header", "BiTrade", "The header that appears at the top of the shop signs, this is also what the player types to create the sign"),
     BITRADESHOP_EXPLODE(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "allow-explode", false, "Can explosions damage the shop sign/storage (true/false)"),
     BITRADESHOP_HOPPER_EXPORT(SettingSectionKeys.BITRADE_SHOP_OPTIONS, "allow-hopper-export", false, "Can hoppers pull items from the shop storage (true/false)");
 
-
-	private static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
-	private static File file = new File(plugin.getDataFolder(), "config.yml");
-	private static FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+    private static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
+    private static File file = new File(plugin.getDataFolder(), "config.yml");
+    private static FileConfiguration config = YamlConfiguration.loadConfiguration(file);
     private String key, path, preComment = "", postComment = "";
     private Object defaultValue;
     private SettingSectionKeys sectionKey;
@@ -128,41 +124,41 @@ public enum Setting {
         this.defaultValue = defaultValue;
         this.preComment = preComment;
         this.postComment = postComment;
-	}
+    }
 
-	public static ArrayList<String> getItemBlackList() {
-		ArrayList<String> blacklist = new ArrayList<>();
-		blacklist.add("air");
-		blacklist.addAll(Setting.ILLEGAL_ITEMS.getStringList());
+    public static ArrayList<String> getItemBlackList() {
+        ArrayList<String> blacklist = new ArrayList<>();
+        blacklist.add("air");
+        blacklist.addAll(Setting.ILLEGAL_ITEMS.getStringList());
 
-		return blacklist;
-	}
+        return blacklist;
+    }
 
-	public static Setting findSetting(String search) {
-		return valueOf(search.toUpperCase().replace("-", "_"));
-	}
+    public static Setting findSetting(String search) {
+        return valueOf(search.toUpperCase().replace("-", "_"));
+    }
 
-	private static void setDefaults() {
-		config = YamlConfiguration.loadConfiguration(file);
+    private static void setDefaults() {
+        config = YamlConfiguration.loadConfiguration(file);
 
         for (Setting set : Setting.values()) {
             addSetting(set.path, set.defaultValue);
         }
 
-		save();
-	}
+        save();
+    }
 
-	private static void addSetting(String node, Object value) {
-		if (config.get(node) == null) {
-			config.set(node, value);
-		}
-	}
+    private static void addSetting(String node, Object value) {
+        if (config.get(node) == null) {
+            config.set(node, value);
+        }
+    }
 
-	private static void save() {
+    private static void save() {
         Validate.notNull(file, "File cannot be null");
 
-		if (config != null)
-			try {
+        if (config != null) {
+            try {
                 Files.createParentDirs(file);
 
                 StringBuilder data = new StringBuilder();
@@ -176,13 +172,13 @@ public enum Setting {
                         settingSectionKeys.remove(setting.sectionKey);
                     }
 
-                    if (!setting.preComment.isEmpty()) {
+                    if (! setting.preComment.isEmpty()) {
                         data.append(setting.sectionKey.getValueLead()).append("# ").append(setting.preComment).append("\n");
                     }
 
                     data.append(setting.sectionKey.getValueLead()).append(setting.key).append(": ").append(new Yaml().dump(setting.getSetting()));
 
-                    if (!setting.postComment.isEmpty()) {
+                    if (! setting.postComment.isEmpty()) {
                         data.append(setting.postComment).append("\n");
                     }
                 }
@@ -191,34 +187,37 @@ public enum Setting {
 
                 try {
                     writer.write(data.toString());
-                } finally {
+                }
+                finally {
                     writer.close();
                 }
 
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-
-	public static void reload() {
-		try {
-			if (!plugin.getDataFolder().isDirectory()) {
-				plugin.getDataFolder().mkdirs();
-			}
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-		} catch (IOException e) {
-			plugin.getLogger().log(Level.SEVERE, "Could not create Config file! Disabling plugin!", e);
-			plugin.getServer().getPluginManager().disablePlugin(plugin);
-		}
+    public static void reload() {
+        try {
+            if (! plugin.getDataFolder().isDirectory()) {
+                plugin.getDataFolder().mkdirs();
+            }
+            if (! file.exists()) {
+                file.createNewFile();
+            }
+        }
+        catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Could not create Config file! Disabling plugin!", e);
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
+        }
 
         fixUp();
 
-		setDefaults();
-		config = YamlConfiguration.loadConfiguration(file);
-	}
+        setDefaults();
+        config = YamlConfiguration.loadConfiguration(file);
+    }
 
     // Method to fix any values that have changed with updates
     private static void fixUp() {
@@ -231,7 +230,7 @@ public enum Setting {
         }
 
         // 2.2.2 Changed enable debug from true/false to integer
-        if (!config.isInt(ENABLE_DEBUG.path)) {
+        if (! config.isInt(ENABLE_DEBUG.path)) {
             ENABLE_DEBUG.clearSetting();
             changes = true;
         }
@@ -292,53 +291,51 @@ public enum Setting {
                 changes = true;
             }
 
-
             CONFIG_VERSION.setSetting(1.1);
         }
-		
-        if (changes)
-            save();
+
+        if (changes) { save(); }
     }
 
-	public static FileConfiguration getConfig() {
-		return config;
-	}
+    public static FileConfiguration getConfig() {
+        return config;
+    }
 
-	public String toPath() {
-		return path;
-	}
-
-    public void setSetting(Object obj) {
-        config.set(toPath(), obj);
+    public String toPath() {
+        return path;
     }
 
     public void clearSetting() {
         config.set(toPath(), null);
     }
 
-	public Object getSetting() {
-		return config.get(toPath());
-	}
+    public Object getSetting() {
+        return config.get(toPath());
+    }
 
-	public String getString() {
-		return config.getString(toPath());
-	}
+    public void setSetting(Object obj) {
+        config.set(toPath(), obj);
+    }
 
-	public List<String> getStringList() {
-		return config.getStringList(toPath());
-	}
+    public String getString() {
+        return config.getString(toPath());
+    }
 
-	public int getInt() {
-		return config.getInt(toPath());
-	}
+    public List<String> getStringList() {
+        return config.getStringList(toPath());
+    }
 
-	public double getDouble() {
-		return config.getDouble(toPath());
-	}
+    public int getInt() {
+        return config.getInt(toPath());
+    }
 
-	public boolean getBoolean() {
-		return config.getBoolean(toPath());
-	}
+    public double getDouble() {
+        return config.getDouble(toPath());
+    }
+
+    public boolean getBoolean() {
+        return config.getBoolean(toPath());
+    }
 }
 
 enum SettingSectionKeys {
@@ -359,20 +356,18 @@ enum SettingSectionKeys {
     SettingSectionKeys(String key, String sectionHeader) {
         this.key = key;
         this.sectionHeader = sectionHeader;
-        if (!key.isEmpty())
-            this.value_lead = "  ";
+        if (! key.isEmpty()) { this.value_lead = "  "; }
     }
 
     SettingSectionKeys(SettingSectionKeys parent, String key, String sectionHeader) {
         this.key = key;
         this.sectionHeader = sectionHeader;
         this.parent = parent;
-        if (!key.isEmpty())
-            this.value_lead = parent.value_lead + "  ";
+        if (! key.isEmpty()) { this.value_lead = parent.value_lead + "  "; }
     }
 
     public String getKey() {
-        return !key.isEmpty() ? (parent != null ? parent.getKey() + "." + key + "." : key + ".") : "";
+        return ! key.isEmpty() ? (parent != null ? parent.getKey() + "." + key + "." : key + ".") : "";
     }
 
     public String getValueLead() {
@@ -380,7 +375,7 @@ enum SettingSectionKeys {
     }
 
     public String getFormattedHeader() {
-        if (!sectionHeader.isEmpty() && !key.isEmpty()) {
+        if (! sectionHeader.isEmpty() && ! key.isEmpty()) {
             StringBuilder header = new StringBuilder();
             header.append("|    ").append(sectionHeader).append("    |");
 
@@ -396,7 +391,8 @@ enum SettingSectionKeys {
             header.append("\n").append(getFileText()).append(":\n");
 
             return header.toString();
-        } else if (sectionHeader.isEmpty() && !key.isEmpty()) {
+        }
+        else if (sectionHeader.isEmpty() && ! key.isEmpty()) {
             StringBuilder header = new StringBuilder();
 
             header.append(getFileText()).append(":\n");

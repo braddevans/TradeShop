@@ -50,118 +50,113 @@ import org.shanerx.tradeshop.utils.Utils;
 @SuppressWarnings("unused")
 public class ShopCreateListener extends Utils implements Listener {
 
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onSignChange(SignChangeEvent event) {
+    @EventHandler(priority = EventPriority.NORMAL,
+                  ignoreCancelled = true)
+    public void onSignChange(SignChangeEvent event) {
 
-		if (event.isCancelled())
-			return;
+        if (event.isCancelled()) { return; }
 
-		Sign shopSign = (Sign) event.getBlock().getState();
-		shopSign.setLine(0, event.getLine(0));
-		shopSign.setLine(1, event.getLine(1));
-		shopSign.setLine(2, event.getLine(2));
-		shopSign.setLine(3, event.getLine(3));
+        Sign shopSign = (Sign) event.getBlock().getState();
+        shopSign.setLine(0, event.getLine(0));
+        shopSign.setLine(1, event.getLine(1));
+        shopSign.setLine(2, event.getLine(2));
+        shopSign.setLine(3, event.getLine(3));
 
-		if (!ShopType.isShop(shopSign)) {
-			return;
-		}
-		ShopType shopType = ShopType.getType(shopSign);
-		Player p = event.getPlayer();
-		ShopUser owner = new ShopUser(p, ShopRole.OWNER);
+        if (! ShopType.isShop(shopSign)) {
+            return;
+        }
+        ShopType shopType = ShopType.getType(shopSign);
+        Player p = event.getPlayer();
+        ShopUser owner = new ShopUser(p, ShopRole.OWNER);
 
-		if (!shopType.checkPerm(p)) {
-			failedSign(event, shopType, Message.NO_TS_CREATE_PERMISSION);
-			return;
-		}
+        if (! shopType.checkPerm(p)) {
+            failedSign(event, shopType, Message.NO_TS_CREATE_PERMISSION);
+            return;
+        }
 
-		if (!checkShopChest(shopSign.getBlock()) && !shopType.isITrade()) {
-			failedSign(event, shopType, Message.NO_CHEST);
-			return;
-		}
+        if (! checkShopChest(shopSign.getBlock()) && ! shopType.isITrade()) {
+            failedSign(event, shopType, Message.NO_CHEST);
+            return;
+        }
 
-		JsonConfiguration chunk = new JsonConfiguration(shopSign.getChunk());
+        JsonConfiguration chunk = new JsonConfiguration(shopSign.getChunk());
 
-		if (Setting.MAX_SHOPS_PER_CHUNK.getInt() <= chunk.getShopCount() + 1) {
-			failedSign(event, shopType, Message.TOO_MANY_CHESTS);
-			return;
-		}
+        if (Setting.MAX_SHOPS_PER_CHUNK.getInt() <= chunk.getShopCount() + 1) {
+            failedSign(event, shopType, Message.TOO_MANY_CHESTS);
+            return;
+        }
 
-		ShopChest shopChest;
-		Shop shop;
-		Block chest = findShopChest(event.getBlock());
+        ShopChest shopChest;
+        Shop shop;
+        Block chest = findShopChest(event.getBlock());
 
-		if (!shopType.isITrade()) {
-			if (ShopChest.isShopChest(chest)) {
-				shopChest = new ShopChest(chest.getLocation());
-			} else {
-				shopChest = new ShopChest(chest, p.getUniqueId(), shopSign.getLocation());
-			}
+        if (! shopType.isITrade()) {
+            if (ShopChest.isShopChest(chest)) {
+                shopChest = new ShopChest(chest.getLocation());
+            }
+            else {
+                shopChest = new ShopChest(chest, p.getUniqueId(), shopSign.getLocation());
+            }
 
-			if (shopChest.hasOwner() && !shopChest.getOwner().equals(owner.getUUID())) {
-				failedSign(event, shopType, Message.NO_SHOP_PERMISSION);
-				return;
-			}
+            if (shopChest.hasOwner() && ! shopChest.getOwner().equals(owner.getUUID())) {
+                failedSign(event, shopType, Message.NO_SHOP_PERMISSION);
+                return;
+            }
 
-			if (shopChest.hasShopSign() && !shopChest.getShopSign().getLocation().equals(shopSign.getLocation())) {
-				failedSign(event, shopType, Message.EXISTING_SHOP);
-				return;
-			}
+            if (shopChest.hasShopSign() && ! shopChest.getShopSign().getLocation().equals(shopSign.getLocation())) {
+                failedSign(event, shopType, Message.EXISTING_SHOP);
+                return;
+            }
 
-			shop = new Shop(new Tuple<>(shopSign.getLocation(), shopChest.getChest().getLocation()), shopType, owner);
-			shopChest.setName();
+            shop = new Shop(new Tuple<>(shopSign.getLocation(), shopChest.getChest().getLocation()), shopType, owner);
+            shopChest.setName();
 
+            if (shopChest.isEmpty() && shop.hasProduct()) {
+                p.sendMessage(Message.EMPTY_TS_ON_SETUP.getPrefixed());
+            }
+        }
+        else {
+            shop = new Shop(shopSign.getLocation(), shopType, owner);
+        }
 
-			if (shopChest.isEmpty() && shop.hasProduct()) {
-				p.sendMessage(Message.EMPTY_TS_ON_SETUP.getPrefixed());
-			}
-		} else {
-			shop = new Shop(shopSign.getLocation(), shopType, owner);
-		}
+        shop.setEvent(event);
 
-		shop.setEvent(event);
+        ItemStack product = lineCheck(event.getLine(1)),
+                cost = lineCheck(event.getLine(2));
 
-		ItemStack product = lineCheck(event.getLine(1)),
-				cost = lineCheck(event.getLine(2));
+        if (product != null && shop.getProduct().isEmpty()) { shop.setProduct(product); }
 
-		if (product != null && shop.getProduct().isEmpty())
-			shop.setProduct(product);
+        if (cost != null && shop.getCost().isEmpty()) { shop.setCost(cost); }
 
-		if (cost != null && shop.getCost().isEmpty())
-			shop.setCost(cost);
-		
-		PlayerShopCreateEvent shopCreateEvent = new PlayerShopCreateEvent(p, shop);
-		Bukkit.getPluginManager().callEvent(shopCreateEvent);
-		if (shopCreateEvent.isCancelled()) {
-			event.setCancelled(true);
-			return;
-		}
-		
-		shop.updateSign(event);
-		shop.removeEvent();
-		shop.saveShop();
+        PlayerShopCreateEvent shopCreateEvent = new PlayerShopCreateEvent(p, shop);
+        Bukkit.getPluginManager().callEvent(shopCreateEvent);
+        if (shopCreateEvent.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
 
-		p.sendMessage(Message.SUCCESSFUL_SETUP.getPrefixed());
-	}
+        shop.updateSign(event);
+        shop.removeEvent();
+        shop.saveShop();
 
-	private ItemStack lineCheck(String line) {
-		if (line == null || line.equalsIgnoreCase("") || !line.contains(" ") || line.split(" ").length != 2)
-			return null;
+        p.sendMessage(Message.SUCCESSFUL_SETUP.getPrefixed());
+    }
 
-		String[] info = line.split(" ");
+    private ItemStack lineCheck(String line) {
+        if (line == null || line.equalsIgnoreCase("") || ! line.contains(" ") || line.split(" ").length != 2) { return null; }
 
-		for (String str : info) {
-			if (str == null || str.equalsIgnoreCase(""))
-				return null;
-		}
+        String[] info = line.split(" ");
 
-		if (!isInt(info[0]) || Material.matchMaterial(info[1]) == null)
-			return null;
+        for (String str : info) {
+            if (str == null || str.equalsIgnoreCase("")) { return null; }
+        }
 
-		ItemStack item = new ItemStack(Material.matchMaterial(info[1]), Integer.parseInt(info[0]));
+        if (! isInt(info[0]) || Material.matchMaterial(info[1]) == null) { return null; }
 
-		if (plugin.getListManager().isBlacklisted(item.getType()))
-			return null;
+        ItemStack item = new ItemStack(Material.matchMaterial(info[1]), Integer.parseInt(info[0]));
 
-		return item;
-	}
+        if (plugin.getListManager().isBlacklisted(item.getType())) { return null; }
+
+        return item;
+    }
 }

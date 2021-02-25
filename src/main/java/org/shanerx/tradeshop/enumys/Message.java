@@ -80,14 +80,14 @@ public enum Message {
     PLUGIN_BEHIND(MessageSectionKeys.NONE, "&cThe server is running an old version of TradeShop, please update the plugin."),
     SELF_OWNED(MessageSectionKeys.NONE, "&cYou cannot buy from a shop in which you are a user.", "Text to display when a player tries to buy form a shop in which they are a user"),
     SETUP_HELP(MessageSectionKeys.NONE, "\n&2Setting up a TradeShop is easy! Just make sure to follow these steps:"
-            + "\n \nStep 1: &ePlace down a chest."
-            + "\n&2Step 2: &ePlace a sign on top of or around the chest."
-            + "\n&2Step 3: &eWrite the following on the sign"
-            + "\n&6     [%header%]"
-            + "\n&6&o-- Leave Blank --"
-            + "\n&6&o-- Leave Blank --"
-            + "\n&6&o-- Leave Blank --"
-            + "\n&2Step 4: &eUse the addCost and addProduct commands to add items to your shop", "Text to display on \"/tradeshop setup\":"),
+                                        + "\n \nStep 1: &ePlace down a chest."
+                                        + "\n&2Step 2: &ePlace a sign on top of or around the chest."
+                                        + "\n&2Step 3: &eWrite the following on the sign"
+                                        + "\n&6     [%header%]"
+                                        + "\n&6&o-- Leave Blank --"
+                                        + "\n&6&o-- Leave Blank --"
+                                        + "\n&6&o-- Leave Blank --"
+                                        + "\n&2Step 4: &eUse the addCost and addProduct commands to add items to your shop", "Text to display on \"/tradeshop setup\":"),
     SHOP_CLOSED(MessageSectionKeys.NONE, "&cThis shop is currently closed."),
     SHOP_EMPTY(MessageSectionKeys.NONE, "&cThis TradeShop is currently &emissing &citems to complete the trade!", "Text to display when the shop does not have enough stock:"),
     SHOP_FULL(MessageSectionKeys.NONE, "&cThis TradeShop is full, please contact the owner to get it emptied!", "Text to display when the shop storage is full:"),
@@ -111,7 +111,6 @@ public enum Message {
 
     private String defaultValue, preComment = "", postComment = "";
     private MessageSectionKeys sectionKey;
-
 
     Message(MessageSectionKeys sectionKey, String defaultValue) {
         this.sectionKey = sectionKey;
@@ -146,7 +145,7 @@ public enum Message {
     private static void save() {
         Validate.notNull(file, "File cannot be null");
 
-        if (config != null)
+        if (config != null) {
             try {
                 Files.createParentDirs(file);
 
@@ -157,19 +156,19 @@ public enum Message {
                 messageSectionKeys.remove(MessageSectionKeys.UNUSED);
 
                 for (Message message : values()) {
-                    if (!message.sectionKey.equals(MessageSectionKeys.UNUSED)) {
+                    if (! message.sectionKey.equals(MessageSectionKeys.UNUSED)) {
                         if (messageSectionKeys.contains(message.sectionKey)) {
                             data.append(message.sectionKey.getFormattedHeader());
                             messageSectionKeys.remove(message.sectionKey);
                         }
 
-                        if (!message.preComment.isEmpty()) {
+                        if (! message.preComment.isEmpty()) {
                             data.append("# ").append(message.preComment).append("\n");
                         }
 
                         data.append(message.sectionKey.getValueLead()).append(message.getPath()).append(": ").append(new Yaml().dump(message.getMessage()));
 
-                        if (!message.postComment.isEmpty()) {
+                        if (! message.postComment.isEmpty()) {
                             data.append(message.postComment).append("\n");
                         }
                     }
@@ -179,25 +178,28 @@ public enum Message {
 
                 try {
                     writer.write(data.toString());
-                } finally {
+                }
+                finally {
                     writer.close();
                 }
 
-
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     public static void reload() {
         try {
-            if (!plugin.getDataFolder().isDirectory()) {
+            if (! plugin.getDataFolder().isDirectory()) {
                 plugin.getDataFolder().mkdirs();
             }
-            if (!file.exists()) {
+            if (! file.exists()) {
                 file.createNewFile();
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Could not create Message file! Disabling plugin!", e);
             plugin.getServer().getPluginManager().disablePlugin(plugin);
         }
@@ -241,20 +243,18 @@ enum MessageSectionKeys {
     MessageSectionKeys(String key, String sectionHeader) {
         this.key = key;
         this.sectionHeader = sectionHeader;
-        if (!key.isEmpty())
-            this.value_lead = "  ";
+        if (! key.isEmpty()) { this.value_lead = "  "; }
     }
 
     MessageSectionKeys(MessageSectionKeys parent, String key, String sectionHeader) {
         this.key = key;
         this.sectionHeader = sectionHeader;
         this.parent = parent;
-        if (!key.isEmpty())
-            this.value_lead = parent.value_lead + "  ";
+        if (! key.isEmpty()) { this.value_lead = parent.value_lead + "  "; }
     }
 
     public String getKey() {
-        return !key.isEmpty() ? (parent != null ? parent.getKey() + "." + key + "." : key + ".") : "";
+        return ! key.isEmpty() ? (parent != null ? parent.getKey() + "." + key + "." : key + ".") : "";
     }
 
     public String getValueLead() {
@@ -262,7 +262,7 @@ enum MessageSectionKeys {
     }
 
     public String getFormattedHeader() {
-        if (!sectionHeader.isEmpty() && !key.isEmpty()) {
+        if (! sectionHeader.isEmpty() && ! key.isEmpty()) {
             StringBuilder header = new StringBuilder();
             header.append("|    ").append(sectionHeader).append("    |");
 
@@ -278,7 +278,8 @@ enum MessageSectionKeys {
             header.append("\n").append(getFileText()).append(":\n");
 
             return header.toString();
-        } else if (sectionHeader.isEmpty() && !key.isEmpty()) {
+        }
+        else if (sectionHeader.isEmpty() && ! key.isEmpty()) {
             StringBuilder header = new StringBuilder();
 
             header.append(getFileText()).append(":\n");

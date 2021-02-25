@@ -34,7 +34,7 @@ public enum ShopStatus {
     INCOMPLETE("&c<Incomplete>", Setting.SHOP_INCOMPLETE_STATUS, false),
     OUT_OF_STOCK("&c<Out Of Stock>", Setting.SHOP_OUTOFSTOCK_STATUS, false);
 
-	private static final char COLOUR_CHAR = '&';
+    private static final char COLOUR_CHAR = '&';
     private String label;
     private boolean tradingAllowed;
     private Setting labelEnum;
@@ -43,18 +43,18 @@ public enum ShopStatus {
         this.label = label;
         this.labelEnum = labelEnum;
         this.tradingAllowed = tradingAllowed;
-	}
+    }
 
-	public static String colorize(String x) {
-		return ChatColor.translateAlternateColorCodes(COLOUR_CHAR, x);
-	}
+    public static String colorize(String x) {
+        return ChatColor.translateAlternateColorCodes(COLOUR_CHAR, x);
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
         return name();
-	}
+    }
 
-	public String getLine() {
+    public String getLine() {
         return colorize(labelEnum.getString().isEmpty() ? label : labelEnum.getString());
     }
 

@@ -47,11 +47,9 @@ public class Debug {
             decimalDebugLevel = DebugLevels.maxValue();
         }
         StringBuilder sb = new StringBuilder(Integer.toBinaryString(decimalDebugLevel));
-        while (sb.length() < DebugLevels.levels())
-            sb.insert(0, 0);
+        while (sb.length() < DebugLevels.levels()) { sb.insert(0, 0); }
 
         binaryDebugLevel = sb.reverse().toString();
-
 
         if (decimalDebugLevel > 0) {
             Bukkit.getLogger().log(Level.INFO, PREFIX.replace("%level%", "") + "Debugging enabled!");
@@ -61,7 +59,7 @@ public class Debug {
     }
 
     public void log(String message, DebugLevels level) {
-        if (level.getPosition() - 1 != -1 && binaryDebugLevel.charAt(level.getPosition() - 1) == '1') {
+        if (level.getPosition() - 1 != - 1 && binaryDebugLevel.charAt(level.getPosition() - 1) == '1') {
             Bukkit.getLogger().log(level.getLogLevel(), PREFIX.replace("%level%", level.getPrefix()) + message);
         }
     }

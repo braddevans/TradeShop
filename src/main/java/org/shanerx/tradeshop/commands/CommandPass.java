@@ -33,51 +33,52 @@ import java.util.ArrayList;
 
 public class CommandPass {
 
-	private CommandSender sender;
-	private Command cmd;
-	private String label;
-	private ArrayList<String> args;
+    private CommandSender sender;
+    private Command cmd;
+    private String label;
+    private ArrayList<String> args;
 
-	public CommandPass(CommandSender sender, Command cmd, String label, String[] args) {
-		this.sender = sender;
-		this.cmd = cmd;
-		this.label = label;
-		this.args = Lists.newArrayList(args);
-	}
+    public CommandPass(CommandSender sender, Command cmd, String label, String[] args) {
+        this.sender = sender;
+        this.cmd = cmd;
+        this.label = label;
+        this.args = Lists.newArrayList(args);
+    }
 
-	public CommandSender getSender() {
-		return sender;
-	}
+    public CommandSender getSender() {
+        return sender;
+    }
 
-	public Command getCmd() {
-		return cmd;
-	}
+    public Command getCmd() {
+        return cmd;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public int argsSize() {
-		return args.size();
-	}
+    public int argsSize() {
+        return args.size();
+    }
 
-	public boolean hasArgAt(int index) {
-		return index < argsSize();
-	}
+    public boolean hasArgAt(int index) {
+        return index < argsSize();
+    }
 
-	public String getArgAt(int index) {
-		if (hasArgAt(index)) {
-			return args.get(index);
-		} else {
-			return null;
-		}
-	}
+    public String getArgAt(int index) {
+        if (hasArgAt(index)) {
+            return args.get(index);
+        }
+        else {
+            return null;
+        }
+    }
 
-	public ArrayList<String> getArgs() {
-		return args;
-	}
+    public ArrayList<String> getArgs() {
+        return args;
+    }
 
-	public boolean hasArgs() {
-		return argsSize() > 0;
-	}
+    public boolean hasArgs() {
+        return argsSize() > 0;
+    }
 }

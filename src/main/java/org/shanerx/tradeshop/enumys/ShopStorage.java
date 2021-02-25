@@ -50,8 +50,8 @@ public class ShopStorage extends Utils {
 
             boolean added = false;
 
-            if ((type.hasMinVersion() && !version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) ||
-                    (type.hasMaxVersion() && !version.isAbove(type.getMaxVer().get(0), type.getMaxVer().get(1), type.getMaxVer().get(2)))) {
+            if ((type.hasMinVersion() && ! version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) ||
+                (type.hasMaxVersion() && ! version.isAbove(type.getMaxVer().get(0), type.getMaxVer().get(1), type.getMaxVer().get(2)))) {
                 storageTypes.put(type.getStrippedName(), type);
                 added = true;
             }
@@ -90,7 +90,8 @@ public class ShopStorage extends Utils {
         DROPPER("1.5.0", "", 3, Lists.newArrayList(Material.DROPPER)),
         FURNACE("1.0.0", "", 10, Lists.newArrayList(Material.FURNACE)),
         HOPPER("1.5.0", "", 5, Lists.newArrayList(Material.HOPPER)),
-        SHULKER_BOX("1.11.0", "", 1, Lists.newArrayList(Material.SHULKER_BOX, Material.WHITE_SHULKER_BOX, Material.ORANGE_SHULKER_BOX, Material.MAGENTA_SHULKER_BOX, Material.LIGHT_BLUE_SHULKER_BOX, Material.YELLOW_SHULKER_BOX, Material.LIME_SHULKER_BOX, Material.PINK_SHULKER_BOX, Material.GRAY_SHULKER_BOX, Material.LIGHT_GRAY_SHULKER_BOX, Material.CYAN_SHULKER_BOX, Material.PURPLE_SHULKER_BOX, Material.BLUE_SHULKER_BOX, Material.BROWN_SHULKER_BOX, Material.GREEN_SHULKER_BOX, Material.RED_SHULKER_BOX, Material.BLACK_SHULKER_BOX)),
+        SHULKER_BOX("1.11.0", "", 1, Lists.newArrayList(Material.SHULKER_BOX, Material.WHITE_SHULKER_BOX, Material.ORANGE_SHULKER_BOX, Material.MAGENTA_SHULKER_BOX, Material.LIGHT_BLUE_SHULKER_BOX, Material.YELLOW_SHULKER_BOX, Material.LIME_SHULKER_BOX, Material.PINK_SHULKER_BOX, Material.GRAY_SHULKER_BOX, Material.LIGHT_GRAY_SHULKER_BOX, Material.CYAN_SHULKER_BOX, Material.PURPLE_SHULKER_BOX, Material.BLUE_SHULKER_BOX, Material.BROWN_SHULKER_BOX, Material.GREEN_SHULKER_BOX,
+                Material.RED_SHULKER_BOX, Material.BLACK_SHULKER_BOX)),
         SMOKER("1.14.0", "", 10, Lists.newArrayList(Material.SMOKER));
 
         private List<Integer> minVer = Arrays.asList(new Integer[3]), maxVer = Arrays.asList(new Integer[3]);
@@ -99,11 +100,9 @@ public class ShopStorage extends Utils {
         private List<Material> typeMaterials;
 
         Storages(String minVersion, String maxVersion, int weight, List<Material> typeMaterials) {
-            if (minVersion.equalsIgnoreCase(""))
-                hasMin = false;
+            if (minVersion.equalsIgnoreCase("")) { hasMin = false; }
 
-            if (maxVersion.equalsIgnoreCase(""))
-                hasMax = false;
+            if (maxVersion.equalsIgnoreCase("")) { hasMax = false; }
 
             if (hasMin) {
                 String[] minVerArray = minVersion.split("[.]");

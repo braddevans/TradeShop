@@ -28,38 +28,38 @@ package org.shanerx.tradeshop.enumys;
 @SuppressWarnings("unused")
 public enum ShopRole {
 
-	/**
-	 * ShopRole(canDestroy, canEdit, canOpen, canShop)
-	 */
-	OWNER(true, true, true, false),
-	MANAGER(false, true, true, false),
-	MEMBER(false, false, true, false),
-	SHOPPER(false, false, false, true);
+    /**
+     * ShopRole(canDestroy, canEdit, canOpen, canShop)
+     */
+    OWNER(true, true, true, false),
+    MANAGER(false, true, true, false),
+    MEMBER(false, false, true, false),
+    SHOPPER(false, false, false, true);
 
-	private String roleName;
-	private transient boolean destroy, edit, open, shop;
+    private String roleName;
+    private transient boolean destroy, edit, open, shop;
 
-	ShopRole(boolean destroy, boolean edit, boolean open, boolean shop) {
-		this.destroy = destroy;
-		this.edit = edit;
-		this.open = open;
-		this.shop = shop;
-		roleName = name();
-	}
+    ShopRole(boolean destroy, boolean edit, boolean open, boolean shop) {
+        this.destroy = destroy;
+        this.edit = edit;
+        this.open = open;
+        this.shop = shop;
+        roleName = name();
+    }
 
-	public boolean canDestroy() {
-		return destroy;
-	}
+    public boolean canDestroy() {
+        return destroy;
+    }
 
-	public boolean canEdit() {
-		return edit;
-	}
+    public boolean canEdit() {
+        return edit;
+    }
 
-	public boolean canOpen() {
-		return open;
-	}
+    public boolean canOpen() {
+        return open;
+    }
 
-	public boolean canShop() {
-		return shop;
-	}
+    public boolean canShop() {
+        return shop;
+    }
 }

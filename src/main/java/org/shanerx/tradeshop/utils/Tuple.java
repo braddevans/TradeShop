@@ -30,38 +30,38 @@ import java.io.Serializable;
 
 public class Tuple<L, R> implements Serializable {
 
-	@SerializedName("right")
-	private R r;
-	@SerializedName("left")
-	private L l;
+    @SerializedName("right")
+    private R r;
+    @SerializedName("left")
+    private L l;
 
-	public Tuple() {
-	}
+    public Tuple() {
+    }
 
-	public Tuple(L l, R r) {
-		this.r = r;
-		this.l = l;
-	}
+    public Tuple(L l, R r) {
+        this.r = r;
+        this.l = l;
+    }
 
-	public Tuple(Tuple<? extends L, ? extends R> t) {
-		this.r = t.r;
-		this.l = t.l;
-	}
+    public Tuple(Tuple<? extends L, ? extends R> t) {
+        this.r = t.r;
+        this.l = t.l;
+    }
 
-	public R getRight() {
-		return r;
-	}
+    public R getRight() {
+        return r;
+    }
 
-	public L getLeft() {
-		return l;
-	}
+    public L getLeft() {
+        return l;
+    }
 
-	public String serialize() {
-		return new Gson().toJson(this);
-	}
+    public String serialize() {
+        return new Gson().toJson(this);
+    }
 
-	@Override
-	public String toString() {
-		return serialize();
-	}
+    @Override
+    public String toString() {
+        return serialize();
+    }
 }

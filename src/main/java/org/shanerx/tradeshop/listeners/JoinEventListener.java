@@ -44,34 +44,31 @@ import java.util.Map;
 
 public class JoinEventListener extends Utils implements Listener {
 
-	private TradeShop plugin;
+    private TradeShop plugin;
 
-	public JoinEventListener(TradeShop instance) {
-		plugin = instance;
-	}
+    public JoinEventListener(TradeShop instance) {
+        plugin = instance;
+    }
 
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onJoin(PlayerJoinEvent event) {
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onJoin(PlayerJoinEvent event) {
 
-		Player player = event.getPlayer();
-		JsonConfiguration json = new JsonConfiguration(player.getUniqueId());
-		Map<String, Integer> data = json.loadPlayer();
+        Player player = event.getPlayer();
+        JsonConfiguration json = new JsonConfiguration(player.getUniqueId());
+        Map<String, Integer> data = json.loadPlayer();
 
-		if (data == null)
-			data = new HashMap<>();
+        if (data == null) { data = new HashMap<>(); }
 
-		if (!data.containsKey("type"))
-			data.put("type", 0);
+        if (! data.containsKey("type")) { data.put("type", 0); }
 
         data.put("multi", Setting.MULTI_TRADE_DEFAULT.getInt());
 
-		json.savePlayer(data);
+        json.savePlayer(data);
 
-		if (player.hasPermission(Permissions.ADMIN.getPerm())) {
-			BukkitVersion ver = new BukkitVersion();
-			if (plugin.getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND))
-				player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed());
-		}
-	}
+        if (player.hasPermission(Permissions.ADMIN.getPerm())) {
+            BukkitVersion ver = new BukkitVersion();
+            if (plugin.getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND)) { player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed()); }
+        }
+    }
 }
 
