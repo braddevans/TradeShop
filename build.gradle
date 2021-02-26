@@ -6,7 +6,7 @@ plugins {
 
 
 group = 'org.shanerx'
-version = '2.2.5-STABLE'
+version = '2.2.5-DEV'
 description = 'TradeShop'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -42,8 +42,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'de.themoep:inventorygui:1.4.2-SNAPSHOT'
+    external 'de.themoep:inventorygui:1.4.3-SNAPSHOT'
     configurations.compile.extendsFrom(configurations.external)
 }
 
