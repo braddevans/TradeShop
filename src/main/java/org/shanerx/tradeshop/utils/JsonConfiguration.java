@@ -43,7 +43,8 @@ import java.util.*;
 /**
  * The type Json configuration.
  */
-@SuppressWarnings("ResultOfMethodCallIgnored") public class JsonConfiguration extends Utils implements Serializable {
+@SuppressWarnings("ResultOfMethodCallIgnored")
+public class JsonConfiguration extends Utils implements Serializable {
     private final String pluginFolder;
     private final String path;
     private final File filePath;
