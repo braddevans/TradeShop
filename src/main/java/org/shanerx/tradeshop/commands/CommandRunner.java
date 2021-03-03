@@ -32,6 +32,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.shanerx.tradeshop.TradeShop;
@@ -871,5 +872,9 @@ public class CommandRunner extends Utils {
             sendMessage(Message.NO_SIGHTED_SHOP.getPrefixed());
             return null;
         }
+    }
+
+    public void testAliases(CommandSender sender) {
+        sender.sendMessage(AlternativeNames.nameFromAlias(command.getArgAt(1)));
     }
 }

@@ -121,7 +121,10 @@ public enum Commands {
     /**
      * The Multi.
      */
-    MULTI(Lists.newArrayList("multi", "multiply", "many"), Permissions.NONE, 1, 2, true, "Changes trade multiplier for this login", "/tradeshop $cmd$ <Amount>");
+    MULTI(Lists.newArrayList("multi", "multiply", "many"), Permissions.NONE, 1, 2, true, "Changes trade multiplier for this login", "/tradeshop $cmd$ <Amount>"),
+
+
+    TEST_ALIASES(Lists.newArrayList("aliases", "ail"), Permissions.NONE, 1, 2, true, "Testing Item Aliases", "/tradeshop $cmd$ <Amount>");
 
     /**
      * Name of the permission

@@ -134,6 +134,10 @@ public class CommandCaller implements CommandExecutor {
             case REMOVE_COST:
                 cmdRnnr.removeCost();
                 break;
+            case TEST_ALIASES: {
+                cmdRnnr.testAliases(sender);
+                break;
+            }
         }
 
         return true;

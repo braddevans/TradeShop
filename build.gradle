@@ -6,7 +6,7 @@ plugins {
 
 
 group = 'org.shanerx'
-version = '2.2.5-DEV'
+version = '2.2.6-dev'
 description = 'TradeShop'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

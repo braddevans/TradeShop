@@ -232,7 +232,7 @@ public class ShopTradeListener extends Utils implements Listener {
                 ItemStack item = productItems.get(1);
                 shop.updateStatus();
                 buyer.sendMessage(Message.SHOP_INSUFFICIENT_ITEMS.getPrefixed()
-                                                                 .replace("{ITEM}", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().toString())
+                                                                 .replace("{ITEM}", item.getType().toString())
                                                                  .replace("{AMOUNT}", String.valueOf(item.getAmount() * multiplier)));
                 return false;
             }
