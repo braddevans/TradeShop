@@ -29,7 +29,8 @@ public class PlayerShopChangeEvent extends PlayerEvent implements Cancellable {
      * @param change
      *         The {@link ShopChange} enum entry which represents the kind of action which caused the event to be fired.
      * @param what
-     *         The data representing the object the change is about, wrapped inside an {@link ObjectHolder} for polymorphism purposes.
+     *         The data representing the object the change is about, wrapped inside an {@link ObjectHolder} for
+     *         polymorphism purposes.
      */
     public PlayerShopChangeEvent(Player player, Shop s, ShopChange change, ObjectHolder<?> what) {
         super(player);
@@ -73,7 +74,8 @@ public class PlayerShopChangeEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Returns the {@link ObjectHolder} instance which wraps the object representing the data which is being changed.
-     * This can be of type {@link org.bukkit.entity.Player}, {@link org.bukkit.inventory.ItemStack} or {@link java.lang.Integer}.
+     * This can be of type {@link org.bukkit.entity.Player}, {@link org.bukkit.inventory.ItemStack} or {@link
+     * java.lang.Integer}.
      *
      * @return the object the change is about.
      */
@@ -83,7 +85,9 @@ public class PlayerShopChangeEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Sets the {@link ObjectHolder} instance which wraps the object representing the data which is being changed.
-     * This can be of type {@link org.bukkit.entity.Player}, {@link org.bukkit.inventory.ItemStack} or {@link java.lang.Integer}.
+     * This can be of type {@link org.bukkit.entity.Player}, {@link org.bukkit.inventory.ItemStack} or {@link
+     * java.lang.Integer}.
+     *
      * @param what
      *         the ObjectHolder
      */

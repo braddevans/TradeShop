@@ -53,7 +53,8 @@ enum Signs {
     CRIMSON_WALL_SIGN("1.16.0", ""),
     WARPED_WALL_SIGN("1.16.0", "");
 
-    private List<Integer> minVer = Arrays.asList(new Integer[3]), maxVer = Arrays.asList(new Integer[3]);
+    private final List<Integer> minVer = Arrays.asList(new Integer[3]);
+    private final List<Integer> maxVer = Arrays.asList(new Integer[3]);
     private boolean hasMin = true, hasMax = true;
 
     Signs(String minVersion, String maxVersion) {
@@ -106,8 +107,8 @@ enum Signs {
 
 public class ShopSign extends Utils {
 
-    private BukkitVersion version = new BukkitVersion();
-    private ArrayList<Material> signTypes = new ArrayList<>();
+    private final BukkitVersion version = new BukkitVersion();
+    private final ArrayList<Material> signTypes = new ArrayList<>();
 
     public ShopSign() {
         for (Signs type : Signs.values()) {

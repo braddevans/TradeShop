@@ -38,23 +38,15 @@ public enum DebugLevels {
     INVENTORY_CLOSE_NPE(5, Level.WARNING),
     ITEM_COMPARE(6, Level.WARNING);
 
+    private static int max = 0;
     //position is what value to check for this level in the binary string -1.
     //
     int position;
     Level logLevel;
-    private static int max = 0;
 
     DebugLevels(int position, Level logLevel) {
         this.position = position;
         this.logLevel = logLevel;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public Level getLogLevel() {
-        return logLevel;
     }
 
     public static int levels() {
@@ -69,6 +61,14 @@ public enum DebugLevels {
         }
 
         return max;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public Level getLogLevel() {
+        return logLevel;
     }
 
     public String getPrefix() {

@@ -36,9 +36,9 @@ import java.util.ArrayList;
  */
 public class CommandPass {
 
-    private final CommandSender sender;
     public final Command cmd;
     public final String label;
+    private final CommandSender sender;
     private final ArrayList<String> args;
 
     /**
@@ -119,8 +119,7 @@ public class CommandPass {
     public String getArgAt(int index) {
         if (hasArgAt(index)) {
             return args.get(index);
-        }
-        else {
+        } else {
             return null;
         }
     }

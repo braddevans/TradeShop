@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  */
 public class BukkitVersion {
     private final String VERSION = Bukkit.getBukkitVersion();
-    private Map<String, Integer> verMap;
+    private final Map<String, Integer> verMap;
 
     /**
      * Instantiates a new Bukkit version.
@@ -99,8 +99,7 @@ public class BukkitVersion {
     public boolean isBelow(int major, int minor) {
         if (getMajor() < major) {
             return true;
-        }
-        else if (getMajor() == major) {
+        } else if (getMajor() == major) {
             return getMinor() < minor;
         }
 
@@ -122,12 +121,10 @@ public class BukkitVersion {
     public boolean isBelow(int major, int minor, int patch) {
         if (getMajor() < major) {
             return true;
-        }
-        else if (getMajor() == major) {
+        } else if (getMajor() == major) {
             if (getMinor() < minor) {
                 return true;
-            }
-            else if (getMinor() == minor) {
+            } else if (getMinor() == minor) {
                 return getPatch() < patch;
             }
         }
@@ -148,8 +145,7 @@ public class BukkitVersion {
     public boolean isAbove(int major, int minor) {
         if (getMajor() > major) {
             return true;
-        }
-        else if (getMajor() == major) {
+        } else if (getMajor() == major) {
             return getMinor() > minor;
         }
 
@@ -171,12 +167,10 @@ public class BukkitVersion {
     public boolean isAbove(int major, int minor, int patch) {
         if (getMajor() > major) {
             return true;
-        }
-        else if (getMajor() == major) {
+        } else if (getMajor() == major) {
             if (getMinor() > minor) {
                 return true;
-            }
-            else if (getMinor() == minor) {
+            } else if (getMinor() == minor) {
                 return getPatch() > patch;
             }
         }
@@ -226,8 +220,7 @@ public class BukkitVersion {
         try {
             Integer.parseInt(str);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -244,8 +237,7 @@ public class BukkitVersion {
         String ver;
         if (matcher.find()) {
             ver = matcher.group();
-        }
-        else {
+        } else {
             return null;
         }
 

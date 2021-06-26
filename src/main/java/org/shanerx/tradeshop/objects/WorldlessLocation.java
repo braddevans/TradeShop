@@ -5,7 +5,9 @@ import org.bukkit.World;
 
 public class WorldlessLocation {
 
-    private double x, y, z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     public WorldlessLocation(double x, double y, double z) {
         this.x = x;

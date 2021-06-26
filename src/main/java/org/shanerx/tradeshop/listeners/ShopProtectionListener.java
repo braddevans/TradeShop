@@ -68,89 +68,89 @@ public class ShopProtectionListener extends Utils implements Listener {
     public void onInventoryMoveItem(InventoryMoveItemEvent event) {
 
         //try {
-            if (event.isCancelled()) {
-                return;
-            }
+        if (event.isCancelled()) {
+            return;
+        }
 
-            if (event instanceof HopperShopAccessEvent) {
-                return;
-            }
+        if (event instanceof HopperShopAccessEvent) {
+            return;
+        }
 
         if (!(event.getInitiator().getType().equals(InventoryType.HOPPER) &&
                 plugin.getListManager().isInventory(Objects.requireNonNull(event.getSource().getLocation()).getBlock()))) {
             return;
         }
 
-            Block invBlock = event.getSource().getLocation().getBlock();
+        Block invBlock = event.getSource().getLocation().getBlock();
 
-            if (ShopChest.isShopChest(invBlock)) {
-                Shop shop = new ShopChest(invBlock.getLocation()).getShop();
-                debugger.log("ShopProtectionListener: Shop Location as SL > " + shop.getInventoryLocationAsSL().serialize(), DebugLevels.PROTECTION);
-                boolean isForbidden = !Setting.findSetting(shop.getShopType().name() + "SHOP_HOPPER_EXPORT").getBoolean();
-                debugger.log("ShopProtectionListener: isForbidden > " + isForbidden, DebugLevels.PROTECTION);
-                debugger.log("ShopProtectionListener: checked hopper setting > " + shop.getShopType().name() + "SHOP_HOPPER_EXPORT", DebugLevels.PROTECTION);
-                HopperShopAccessEvent hopperEvent = new HopperShopAccessEvent(shop, event.getSource(), event.getDestination(), event.getItem(), isForbidden);
-                Bukkit.getPluginManager().callEvent(hopperEvent);
-                debugger.log("ShopProtectionListener: (TSAF) HopperEvent fired! ", DebugLevels.PROTECTION);
-                event.setCancelled(hopperEvent.isForbidden());
-                debugger.log("ShopProtectionListener: (TSAF) HopperEvent isCancelled: " + hopperEvent.isForbidden(), DebugLevels.PROTECTION);
-                debugger.log("ShopProtectionListener: (TSAF) HopperEvent isForbidden: " + isForbidden, DebugLevels.PROTECTION);
-            }
+        if (ShopChest.isShopChest(invBlock)) {
+            Shop shop = new ShopChest(invBlock.getLocation()).getShop();
+            debugger.log("ShopProtectionListener: Shop Location as SL > " + shop.getInventoryLocationAsSL().serialize(), DebugLevels.PROTECTION);
+            boolean isForbidden = !Setting.findSetting(shop.getShopType().name() + "SHOP_HOPPER_EXPORT").getBoolean();
+            debugger.log("ShopProtectionListener: isForbidden > " + isForbidden, DebugLevels.PROTECTION);
+            debugger.log("ShopProtectionListener: checked hopper setting > " + shop.getShopType().name() + "SHOP_HOPPER_EXPORT", DebugLevels.PROTECTION);
+            HopperShopAccessEvent hopperEvent = new HopperShopAccessEvent(shop, event.getSource(), event.getDestination(), event.getItem(), isForbidden);
+            Bukkit.getPluginManager().callEvent(hopperEvent);
+            debugger.log("ShopProtectionListener: (TSAF) HopperEvent fired! ", DebugLevels.PROTECTION);
+            event.setCancelled(hopperEvent.isForbidden());
+            debugger.log("ShopProtectionListener: (TSAF) HopperEvent isCancelled: " + hopperEvent.isForbidden(), DebugLevels.PROTECTION);
+            debugger.log("ShopProtectionListener: (TSAF) HopperEvent isForbidden: " + isForbidden, DebugLevels.PROTECTION);
+        }
         // } catch (NullPointerException ignored) {
         //} // Fix for random NPE triggering from this event that shows no stack trace
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onEntityExplodeItem(EntityExplodeEvent event) {
+    public void onEntityExplodeItem(EntityExplodeEvent event) {
 
         if (event.isCancelled())
             return;
 
-		List<Block> toRemove = new ArrayList<>();
-		for (Iterator<Block> i = event.blockList().iterator(); i.hasNext(); ) {
-			Block b = i.next();
-			if (ShopChest.isShopChest(b)) {
-				Shop shop = Shop.loadShop((new ShopChest(b.getLocation())).getShopSign());
-				if (shop != null) {
+        List<Block> toRemove = new ArrayList<>();
+        for (Iterator<Block> i = event.blockList().iterator(); i.hasNext(); ) {
+            Block b = i.next();
+            if (ShopChest.isShopChest(b)) {
+                Shop shop = Shop.loadShop((new ShopChest(b.getLocation())).getShopSign());
+                if (shop != null) {
                     if (!Setting.findSetting((shop.getShopType().name() + "SHOP_EXPLODE").toUpperCase()).getBoolean())
-						i.remove();
-					else {
-						if (shop.getStorage() != null)
-							shop.getChestAsSC().resetName();
-						shop.remove();
-					}
+                        i.remove();
+                    else {
+                        if (shop.getStorage() != null)
+                            shop.getChestAsSC().resetName();
+                        shop.remove();
+                    }
 
-				}
+                }
 
-			} else if (ShopType.isShop(b)) {
+            } else if (ShopType.isShop(b)) {
                 if (!Setting.findSetting(ShopType.getType((Sign) b.getState()).name() + "SHOP_EXPLODE".toUpperCase()).getBoolean()) {
-					i.remove();
+                    i.remove();
 
-					if (plugin.getVersion().isBelow(1, 14)) {
-						org.bukkit.material.Sign s = (org.bukkit.material.Sign) b.getState().getData();
-						toRemove.add(b.getRelative(s.getAttachedFace()));
-					} else if (b.getType().toString().contains("WALL_SIGN")) {
-						BlockData data = b.getBlockData();
-						if (data instanceof Directional)
-							toRemove.add(b.getRelative(((Directional) data).getFacing().getOppositeFace()));
-					} else {
-						toRemove.add(b.getRelative(BlockFace.DOWN));
-					}
-				} else {
-					Shop shop = Shop.loadShop((Sign) b.getState());
-					if (shop != null) {
+                    if (plugin.getVersion().isBelow(1, 14)) {
+                        org.bukkit.material.Sign s = (org.bukkit.material.Sign) b.getState().getData();
+                        toRemove.add(b.getRelative(s.getAttachedFace()));
+                    } else if (b.getType().toString().contains("WALL_SIGN")) {
+                        BlockData data = b.getBlockData();
+                        if (data instanceof Directional)
+                            toRemove.add(b.getRelative(((Directional) data).getFacing().getOppositeFace()));
+                    } else {
+                        toRemove.add(b.getRelative(BlockFace.DOWN));
+                    }
+                } else {
+                    Shop shop = Shop.loadShop((Sign) b.getState());
+                    if (shop != null) {
 
-						if (shop.getStorage() != null)
-							shop.getChestAsSC().resetName();
+                        if (shop.getStorage() != null)
+                            shop.getChestAsSC().resetName();
 
-						shop.remove();
-					}
-				}
-			}
-		}
+                        shop.remove();
+                    }
+                }
+            }
+        }
 
-		event.blockList().removeAll(toRemove);
-	}
+        event.blockList().removeAll(toRemove);
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {

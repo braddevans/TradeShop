@@ -138,41 +138,41 @@ public enum Setting {
         this.defaultValue = defaultValue;
         this.preComment = preComment;
         this.postComment = postComment;
-	}
+    }
 
-	public static ArrayList<String> getItemBlackList() {
-		ArrayList<String> blacklist = new ArrayList<>();
-		blacklist.add("air");
-		blacklist.addAll(Setting.ILLEGAL_ITEMS.getStringList());
+    public static ArrayList<String> getItemBlackList() {
+        ArrayList<String> blacklist = new ArrayList<>();
+        blacklist.add("air");
+        blacklist.addAll(Setting.ILLEGAL_ITEMS.getStringList());
 
-		return blacklist;
-	}
+        return blacklist;
+    }
 
-	public static Setting findSetting(String search) {
-		return valueOf(search.toUpperCase().replace("-", "_"));
-	}
+    public static Setting findSetting(String search) {
+        return valueOf(search.toUpperCase().replace("-", "_"));
+    }
 
-	private static void setDefaults() {
-		config = YamlConfiguration.loadConfiguration(file);
+    private static void setDefaults() {
+        config = YamlConfiguration.loadConfiguration(file);
 
         for (Setting set : Setting.values()) {
             addSetting(set.path, set.defaultValue);
         }
 
-		save();
-	}
+        save();
+    }
 
-	private static void addSetting(String node, Object value) {
-		if (config.get(node) == null) {
-			config.set(node, value);
-		}
-	}
+    private static void addSetting(String node, Object value) {
+        if (config.get(node) == null) {
+            config.set(node, value);
+        }
+    }
 
-	private static void save() {
+    private static void save() {
         Validate.notNull(file, "File cannot be null");
 
-		if (config != null)
-			try {
+        if (config != null)
+            try {
                 Files.createParentDirs(file);
 
                 StringBuilder data = new StringBuilder();
@@ -206,18 +206,18 @@ public enum Setting {
                 }
 
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
 
-	public static void reload() {
-		try {
-			if (!plugin.getDataFolder().isDirectory()) {
-				plugin.getDataFolder().mkdirs();
-			}
-			if (!file.exists()) {
-				file.createNewFile();
+    public static void reload() {
+        try {
+            if (!plugin.getDataFolder().isDirectory()) {
+                plugin.getDataFolder().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
             }
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Could not create Config file! Disabling plugin!", e);
@@ -307,50 +307,50 @@ public enum Setting {
 
             CONFIG_VERSION.setSetting(1.1);
         }
-		
+
         if (changes)
             save();
     }
 
-	public static FileConfiguration getConfig() {
-		return config;
-	}
+    public static FileConfiguration getConfig() {
+        return config;
+    }
 
-	public String toPath() {
-		return path;
-	}
-
-    public void setSetting(Object obj) {
-        config.set(toPath(), obj);
+    public String toPath() {
+        return path;
     }
 
     public void clearSetting() {
         config.set(toPath(), null);
     }
 
-	public Object getSetting() {
-		return config.get(toPath());
-	}
+    public Object getSetting() {
+        return config.get(toPath());
+    }
 
-	public String getString() {
-		return config.getString(toPath());
-	}
+    public void setSetting(Object obj) {
+        config.set(toPath(), obj);
+    }
 
-	public List<String> getStringList() {
-		return config.getStringList(toPath());
-	}
+    public String getString() {
+        return config.getString(toPath());
+    }
 
-	public int getInt() {
-		return config.getInt(toPath());
-	}
+    public List<String> getStringList() {
+        return config.getStringList(toPath());
+    }
 
-	public double getDouble() {
-		return config.getDouble(toPath());
-	}
+    public int getInt() {
+        return config.getInt(toPath());
+    }
 
-	public boolean getBoolean() {
-		return config.getBoolean(toPath());
-	}
+    public double getDouble() {
+        return config.getDouble(toPath());
+    }
+
+    public boolean getBoolean() {
+        return config.getBoolean(toPath());
+    }
 }
 
 enum SettingSectionKeys {

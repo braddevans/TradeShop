@@ -38,61 +38,53 @@ import java.util.List;
 
 public class CommandTabCaller implements TabCompleter {
 
-	private final TradeShop plugin;
-	private CommandPass cmdPass;
-	private Commands command;
-	private CommandTabCompleter tabCompleter;
+    private final TradeShop plugin;
+    private CommandPass cmdPass;
+    private Commands command;
+    private CommandTabCompleter tabCompleter;
 
-	public CommandTabCaller(TradeShop instance) {
-		plugin = instance;
-	}
+    public CommandTabCaller(TradeShop instance) {
+        plugin = instance;
+    }
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		cmdPass = new CommandPass(sender, cmd, label, args);
-		command = Commands.getType(cmdPass.getArgAt(0));
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        cmdPass = new CommandPass(sender, cmd, label, args);
+        command = Commands.getType(cmdPass.getArgAt(0));
 
-		if (command != null) {
+        if (command != null) {
 
-			switch (command.checkPerm(sender)) {
-				case NO_PERM:
-					return Collections.EMPTY_LIST;
-				case PLAYER_ONLY:
-					sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
-					return Collections.EMPTY_LIST;
-			}
+            switch (command.checkPerm(sender)) {
+                case GOOD:
+                    break;
+                case NO_PERM:
+                    return Collections.EMPTY_LIST;
+                case PLAYER_ONLY:
+                    sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
+                    return Collections.EMPTY_LIST;
+            }
 
-			tabCompleter = new CommandTabCompleter(plugin, cmdPass);
+            tabCompleter = new CommandTabCompleter(cmdPass);
 
-			switch (command) {
-				case HELP:
-					return tabCompleter.help();
-				case ADD_PRODUCT:
-				case ADD_COST:
-				case SET_COST:
-				case SET_PRODUCT:
-					return tabCompleter.addSet();
-				case REMOVE_USER:
-					return tabCompleter.fillShopPlayer();
-				case ADD_MANAGER:
-				case ADD_MEMBER:
-				case PLAYER_LEVEL:
-					return tabCompleter.fillServerPlayer();
-				default:
-					return Collections.EMPTY_LIST;
-			}
-		} else {
-			if (cmdPass.argsSize() < 2) {
-				List<String> subCmds = new ArrayList<>();
-				for (Commands cmds : Commands.values()) {
-					if (cmds.isPartialName(args[0]))
-						subCmds.add(cmds.getFirstName());
-				}
+            return switch (command) {
+                case HELP -> tabCompleter.help();
+                case ADD_PRODUCT, ADD_COST, SET_COST, SET_PRODUCT -> tabCompleter.addSet();
+                case REMOVE_USER -> tabCompleter.fillShopPlayer();
+                case ADD_MANAGER, ADD_MEMBER, PLAYER_LEVEL -> tabCompleter.fillServerPlayer();
+                default -> Collections.EMPTY_LIST;
+            };
+        } else {
+            if (cmdPass.argsSize() < 2) {
+                List<String> subCmds = new ArrayList<>();
+                for (Commands cmds : Commands.values()) {
+                    if (cmds.isPartialName(args[0]))
+                        subCmds.add(cmds.getFirstName());
+                }
 
-				return subCmds;
-			}
+                return subCmds;
+            }
 
-			return Collections.EMPTY_LIST;
-		}
-	}
+            return Collections.EMPTY_LIST;
+        }
+    }
 }

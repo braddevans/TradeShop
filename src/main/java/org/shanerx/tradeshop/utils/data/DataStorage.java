@@ -36,8 +36,8 @@ import java.util.*;
 
 public class DataStorage extends Utils {
 
-    private transient DataType dataType;
     private final transient Map<World, Map<String, String>> chestLinkage = new HashMap<>();
+    private transient DataType dataType;
 
     public DataStorage(DataType dataType) {
         reload(dataType);

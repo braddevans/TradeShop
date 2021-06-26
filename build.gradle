@@ -6,10 +6,10 @@ plugins {
 
 
 group = 'org.shanerx'
-version = '2.2.6-dev'
+version = '2.2.8-1.17-dev'
 description = 'TradeShop'
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = '16'
+targetCompatibility = '16'
 
 configurations {
     external
@@ -36,17 +36,18 @@ repositories {
     }
 
     maven {
-        url = 'http://repo.maven.apache.org/maven2'
+        url = 'https://repo.maven.apache.org/maven2'
     }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     external 'de.themoep:inventorygui:1.4.3-SNAPSHOT'
-    configurations.compile.extendsFrom(configurations.external)
+    configurations.implementation.extendsFrom(configurations.external)
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
     }

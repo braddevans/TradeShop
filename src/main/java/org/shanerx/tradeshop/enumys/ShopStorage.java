@@ -56,8 +56,8 @@ public class ShopStorage extends Utils {
             boolean added = false;
 
             BukkitVersion version = new BukkitVersion();
-            if ((type.hasMinVersion() && ! version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) ||
-                (type.hasMaxVersion() && ! version.isAbove(type.getMaxVer().get(0), type.getMaxVer().get(1), type.getMaxVer().get(2)))) {
+            if ((type.hasMinVersion() && !version.isBelow(type.getMinVer().get(0), type.getMinVer().get(1), type.getMinVer().get(2))) ||
+                    (type.hasMaxVersion() && !version.isAbove(type.getMaxVer().get(0), type.getMaxVer().get(1), type.getMaxVer().get(2)))) {
                 storageTypes.put(type.getStrippedName(), type);
                 added = true;
             }
@@ -156,14 +156,18 @@ public class ShopStorage extends Utils {
 
         private final List<Integer> minVer = Arrays.asList(new Integer[3]);
         private final List<Integer> maxVer = Arrays.asList(new Integer[3]);
+        private final List<Material> typeMaterials;
         private boolean hasMin = true, hasMax = true;
         private int weight = 10;
-        private final List<Material> typeMaterials;
 
         Storages(String minVersion, String maxVersion, int weight, List<Material> typeMaterials) {
-            if (minVersion.equalsIgnoreCase("")) { hasMin = false; }
+            if (minVersion.equalsIgnoreCase("")) {
+                hasMin = false;
+            }
 
-            if (maxVersion.equalsIgnoreCase("")) { hasMax = false; }
+            if (maxVersion.equalsIgnoreCase("")) {
+                hasMax = false;
+            }
 
             if (hasMin) {
                 String[] minVerArray = minVersion.split("[.]");

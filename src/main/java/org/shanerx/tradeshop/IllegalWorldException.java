@@ -4,7 +4,7 @@ import org.shanerx.tradeshop.objects.WorldlessLocation;
 
 public class IllegalWorldException extends IllegalStateException {
 
-    private WorldlessLocation loc;
+    private final WorldlessLocation loc;
 
     public IllegalWorldException(String msg, WorldlessLocation loc) {
         super(msg);

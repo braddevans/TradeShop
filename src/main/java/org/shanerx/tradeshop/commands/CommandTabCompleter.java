@@ -37,7 +37,6 @@ import org.shanerx.tradeshop.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -71,7 +70,9 @@ public class CommandTabCompleter extends Utils {
         if (command.argsSize() == 2) {
             List<String> subCmds = new ArrayList<>();
             for (Commands cmds : Commands.values()) {
-                if (cmds.isPartialName(command.getArgAt(1))) { subCmds.add(cmds.getFirstName()); }
+                if (cmds.isPartialName(command.getArgAt(1))) {
+                    subCmds.add(cmds.getFirstName());
+                }
             }
 
             return subCmds;
@@ -88,8 +89,7 @@ public class CommandTabCompleter extends Utils {
     public List<String> addSet() {
         if (command.argsSize() == 2) {
             return Arrays.asList("1", "2", "4", "8", "16", "32", "64", "80", "96", "128");
-        }
-        else if (command.argsSize() == 3) {
+        } else if (command.argsSize() == 3) {
             return partialGameMats(command.getArgAt(2));
         }
         return new ArrayList<>();
@@ -120,11 +120,9 @@ public class CommandTabCompleter extends Utils {
 
             if (TradeShop.getInstance().getListManager().isInventory(b)) {
                 s = findShopSign(b);
-            }
-            else if (ShopType.isShop(b)) {
+            } else if (ShopType.isShop(b)) {
                 s = (Sign) b.getState();
-            }
-            else {
+            } else {
                 return new ArrayList<>();
             }
             Shop shop = Shop.loadShop(s);

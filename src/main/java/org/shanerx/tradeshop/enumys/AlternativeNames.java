@@ -11,27 +11,27 @@ public enum AlternativeNames {
         this.alias = value;
     }
 
-    public String[] getAlias() {
-        return alias;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
     public static String nameFromAlias(String alias) {
         String name = "";
-        for(AlternativeNames an: AlternativeNames.values()) {
-            for (int i = 0; i <= an.alias.length - 1; i++){
+        for (AlternativeNames an : AlternativeNames.values()) {
+            for (int i = 0; i <= an.alias.length - 1; i++) {
                 if (an.alias[i].equals(alias.toLowerCase())) {
                     name = an.name();
                     return an.name();
                 }
             }
         }
-        if (name.equals("")){
+        if (name.equals("")) {
             return alias;
         }
         return alias;
+    }
+
+    public String[] getAlias() {
+        return alias;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

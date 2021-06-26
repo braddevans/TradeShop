@@ -106,15 +106,15 @@ public class ShopItemStack implements Serializable, Cloneable {
         fromBase64();
     }
 
-    public HashMap<ShopItemStackSettingKeys, ObjectHolder<?>> getShopSettings() {
-        return shopSettings;
-    }
-
     public static ShopItemStack deserialize(String serialized) {
         ShopItemStack item = new Gson().fromJson(serialized, ShopItemStack.class);
         item.fromBase64();
         item.buildMap();
         return item;
+    }
+
+    public HashMap<ShopItemStackSettingKeys, ObjectHolder<?>> getShopSettings() {
+        return shopSettings;
     }
 
     public boolean getShopSettingAsBoolean(ShopItemStackSettingKeys key) {

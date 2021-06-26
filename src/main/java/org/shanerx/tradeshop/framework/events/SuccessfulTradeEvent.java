@@ -38,8 +38,10 @@ import java.util.List;
 
 /**
  * This class represents the event which is fired when a player attempts to perform a transaction with a shop.
- * Note: This event is ONLY fired when all the necessary conditions for the transaction are met, and it is fired JUST BEFORE it happens.
- * This makes it possible to cancel the event moments before the trade takes place, by using {@link org.bukkit.event.Cancellable}.
+ * Note: This event is ONLY fired when all the necessary conditions for the transaction are met, and it is fired JUST
+ * BEFORE it happens.
+ * This makes it possible to cancel the event moments before the trade takes place, by using {@link
+ * org.bukkit.event.Cancellable}.
  */
 public class SuccessfulTradeEvent extends PlayerInteractEvent {
 
@@ -97,7 +99,8 @@ public class SuccessfulTradeEvent extends PlayerInteractEvent {
     /**
      * The items that are being bought from the shop by the player.
      *
-     * @return A {@link java.util.List} which contains the {@link org.bukkit.inventory.ItemStack} objects which represent the items.
+     * @return A {@link java.util.List} which contains the {@link org.bukkit.inventory.ItemStack} objects which
+     *         represent the items.
      */
     public List<ShopItemStack> getProduct() {
         return product;
@@ -106,7 +109,8 @@ public class SuccessfulTradeEvent extends PlayerInteractEvent {
     /**
      * The items that are being paid to the shop by the player.
      *
-     * @return A {@link java.util.List} which contains the {@link org.bukkit.inventory.ItemStack} objects which represent the items.
+     * @return A {@link java.util.List} which contains the {@link org.bukkit.inventory.ItemStack} objects which
+     *         represent the items.
      */
     public List<ShopItemStack> getCost() {
         return cost;

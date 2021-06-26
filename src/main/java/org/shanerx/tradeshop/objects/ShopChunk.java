@@ -83,7 +83,9 @@ public class ShopChunk implements Serializable {
         if (loc.startsWith("c")) {
             String[] locA = loc.contains(";;") ? loc.split(";;") : loc.split("_"); //Keep same as div
             World world = Bukkit.getWorld(locA[1]);
-            if (world == null) { world = Bukkit.getWorld(locA[1].replace("-", "_")); }
+            if (world == null) {
+                world = Bukkit.getWorld(locA[1].replace("-", "_"));
+            }
             int x = Integer.parseInt(locA[2]), z = Integer.parseInt(locA[4]);
 
             if (world != null) {

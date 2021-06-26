@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 public class Updater {
 
     private static Logger log;
-    private PluginDescriptionFile pdf;
+    private final PluginDescriptionFile pdf;
     private BuildType build;
     private URL url = null;
 
@@ -58,8 +58,7 @@ public class Updater {
 
         try {
             url = new URL("https://api.spigotmc.org/legacy/update.php?resource=32762"); // Edit API URL.
-        }
-        catch (MalformedURLException ex) {
+        } catch (MalformedURLException ex) {
             log.log(Level.WARNING, "Error: Bad URL while checking {0} !", pdf.getName());
         }
     }
@@ -148,8 +147,7 @@ public class Updater {
                     log.log(Level.WARNING, "[Updater] +------------------------------------------------+");
                     in.close();
                     return RelationalStatus.BEHIND;
-                }
-                else if (rs == RelationalStatus.AHEAD) {
+                } else if (rs == RelationalStatus.AHEAD) {
                     log.log(Level.WARNING, "[Updater] +-----------------------------------------------------+");
                     log.log(Level.WARNING, "[Updater] You are running a developmental version of the plugin!");
                     log.log(Level.WARNING, "[Updater] Most recent stable version: " + inputLine);
@@ -158,15 +156,13 @@ public class Updater {
                     log.log(Level.WARNING, "[Updater] +-----------------------------------------------------+");
                     in.close();
                     return RelationalStatus.AHEAD;
-                }
-                else {
+                } else {
                     log.log(Level.INFO, "[Updater] You are running the latest version of the plugin!");
                     in.close();
                     return RelationalStatus.UP_TO_DATE;
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.log(Level.WARNING, "[Updater] +----------------------------------------------------+");
             log.log(Level.WARNING, "[Updater] Could not establish a connection to check for updates!");
@@ -193,8 +189,7 @@ public class Updater {
     public RelationalStatus compareVersions(final String major, final String minor, final String patch) {
         try {
             return compareVersions(Short.parseShort(major), Short.parseShort(minor), Short.parseShort(patch));
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("All arguments must be numbers!");
         }
     }
@@ -219,28 +214,21 @@ public class Updater {
 
             if (selfMajor == major && selfMinor == minor && selfPatch == patch) {
                 return RelationalStatus.UP_TO_DATE;
-            }
-            else if (selfMajor > major) {
+            } else if (selfMajor > major) {
                 return RelationalStatus.AHEAD;
-            }
-            else if (selfMajor < major) {
+            } else if (selfMajor < major) {
                 return RelationalStatus.BEHIND;
-            }
-            else if (selfMinor > minor) {
+            } else if (selfMinor > minor) {
                 return RelationalStatus.AHEAD;
-            }
-            else if (selfMinor < minor) {
+            } else if (selfMinor < minor) {
                 return RelationalStatus.BEHIND;
-            }
-            else if (selfPatch > patch) {
+            } else if (selfPatch > patch) {
                 return RelationalStatus.AHEAD;
-            }
-            else {
+            } else {
                 return RelationalStatus.BEHIND;
             }
 
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("All arguments must be numbers!");
         }
     }

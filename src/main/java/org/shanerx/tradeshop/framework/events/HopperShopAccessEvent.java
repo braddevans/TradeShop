@@ -47,8 +47,13 @@ public class HopperShopAccessEvent extends InventoryMoveItemEvent {
         return shop;
     }
 
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
     /**
-     * Whether or not to forbid the item from making the transition. The default value is the one set in the plugin configuration.
+     * Whether or not to forbid the item from making the transition. The default value is the one set in the plugin
+     * configuration.
      *
      * @return `true` if the transition is being blocked.
      */
@@ -64,9 +69,5 @@ public class HopperShopAccessEvent extends InventoryMoveItemEvent {
      */
     public void setForbidden(boolean forbidden) {
         isForbidden = forbidden;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
     }
 }

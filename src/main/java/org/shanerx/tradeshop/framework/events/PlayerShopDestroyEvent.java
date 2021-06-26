@@ -38,8 +38,8 @@ import org.shanerx.tradeshop.objects.Shop;
 public class PlayerShopDestroyEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled, destroyBlock;
     private final Shop shop;
+    private boolean cancelled, destroyBlock;
 
     /**
      * Constructor for the object.

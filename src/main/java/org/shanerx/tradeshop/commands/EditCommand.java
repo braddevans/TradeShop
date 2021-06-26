@@ -52,6 +52,8 @@ import java.util.Set;
 
 public class EditCommand extends CommandRunner {
 
+    public final ItemStack TRUE_ITEM = new ItemStack(Material.EMERALD_BLOCK);
+    public final ItemStack FALSE_ITEM = new ItemStack(Material.REDSTONE_BLOCK);
     private Shop shop;
     private InventoryGui mainMenu,
             userEdit,
@@ -61,8 +63,6 @@ public class EditCommand extends CommandRunner {
             productItems;
     private List<Boolean> costItemsRemoval,
             productItemsRemoval;
-    public final ItemStack TRUE_ITEM = new ItemStack(Material.EMERALD_BLOCK);
-    public final ItemStack FALSE_ITEM = new ItemStack(Material.REDSTONE_BLOCK);
 
 
     public EditCommand(TradeShop instance, CommandPass command) {

@@ -236,7 +236,7 @@ public enum Message {
     }
 
     public String getPrefixed() {
-        return colour(PREFIX + toString());
+        return colour(PREFIX + this);
     }
 
     public void sendMessage(Player player, Map<String, String> replacements) {
