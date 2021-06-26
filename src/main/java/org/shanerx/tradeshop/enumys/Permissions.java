@@ -26,80 +26,61 @@
 package org.shanerx.tradeshop.enumys;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.shanerx.tradeshop.TradeShop;
 
-/**
- * The enum Permissions.
- */
 public enum Permissions {
 
-    /**
-     * Help permissions.
-     */
-    HELP("help"),
+	HELP("help", 0),
 
-    /**
-     * Create permissions.
-     */
-    CREATE("create"),
+	CREATE("create", 0),
 
-    /**
-     * Createi permissions.
-     */
-    CREATEI("create.infinite"),
+	CREATEI("create.infinite", 1),
 
-    /**
-     * Createbi permissions.
-     */
-    CREATEBI("create.bi"),
+	CREATEBI("create.bi", 0),
 
-    /**
-     * Admin permissions.
-     */
-    ADMIN("admin"),
+	ADMIN("admin", 1),
 
-    /**
-     * Edit permissions.
-     */
-    EDIT("edit"), // non admin perm
+	EDIT("edit", 0), // non admin perm
 
-    /**
-     * Info permissions.
-     */
-    INFO("info"),
+	INFO("info", 0),
 
-    /**
-     * None permissions.
-     */
-    NONE("");
+	MANAGE_PLUGIN("manage-plugin", 2),
 
-    private final String key;
+	NONE("", 0);
 
-    Permissions(String key) {
-        this.key = key;
-    }
+	private final static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
+	private final String key;
+	private final int level;
 
-    @Override
-    public String toString() {
-        return "tradeshop." + key;
-    }
+	Permissions(String key, int level) {
+		this.key = key;
+		this.level = level;
+	}
 
-    /**
-     * Gets value.
-     *
-     * @return the value
-     */
-    public String getValue() {
-        return this.toString();
-    }
+	@Override
+	public String toString() {
+		return "tradeshop." + key;
+	}
 
-    /**
-     * Gets perm.
-     *
-     * @return the perm
-     */
-    public Permission getPerm() {
-        return new Permission(toString());
-    }
+	public String getValue() {
+		return this.toString();
+	}
+
+	public Permission getPerm() {
+		return new Permission(toString());
+	}
+
+	public static boolean hasPermission(Player player, Permissions permission) {
+		if (plugin.useInternalPerms()) {
+			return plugin.getDataStorage().loadPlayer(player.getUniqueId()).getType() >= permission.getLevel();
+		} else {
+			return permission.equals(Permissions.NONE) || player.hasPermission(permission.getPerm());
+		}
+	}
+
+	public int getLevel() {
+		return level;
+	}
 }

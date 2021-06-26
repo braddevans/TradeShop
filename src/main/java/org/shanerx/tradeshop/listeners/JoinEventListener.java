@@ -33,45 +33,34 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.Message;
 import org.shanerx.tradeshop.enumys.Permissions;
-import org.shanerx.tradeshop.enumys.Setting;
+import org.shanerx.tradeshop.objects.PlayerSetting;
 import org.shanerx.tradeshop.utils.BukkitVersion;
-import org.shanerx.tradeshop.utils.JsonConfiguration;
 import org.shanerx.tradeshop.utils.Updater;
 import org.shanerx.tradeshop.utils.Utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * The type Join event listener.
- */
 public class JoinEventListener extends Utils implements Listener {
 
-    /**
-     * On join.
-     *
-     * @param event
-     *         the event
-     */
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onJoin(PlayerJoinEvent event) {
+	private final TradeShop plugin;
 
-        Player player = event.getPlayer();
-        JsonConfiguration json = new JsonConfiguration(player.getUniqueId());
-        Map<String, Integer> data = json.loadPlayer();
+	public JoinEventListener(TradeShop instance) {
+		plugin = instance;
+	}
 
-        if (data == null) { data = new HashMap<>(); }
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onJoin(PlayerJoinEvent event) {
 
-        if (! data.containsKey("type")) { data.put("type", 0); }
+		Player player = event.getPlayer();
 
-        data.put("multi", Setting.MULTI_TRADE_DEFAULT.getInt());
+		//If player has Manage permission and plugin is behind, then send update message
+		if (Permissions.hasPermission(player, Permissions.MANAGE_PLUGIN)) {
+			BukkitVersion ver = new BukkitVersion();
+			if (plugin.getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND))
+				player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed());
+		}
 
-        json.savePlayer(data);
-
-        if (player.hasPermission(Permissions.ADMIN.getPerm())) {
-            BukkitVersion ver = new BukkitVersion();
-            if (TradeShop.getInstance().getUpdater().compareVersions((short) ver.getMajor(), (short) ver.getMinor(), (short) ver.getPatch()).equals(Updater.RelationalStatus.BEHIND)) { player.sendMessage(Message.PLUGIN_BEHIND.getPrefixed()); }
-        }
-    }
+		PlayerSetting playerSetting = plugin.getDataStorage().loadPlayer(player.getUniqueId());
+		if (playerSetting.showInvolvedStatus()) {
+			player.sendMessage(playerSetting.getInvolvedStatusesString());
+		}
+	}
 }
-

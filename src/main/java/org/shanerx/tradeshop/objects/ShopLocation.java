@@ -26,148 +26,91 @@
 package org.shanerx.tradeshop.objects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.shanerx.tradeshop.IllegalWorldException;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-/**
- * The type Shop location.
- */
 public class ShopLocation implements Serializable {
 
-    private transient World world;
-    private String worldName;
-    private final double x;
-    private final double y;
-    private final double z;
+	final private String div = "::";
+	private transient World world;
+	private String worldName;
+	private double x, y, z;
 
-    /**
-     * Instantiates a new Shop location.
-     *
-     * @param w
-     *         the w
-     * @param x
-     *         the x
-     * @param y
-     *         the y
-     * @param z
-     *         the z
-     */
-    public ShopLocation(World w, double x, double y, double z) {
-        this.world = w;
-        this.worldName = w.getName();
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
+	public ShopLocation(World w, double x, double y, double z) {
+		this.world = w;
+		this.worldName = w.getName();
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 
-    /**
-     * Instantiates a new Shop location.
-     *
-     * @param loc
-     *         the loc
-     */
-    public ShopLocation(Location loc) {
-        this.world = loc.getWorld();
-        this.worldName = Objects.requireNonNull(loc.getWorld()).getName();
-        this.x = loc.getX();
-        this.y = loc.getY();
-        this.z = loc.getZ();
-    }
+	public ShopLocation(Location loc) {
+		this.world = loc.getWorld();
+		this.worldName = loc.getWorld().getName();
+		this.x = loc.getX();
+		this.y = loc.getY();
+		this.z = loc.getZ();
+	}
 
-    /**
-     * Deserialize shop location.
-     *
-     * @param loc
-     *         the loc
-     *
-     * @return the shop location
-     */
-    public static ShopLocation deserialize(String loc) {
-        if (loc.startsWith("l")) {
-            String[] locA = loc.contains("::") ? loc.split("::") : loc.split("_"); //Keep same as div
-            World world = Bukkit.getWorld(locA[1]);
-            if (world == null) { world = Bukkit.getWorld(locA[1].replace("-", "_")); }
-            double x = Double.parseDouble(locA[2]), y = Double.parseDouble(locA[3]), z = Double.parseDouble(locA[4]);
+	public static ShopLocation deserialize(String loc) {
+		if (loc.startsWith("l")) {
+			String[] locA = loc.contains("::") ? loc.split("::") : loc.split("_"); //Keep same as div
+			double x = Double.parseDouble(locA[2]), y = Double.parseDouble(locA[3]), z = Double.parseDouble(locA[4]);
 
-            return new ShopLocation(Objects.requireNonNull(world), x, y, z);
-        }
+			World world = Bukkit.getWorld(locA[1]);
+			if (world == null)
+				world = Bukkit.getWorld(locA[1].replace("-", "_"));
+			if (world == null) {
+				throw new IllegalWorldException("Cannot find world " + locA[1], new WorldlessLocation(x, y, z));
+				// Not to maintainer: do NOT remove this aritificial error, it is supposed to be catched elsewhere
+				// (Temporary fix for metadata world renaming bug until metadata is removed entirely)
+			}
 
-        return null;
-    }
+			return new ShopLocation(world, x, y, z);
+		}
 
-    /**
-     * Serialize string.
-     *
-     * @return the string
-     */
-    public String serialize() {
-        String div = "::";
-        return "l" + div + world.getName() + div + x + div + y + div + z;
-    }
+		return null;
+	}
 
-    /**
-     * Gets world.
-     *
-     * @return the world
-     */
-    public World getWorld() {
-        return world;
-    }
+	public String serialize() {
+		return "l" + div + world.getName() + div + x + div + y + div + z;
+	}
 
-    /**
-     * Gets world name.
-     *
-     * @return the world name
-     */
-    public String getWorldName() {
-        return worldName;
-    }
+	public World getWorld() {
+		return world;
+	}
 
-    /**
-     * String to world.
-     */
-    public void stringToWorld() {
-        if (worldName != null && world == null) {
-            world = Bukkit.getWorld(worldName);
-        }
-    }
+	public String getWorldName() {
+		return worldName;
+	}
 
-    /**
-     * Gets x.
-     *
-     * @return the x
-     */
-    public double getX() {
-        return x;
-    }
+	public void stringToWorld() {
+		if (worldName != null && world == null) {
+			world = Bukkit.getWorld(worldName);
+		}
+	}
 
-    /**
-     * Gets y.
-     *
-     * @return the y
-     */
-    public double getY() {
-        return y;
-    }
+	public double getX() {
+		return x;
+	}
 
-    /**
-     * Gets z.
-     *
-     * @return the z
-     */
-    public double getZ() {
-        return z;
-    }
+	public double getY() {
+		return y;
+	}
 
-    /**
-     * Gets location.
-     *
-     * @return the location
-     */
-    public Location getLocation() {
-        return new Location(world, x, y, z);
-    }
+	public double getZ() {
+		return z;
+	}
+
+	public Chunk getChunk() {
+		return getLocation().getChunk();
+	}
+
+	public Location getLocation() {
+		return new Location(world, x, y, z);
+	}
 }

@@ -25,142 +25,146 @@
 
 package org.shanerx.tradeshop;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.shanerx.tradeshop.commands.CommandCaller;
 import org.shanerx.tradeshop.commands.CommandTabCaller;
-import org.shanerx.tradeshop.enumys.Message;
-import org.shanerx.tradeshop.enumys.Setting;
-import org.shanerx.tradeshop.enumys.ShopSign;
-import org.shanerx.tradeshop.enumys.ShopStorage;
+import org.shanerx.tradeshop.enumys.*;
 import org.shanerx.tradeshop.listeners.*;
 import org.shanerx.tradeshop.objects.Debug;
 import org.shanerx.tradeshop.objects.ListManager;
 import org.shanerx.tradeshop.utils.BukkitVersion;
 import org.shanerx.tradeshop.utils.Updater;
+import org.shanerx.tradeshop.utils.data.DataStorage;
+import org.shanerx.tradeshop.utils.data.DataType;
 
-/**
- * The type Trade shop.
- */
 public class TradeShop extends JavaPlugin {
 
-    private final NamespacedKey storageKey = new NamespacedKey(this, "tradeshop-storage-data");
-    private final NamespacedKey signKey = new NamespacedKey(this, "tradeshop-sign-data");
 
-    private ListManager lists;
-    private BukkitVersion version;
-    private ShopSign signs;
-    private static TradeShop instance;
+	private final NamespacedKey storageKey = new NamespacedKey(this, "tradeshop-storage-data");
+	private final NamespacedKey signKey = new NamespacedKey(this, "tradeshop-sign-data");
 
-    private ShopStorage storages;
+	private final int bStatsPluginID = 1690;
+	private Metrics metrics;
 
-    private Debug debugger;
+	private boolean useInternalPerms = false;
 
-    public static TradeShop getInstance() {
-        return instance;
-    }
+	private ListManager lists;
+	private DataStorage dataStorage;
 
-    @Override
-    public void onEnable() {
-        instance = this;
-        version = new BukkitVersion();
+	private BukkitVersion version;
+	private ShopSign signs;
+	private ShopStorage storages;
 
-        Setting.reload();
-        Message.reload();
+	private Debug debugger;
 
-        debugger = new Debug();
-        signs = new ShopSign();
-        storages = new ShopStorage();
-        lists = new ListManager();
+	@Override
+	public void onEnable() {
+		version = new BukkitVersion();
 
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new JoinEventListener(), this);
-        pm.registerEvents(new ShopProtectionListener(), this);
-        pm.registerEvents(new ShopCreateListener(), this);
-        pm.registerEvents(new ShopTradeListener(), this);
-        pm.registerEvents(new ShopRestockListener(), this);
+		if (version.isBelow(1, 9)) {
+			getLogger().info("[TradeShop] Minecraft versions before 1.9 are not supported beyond TradeShop version 1.5.2!");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 
-        getCommand("tradeshop").setExecutor(new CommandCaller());
-        getCommand("tradeshop").setTabCompleter(new CommandTabCaller());
+		if (version.isBelow(1, 13)) {
+			getLogger().info("[TradeShop] Minecraft versions before 1.13 are not supported beyond TradeShop version 1.8.2!");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 
-        /*
+		Setting.reload();
+		Message.reload();
+
+		debugger = new Debug();
+
+		try {
+			dataStorage = new DataStorage(DataType.valueOf(Setting.DATA_STORAGE_TYPE.getString().toUpperCase()));
+		} catch (IllegalArgumentException iae) {
+			debugger.log("Config value for data storage set to an invalid value: " + Setting.DATA_STORAGE_TYPE.getString(), DebugLevels.DATA_ERROR);
+			debugger.log("TradeShop will now disable...", DebugLevels.DATA_ERROR);
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+
+		signs = new ShopSign();
+		storages = new ShopStorage();
+		lists = new ListManager();
+
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new JoinEventListener(this), this);
+		pm.registerEvents(new ShopProtectionListener(this), this);
+		pm.registerEvents(new ShopCreateListener(), this);
+		pm.registerEvents(new ShopTradeListener(), this);
+        pm.registerEvents(new ShopRestockListener(this), this);
+
+		getCommand("tradeshop").setExecutor(new CommandCaller(this));
+		getCommand("tradeshop").setTabCompleter(new CommandTabCaller(this));
+
         if (Setting.CHECK_UPDATES.getBoolean()) {
-            new Thread(() -> new Updater(getDescription()).checkCurrentVersion()).start();
-        }
-        */
+			new Thread(() -> new Updater(getDescription()).checkCurrentVersion()).start();
+		}
 
-    }
+		if (Setting.ALLOW_METRICS.getBoolean()) {
+            metrics = new Metrics(this, bStatsPluginID);
+			getLogger().info("Metrics successfully initialized!");
 
-    /**
-     * Gets storage key.
-     *
-     * @return the storage key
-     */
-    public NamespacedKey getStorageKey() {
-        return storageKey;
-    }
+		} else {
+			getLogger().warning("Metrics are disabled! Please consider enabling them to support the authors!");
+		}
+	}
 
-    /**
-     * Gets sign key.
-     *
-     * @return the sign key
-     */
-    public NamespacedKey getSignKey() {
-        return signKey;
-    }
+	@Override
+	public void onDisable() {
+		dataStorage.saveChestLinkages();
 
-    /**
-     * Gets list manager.
-     *
-     * @return the list manager
-     */
-    public ListManager getListManager() {
+		getListManager().clearManager();
+	}
+
+	public boolean useInternalPerms() {
+		return useInternalPerms;
+	}
+
+	public void setUseInternalPerms(boolean useInternalPerms) {
+		this.useInternalPerms = useInternalPerms;
+	}
+
+	public NamespacedKey getStorageKey() {
+		return storageKey;
+	}
+
+	public NamespacedKey getSignKey() {
+		return signKey;
+	}
+
+	public ListManager getListManager() {
         return lists;
     }
 
-    /**
-     * Gets version.
-     *
-     * @return the version
-     */
     public BukkitVersion getVersion() {
         return version;
     }
 
-    /**
-     * Gets signs.
-     *
-     * @return the signs
-     */
     public ShopSign getSigns() {
         return signs;
     }
 
-    /**
-     * Gets storages.
-     *
-     * @return the storages
-     */
     public ShopStorage getStorages() {
         return storages;
     }
 
-    /**
-     * Gets updater.
-     *
-     * @return the updater
-     */
     public Updater getUpdater() {
         return new Updater(getDescription());
     }
 
-    /**
-     * Gets debugger.
-     *
-     * @return the debugger
-     */
     public Debug getDebugger() {
         return debugger;
     }
+
+	public DataStorage getDataStorage() {
+		return dataStorage;
+	}
 }

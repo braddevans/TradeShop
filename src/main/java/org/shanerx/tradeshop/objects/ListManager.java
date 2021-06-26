@@ -28,7 +28,6 @@ package org.shanerx.tradeshop.objects;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.DebugLevels;
 import org.shanerx.tradeshop.enumys.Setting;
 import org.shanerx.tradeshop.enumys.ShopStorage;
@@ -37,100 +36,51 @@ import org.shanerx.tradeshop.utils.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * The type List manager.
- */
 @SuppressWarnings("unused")
 public class ListManager extends Utils {
 
-    private final ArrayList<Material> blacklist = new ArrayList<>();
-    private final ArrayList<BlockFace> directions = new ArrayList<>();
-    private final ArrayList<ShopStorage.Storages> inventories = new ArrayList<>();
-    private final ArrayList<String> gameMats = new ArrayList<>();
-    private final ArrayList<String> addOnMats = new ArrayList<>();
+	private ArrayList<Material> blacklist = new ArrayList<>();
+	private ArrayList<BlockFace> directions = new ArrayList<>();
+    private ArrayList<ShopStorage.Storages> inventories = new ArrayList<>();
+	private ArrayList<String> gameMats = new ArrayList<>();
+    private ArrayList<String> addOnMats = new ArrayList<>();
 
-    /**
-     * Instantiates a new List manager.
-     */
-    public ListManager() {
-        reload();
+
+	public ListManager() {
+		reload();
         setGameMatList();
-    }
+	}
 
-    /**
-     * Gets directions.
-     *
-     * @return the directions
-     */
-    public ArrayList<BlockFace> getDirections() {
-        return directions;
-    }
+	public ArrayList<BlockFace> getDirections() {
+		return directions;
+	}
 
-    /**
-     * Gets inventories.
-     *
-     * @return the inventories
-     */
     public ArrayList<ShopStorage.Storages> getInventories() {
-        return inventories;
-    }
+		return inventories;
+	}
 
-    /**
-     * Gets blacklist.
-     *
-     * @return the blacklist
-     */
-    public ArrayList<Material> getBlacklist() {
-        return blacklist;
-    }
+	public ArrayList<Material> getBlacklist() {
+		return blacklist;
+	}
 
-    /**
-     * Gets game mats.
-     *
-     * @return the game mats
-     */
-    public ArrayList<String> getGameMats() {
-        return gameMats;
-    }
+	public ArrayList<String> getGameMats() {
+		return gameMats;
+	}
 
-    /**
-     * Is blacklisted boolean.
-     *
-     * @param mat
-     *         the mat
-     *
-     * @return the boolean
-     */
-    public boolean isBlacklisted(Material mat) {
-        return blacklist.contains(mat);
-    }
+	public boolean isBlacklisted(Material mat) {
+		return blacklist.contains(mat);
+	}
 
-    /**
-     * Is direction boolean.
-     *
-     * @param face
-     *         the face
-     *
-     * @return the boolean
-     */
-    public boolean isDirection(BlockFace face) {
-        return directions.contains(face);
-    }
+	public boolean isDirection(BlockFace face) {
+		return directions.contains(face);
+	}
 
-    /**
-     * Is inventory boolean.
-     *
-     * @param block
-     *         the block
-     *
-     * @return the boolean
-     */
     public boolean isInventory(Block block) {
         //Get blocks Material and strip all non-alpha chars
         Material blockMaterial = block.getType();
-        boolean found = false;
+        Boolean found = false;
 
-        debugger.log("isInventory Block Material: " + blockMaterial.name(), DebugLevels.LIST_MANAGER);
+		debugger.log("isInventory Block Material: " + blockMaterial.name(), DebugLevels.LIST_MANAGER);
 
         //For each ShopStorage.Storages in inventories, check if their block list contains the block material. end loop if true.
         for (ShopStorage.Storages storage : inventories) {
@@ -140,69 +90,68 @@ public class ListManager extends Utils {
             }
         }
 
-        debugger.log("isInventory Block Material found: " + found, DebugLevels.LIST_MANAGER);
+		debugger.log("isInventory Block Material found: " + found, DebugLevels.LIST_MANAGER);
         return found;
-    }
+	}
 
-    /**
-     * Reload.
-     */
-    public void reload() {
+	public void reload() {
         //Reloads any lists that need reloading
-        updateBlacklist();
-        updateDirections();
+		updateBlacklist();
+		updateDirections();
         updateInventoryMats();
         setGameMatList();
-    }
+	}
 
-    /**
-     * Clear manager.
-     */
-    public void clearManager() {
+	public void clearManager() {
         // Clears all lists, Only use if plugin is shutting down
-        inventories.clear();
-        blacklist.clear();
-        directions.clear();
+		inventories.clear();
+		blacklist.clear();
+		directions.clear();
         addOnMats.clear();
         gameMats.clear();
-    }
+		plugin.getDataStorage().clearChestLinkages();
+	}
 
-    private void updateBlacklist() {
+	private void updateBlacklist() {
         //Clears list before regenerating
-        blacklist.clear();
+		blacklist.clear();
 
         //Gets the Material object for each sting in the config Blacklist and adds it to the Blacklist
         //If the string is not a Material, ignores it
-        for (String str : Setting.ILLEGAL_ITEMS.getStringList()) {
-            Material mat = Material.matchMaterial(str);
-            if (mat != null) { blacklist.add(mat); }
-        }
-    }
+		for (String str : Setting.ILLEGAL_ITEMS.getStringList()) {
+			Material mat = Material.matchMaterial(str);
+			if (mat != null)
+				blacklist.add(mat);
+		}
+	}
 
     private void setGameMatList() {
         gameMats.clear();
 
         //Adds each Material from Minecraft to a list for command tab complete
-        for (Material mat : Material.values()) {
-            gameMats.add(mat.toString());
-        }
+		for (Material mat : Material.values()) {
+			gameMats.add(mat.toString());
+		}
 
         //Adds any strings that have been added the the AddOnMats list to the autocomplete list
-        gameMats.addAll(addOnMats);
-    }
-
-    private void updateDirections() {
-        directions.clear();
-        ArrayList<BlockFace> allowed = new ArrayList<>(Arrays.asList(BlockFace.DOWN, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST, BlockFace.NORTH, BlockFace.UP));
-
-        for (String str : Setting.ALLOWED_DIRECTIONS.getStringList()) {
-            if (allowed.contains(BlockFace.valueOf(str))) { directions.add(BlockFace.valueOf(str)); }
+        for (String str : addOnMats) {
+            gameMats.add(str);
         }
-    }
+	}
+
+	private void updateDirections() {
+		directions.clear();
+		ArrayList<BlockFace> allowed = new ArrayList<>(Arrays.asList(BlockFace.DOWN, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST, BlockFace.NORTH, BlockFace.UP));
+
+		for (String str : Setting.ALLOWED_DIRECTIONS.getStringList()) {
+			if (allowed.contains(BlockFace.valueOf(str)))
+				directions.add(BlockFace.valueOf(str));
+		}
+	}
 
     private void updateInventoryMats() {
         //Clears the list before updating
-        inventories.clear();
+		inventories.clear();
 
         log("Inventory Materials from Config:");
         log("Config String | Status | Matching Type");
@@ -210,17 +159,16 @@ public class ListManager extends Utils {
         //For each String in the Allowed shops config setting, check if it is a valid inventory and add the ShopStorage.Storages object to the list
         for (String str : Setting.ALLOWED_SHOPS.getStringList()) {
             String logMsg = "- " + str;
-            String storageName = TradeShop.getInstance().getStorages().isValidInventory(str);
+            String storageName = plugin.getStorages().isValidInventory(str);
             if (storageName.length() > 0) {
-                ShopStorage.Storages storage = TradeShop.getInstance().getStorages().getValidInventory(storageName);
+                ShopStorage.Storages storage = plugin.getStorages().getValidInventory(storageName);
                 inventories.add(storage);
                 logMsg += " | Valid | " + storage.name();
-            }
-            else {
+            } else {
                 logMsg += " | InValid";
             }
 
             log(logMsg);
         }
-    }
+	}
 }

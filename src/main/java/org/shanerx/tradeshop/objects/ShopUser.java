@@ -28,117 +28,78 @@ package org.shanerx.tradeshop.objects;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.shanerx.tradeshop.enumys.ShopRole;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * The type Shop user.
- */
 @SuppressWarnings("unused")
 public class ShopUser implements Serializable {
 
-    private transient OfflinePlayer player;
-    @SerializedName("player")
-    private final String playerUUID;
-    private final ShopRole role;
+	private transient OfflinePlayer player;
+	@SerializedName("player")
+	private final String playerUUID;
+	private ShopRole role;
 
-    /**
-     * Instantiates a new Shop user.
-     *
-     * @param player
-     *         the player
-     * @param role
-     *         the role
-     */
-    public ShopUser(OfflinePlayer player, ShopRole role) {
-        this.player = player;
-        playerUUID = player.getUniqueId().toString();
-        this.role = role;
-    }
+	public ShopUser(OfflinePlayer player, ShopRole role) {
+		this.player = player;
+		playerUUID = player.getUniqueId().toString();
+		this.role = role;
+	}
 
-    /**
-     * Instantiates a new Shop user.
-     *
-     * @param pUUID
-     *         the p uuid
-     * @param role
-     *         the role
-     */
-    public ShopUser(UUID pUUID, ShopRole role) {
-        this.player = Bukkit.getOfflinePlayer(pUUID);
-        playerUUID = player.getUniqueId().toString();
-        this.role = role;
-    }
+	public ShopUser(UUID pUUID, ShopRole role) {
+		this.player = Bukkit.getOfflinePlayer(pUUID);
+		playerUUID = player.getUniqueId().toString();
+		this.role = role;
+	}
 
-    /**
-     * Deserialize shop user.
-     *
-     * @param serialized
-     *         the serialized
-     *
-     * @return the shop user
-     */
-    public static ShopUser deserialize(String serialized) {
-        ShopUser shopUser = new Gson().fromJson(serialized, ShopUser.class);
-        shopUser.player = Bukkit.getOfflinePlayer(UUID.fromString(shopUser.playerUUID));
-        return shopUser;
-    }
+	public static ShopUser deserialize(String serialized) {
+		ShopUser shopUser = new Gson().fromJson(serialized, ShopUser.class);
+		shopUser.player = Bukkit.getOfflinePlayer(UUID.fromString(shopUser.playerUUID));
+		return shopUser;
+	}
 
-    /**
-     * Gets player.
-     *
-     * @return the player
-     */
-    public OfflinePlayer getPlayer() {
-        fix();
-        return player;
-    }
+	public OfflinePlayer getPlayer() {
+		fix();
+		return player;
+	}
 
-    /**
-     * Gets uuid.
-     *
-     * @return the uuid
-     */
-    public UUID getUUID() {
-        fix();
-        return player.getUniqueId();
-    }
+	public UUID getUUID() {
+		return getPlayer().getUniqueId();
+	}
 
-    /**
-     * Gets role.
-     *
-     * @return the role
-     */
-    public ShopRole getRole() {
-        fix();
-        return role;
-    }
+	public ShopRole getRole() {
+		return role;
+	}
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        fix();
-        return getPlayer().getName();
-    }
+	public String getName() {
+		return getPlayer().getName();
+	}
 
-    private void fix() {
-        if (player == null && playerUUID != null && ! playerUUID.equalsIgnoreCase("")) {
-            player = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-        }
-    }
+	private void fix() {
+		if (player == null && playerUUID != null && !playerUUID.equalsIgnoreCase("")) {
+			player = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
+		}
+	}
 
-    /**
-     * Serialize string.
-     *
-     * @return the string
-     */
-    public String serialize() {
-        return new Gson().toJson(this);
-    }
+	public String serialize() {
+		return new Gson().toJson(this);
+	}
+
+	public ItemStack getHead() {
+		ItemStack userHead = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta userMeta = (SkullMeta) userHead.getItemMeta();
+		userMeta.setOwningPlayer(Bukkit.getOfflinePlayer(getUUID()));
+		userHead.setItemMeta(userMeta);
+
+		return userHead;
+	}
+
+	public void setRole(ShopRole newRole) {
+		role = newRole;
+	}
 }

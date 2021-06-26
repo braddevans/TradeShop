@@ -31,33 +31,27 @@ import org.shanerx.tradeshop.enumys.Setting;
 
 import java.util.logging.Level;
 
-/**
- * The type Debug.
- */
 public class Debug {
 
     private final String PREFIX = "[TradeShop Debug%level%] ";
+    private int decimalDebugLevel;
     private String binaryDebugLevel;
 
-    /**
-     * Instantiates a new Debug.
-     */
     public Debug() {
         reload();
     }
 
-    /**
-     * Reload.
-     */
     public void reload() {
-        int decimalDebugLevel = Setting.ENABLE_DEBUG.getInt();
+        decimalDebugLevel = Setting.ENABLE_DEBUG.getInt();
         if (decimalDebugLevel < 0) {
             decimalDebugLevel = DebugLevels.maxValue();
         }
         StringBuilder sb = new StringBuilder(Integer.toBinaryString(decimalDebugLevel));
-        while (sb.length() < DebugLevels.levels()) { sb.insert(0, 0); }
+        while (sb.length() < DebugLevels.levels())
+            sb.insert(0, 0);
 
         binaryDebugLevel = sb.reverse().toString();
+
 
         if (decimalDebugLevel > 0) {
             Bukkit.getLogger().log(Level.INFO, PREFIX.replace("%level%", "") + "Debugging enabled!");
@@ -66,16 +60,12 @@ public class Debug {
         }
     }
 
-    /**
-     * Log.
-     *
-     * @param message
-     *         the message
-     * @param level
-     *         the level
-     */
     public void log(String message, DebugLevels level) {
-        if (level.getPosition() - 1 != - 1 && binaryDebugLevel.charAt(level.getPosition() - 1) == '1') {
+        if (level.getPosition() > 0 && binaryDebugLevel.charAt(level.getPosition() - 1) == '1') {
+            Bukkit.getLogger().log(level.getLogLevel(), PREFIX.replace("%level%", level.getPrefix()) + message);
+        } else if (level == DebugLevels.DISABLED) {
+            Bukkit.getLogger().log(level.getLogLevel(), PREFIX.replace(" Debug%level%", "") + message);
+        } else if (level.getPosition() < 0) {
             Bukkit.getLogger().log(level.getLogLevel(), PREFIX.replace("%level%", level.getPrefix()) + message);
         }
     }

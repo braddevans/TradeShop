@@ -35,159 +35,83 @@ import org.shanerx.tradeshop.TradeShop;
 
 import java.io.Serializable;
 
-/**
- * The enum Shop type.
- */
+
 public enum ShopType implements Serializable {
 
-    /**
-     * Trade shop type.
-     */
-    TRADE(Setting.TRADESHOP_HEADER.getString(), Permissions.CREATE),
+	TRADE(Setting.TRADESHOP_HEADER.getString(), Permissions.CREATE),
 
-    /**
-     * Itrade shop type.
-     */
-    ITRADE(Setting.ITRADESHOP_HEADER.getString(), Permissions.CREATEI),
+	ITRADE(Setting.ITRADESHOP_HEADER.getString(), Permissions.CREATEI),
 
-    /**
-     * Bitrade shop type.
-     */
-    BITRADE(Setting.BITRADESHOP_HEADER.getString(), Permissions.CREATEBI);
+	BITRADE(Setting.BITRADESHOP_HEADER.getString(), Permissions.CREATEBI);
 
-    private final String key;
-    private final transient Permissions perm;
+	private final transient static TradeShop plugin = (TradeShop) Bukkit.getPluginManager().getPlugin("TradeShop");
+	private final String key;
+	private final transient Permissions perm;
 
-    ShopType(String key, Permissions perm) {
-        this.key = key;
-        this.perm = perm;
-    }
+	ShopType(String key, Permissions perm) {
+		this.key = key;
+		this.perm = perm;
+	}
 
-    /**
-     * Is shop boolean.
-     *
-     * @param s
-     *         the s
-     *
-     * @return the boolean
-     */
-    public static boolean isShop(Sign s) {
-        return getType(s) != null;
-    }
+	public static boolean isShop(Sign s) {
+		return getType(s) != null;
+	}
 
-    /**
-     * Is shop boolean.
-     *
-     * @param b
-     *         the b
-     *
-     * @return the boolean
-     */
-    public static boolean isShop(Block b) {
-        if (b != null && TradeShop.getInstance().getSigns().getSignTypes().contains(b.getType())) {
-            return getType((Sign) b.getState()) != null;
-        }
+	public static boolean isShop(Block b) {
+		if (b != null && plugin.getSigns().getSignTypes().contains(b.getType())) {
+			return getType((Sign) b.getState()) != null;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Gets type.
-     *
-     * @param s
-     *         the s
-     *
-     * @return the type
-     */
-    public static ShopType getType(Sign s) {
-        String header = ChatColor.stripColor(s.getLine(0));
+	public static ShopType getType(Sign s) {
+		String header = ChatColor.stripColor(s.getLine(0));
 
-        if (header.equalsIgnoreCase(TRADE.toHeader())) {
-            return TRADE;
+		if (header.equalsIgnoreCase(TRADE.toHeader())) {
+			return TRADE;
 
-        }
-        else if (header.equalsIgnoreCase(ITRADE.toHeader())) {
-            return ITRADE;
+		} else if (header.equalsIgnoreCase(ITRADE.toHeader())) {
+			return ITRADE;
 
-        }
-        else if (header.equalsIgnoreCase(BITRADE.toHeader())) {
-            return BITRADE;
-        }
+		} else if (header.equalsIgnoreCase(BITRADE.toHeader())) {
+			return BITRADE;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Deserialize shop role.
-     *
-     * @param serialized
-     *         the serialized
-     *
-     * @return the shop role
-     */
-    public static ShopRole deserialize(String serialized) {
-        return new Gson().fromJson(serialized, ShopRole.class);
-    }
+	public static ShopRole deserialize(String serialized) {
+		ShopRole shopRole = new Gson().fromJson(serialized, ShopRole.class);
+		return shopRole;
+	}
 
-    @Override
-    public String toString() {
-        return key;
-    }
+	@Override
+	public String toString() {
+		return key;
+	}
 
-    /**
-     * To header string.
-     *
-     * @return the string
-     */
-    public String toHeader() {
-        return "[" + key + "]";
-    }
+	public String toHeader() {
+		return "[" + key + "]";
+	}
 
-    /**
-     * Check perm boolean.
-     *
-     * @param pl
-     *         the pl
-     *
-     * @return the boolean
-     */
-    public boolean checkPerm(Player pl) {
-        return pl.hasPermission(perm.getPerm());
-    }
+	public boolean checkPerm(Player pl) {
+		return Permissions.hasPermission(pl, perm);
+	}
 
-    /**
-     * Serialize string.
-     *
-     * @return the string
-     */
-    public String serialize() {
-        return new Gson().toJson(this);
-    }
+	public String serialize() {
+		return new Gson().toJson(this);
+	}
 
-    /**
-     * Is trade boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isTrade() {
-        return this.equals(TRADE);
-    }
+	public boolean isTrade() {
+		return this.equals(TRADE);
+	}
 
-    /**
-     * Is i trade boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isITrade() {
-        return this.equals(ITRADE);
-    }
+	public boolean isITrade() {
+		return this.equals(ITRADE);
+	}
 
-    /**
-     * Is bi trade boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isBiTrade() {
-        return this.equals(BITRADE);
-    }
+	public boolean isBiTrade() {
+		return this.equals(BITRADE);
+	}
 }

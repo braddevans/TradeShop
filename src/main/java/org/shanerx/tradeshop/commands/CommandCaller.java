@@ -28,7 +28,6 @@ package org.shanerx.tradeshop.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.shanerx.tradeshop.TradeShop;
 import org.shanerx.tradeshop.enumys.Commands;
 import org.shanerx.tradeshop.enumys.Message;
@@ -37,123 +36,123 @@ import org.shanerx.tradeshop.enumys.Message;
  * This class is used for calling command methods from CommandRunner
  * as well as doing initial checks for necessary arguments,
  * permissions, and sender type
- */
+ **/
 public class CommandCaller implements CommandExecutor {
 
-    private CommandPass cmdPass;
-    private Commands command;
+	private final TradeShop plugin;
+	private CommandPass cmdPass;
+	private Commands command;
+	private CommandRunner cmdRnnr;
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        cmdPass = new CommandPass(sender, cmd, label, args);
-        command = Commands.getType(cmdPass.getArgAt(0));
+	public CommandCaller(TradeShop instance) {
+		plugin = instance;
+	}
 
-        if (! cmdPass.hasArgs() || command == null) {
-            sender.sendMessage(Message.INVALID_ARGUMENTS.getPrefixed());
-            return true;
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		cmdPass = new CommandPass(sender, cmd, label, args);
+		command = Commands.getType(cmdPass.getArgAt(0));
 
-        }
+		if (!cmdPass.hasArgs() || command == null) {
+			sender.sendMessage(Message.INVALID_ARGUMENTS.getPrefixed());
+			return true;
 
-        if (! checkPerm()) {
-            return true;
-        }
+		}
 
-        if (command.getMinArgs() > args.length || command.getMaxArgs() < args.length) {
-            sender.sendMessage(Message.INVALID_ARGUMENTS.getPrefixed());
-            return true;
-        }
+		switch (command.checkPerm(sender)) {
+			case NO_PERM:
+				sender.sendMessage(Message.NO_COMMAND_PERMISSION.getPrefixed());
+				return true;
+			case PLAYER_ONLY:
+				sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
+				return true;
+		}
 
-        if (command.needsPlayer() && ! (sender instanceof Player)) {
-            sender.sendMessage(Message.PLAYER_ONLY_COMMAND.getPrefixed());
-            return true;
-        }
+		if (command.getMinArgs() > args.length || command.getMaxArgs() < args.length) {
+			sender.sendMessage(Message.INVALID_ARGUMENTS.getPrefixed());
+			return true;
+		}
 
-        CommandRunner cmdRnnr = new CommandRunner(cmdPass);
+		cmdRnnr = new CommandRunner(plugin, cmdPass);
 
-        switch (command) {
-            case HELP:
-                cmdRnnr.help();
-                break;
-            case BUGS:
-                cmdRnnr.bugs();
-                break;
-            case SETUP:
-                cmdRnnr.setup();
-                break;
-            case RELOAD:
-                cmdRnnr.reload();
-                break;
-            case ADD_PRODUCT:
-                cmdRnnr.addProduct();
-                break;
-            case ADD_COST:
-                cmdRnnr.addCost();
-                break;
-            case OPEN:
-                cmdRnnr.open();
-                break;
-            case CLOSE:
-                cmdRnnr.close();
-                break;
-            case SWITCH:
-                cmdRnnr.switchShop();
-                break;
-            case WHAT:
-                cmdRnnr.what();
-                break;
-            case WHO:
-                cmdRnnr.who();
-                break;
-            case ADD_MANAGER:
-                cmdRnnr.addManager();
-                break;
-            case REMOVE_USER:
-                cmdRnnr.removeUser();
-                break;
-            case ADD_MEMBER:
-                cmdRnnr.addMember();
-                break;
-            case MULTI:
-                cmdRnnr.multi();
-                break;
-            case SET_PRODUCT:
-                cmdRnnr.setProduct();
-                break;
-            case SET_COST:
-                cmdRnnr.setCost();
-                break;
-            case LIST_PRODUCT:
-                cmdRnnr.listProduct();
-                break;
-            case LIST_COST:
-                cmdRnnr.listCost();
-                break;
-            case REMOVE_PRODUCT:
-                cmdRnnr.removeProduct();
-                break;
-            case REMOVE_COST:
-                cmdRnnr.removeCost();
-                break;
-            case TEST_ALIASES: {
-                cmdRnnr.testAliases(sender);
-                break;
-            }
-        }
+		switch (command) {
+			case HELP:
+				cmdRnnr.help();
+				break;
+			case BUGS:
+				cmdRnnr.bugs();
+				break;
+			case SETUP:
+				cmdRnnr.setup();
+				break;
+			case RELOAD:
+				cmdRnnr.reload();
+				break;
+			case ADD_PRODUCT:
+				cmdRnnr.addProduct();
+				break;
+			case ADD_COST:
+				cmdRnnr.addCost();
+				break;
+			case OPEN:
+				cmdRnnr.open();
+				break;
+			case CLOSE:
+				cmdRnnr.close();
+				break;
+			case SWITCH:
+				cmdRnnr.switchShop();
+				break;
+			case WHAT:
+				new WhatCommand(plugin, cmdPass).what();
+				break;
+			case WHO:
+				cmdRnnr.who();
+				break;
+			case ADD_MANAGER:
+				cmdRnnr.addManager();
+				break;
+			case REMOVE_USER:
+				cmdRnnr.removeUser();
+				break;
+			case ADD_MEMBER:
+				cmdRnnr.addMember();
+				break;
+			case MULTI:
+				cmdRnnr.multi();
+				break;
+			case SET_PRODUCT:
+				cmdRnnr.setProduct();
+				break;
+			case SET_COST:
+				cmdRnnr.setCost();
+				break;
+			case LIST_PRODUCT:
+				cmdRnnr.listProduct();
+				break;
+			case LIST_COST:
+				cmdRnnr.listCost();
+				break;
+			case REMOVE_PRODUCT:
+				cmdRnnr.removeProduct();
+				break;
+			case REMOVE_COST:
+				cmdRnnr.removeCost();
+				break;
+			case PLAYER_LEVEL:
+				cmdRnnr.playerLevel();
+				break;
+			case STATUS:
+				cmdRnnr.status();
+				break;
+			case EDIT:
+				new EditCommand(plugin, cmdPass).edit();
+				break;
+			case TOGGLE_STATUS:
+				cmdRnnr.toggleStatus();
+				break;
+		}
 
-        return true;
-    }
-
-    /**
-     * Checks if the sender has the required permission
-     *
-     * @return true if permission is NONE or sender has permission
-     */
-    public boolean checkPerm() {
-        if (! command.checkPerm(cmdPass.getSender())) {
-            cmdPass.getSender().sendMessage(Message.NO_COMMAND_PERMISSION.getPrefixed());
-            return false;
-        }
-
-        return true;
-    }
+		return true;
+	}
 }
